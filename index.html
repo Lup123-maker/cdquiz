@@ -1,0 +1,1111 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>常减压蒸馏装置操作工中级工 · 刷题</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#005B8F;--primary-light:#e8f4fd;--primary-dark:#004373;
+  --success:#22c55e;--danger:#ef4444;--warning:#f59e0b;
+  --bg:#f0f4f8;--card:#fff;--text:#1a202c;--text2:#64748b;
+  --radius:12px;--shadow:0 2px 12px rgba(0,0,0,.08);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.page{display:none;padding:16px 16px 80px;max-width:600px;margin:0 auto}
+.page.active{display:block}
+
+/* Header */
+.header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:20px 16px 16px;text-align:center;position:sticky;top:0;z-index:10}
+.header h1{font-size:18px;font-weight:600}
+.header .sub{font-size:12px;opacity:.8;margin-top:4px}
+
+/* Tab Bar */
+.tabbar{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #e2e8f0;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.tabbar .tab{flex:1;text-align:center;padding:10px 0 8px;cursor:pointer;transition:.2s}
+.tabbar .tab.active{color:var(--primary)}
+.tabbar .tab.active .tab-icon{transform:scale(1.1)}
+.tab-icon{font-size:22px;display:block;margin-bottom:2px}
+.tab-label{font-size:11px}
+.tab-badge{display:inline-block;background:var(--danger);color:#fff;font-size:10px;min-width:16px;height:16px;line-height:16px;border-radius:8px;margin-left:2px}
+
+/* Home Page */
+.home-hero{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:32px 20px;border-radius:0 0 24px 24px;margin:-16px -16px 20px;text-align:center}
+.home-hero h2{font-size:22px;margin-bottom:6px}
+.home-hero p{font-size:13px;opacity:.85}
+.stats-row{display:flex;gap:10px;margin:16px 0}
+.stat-card{flex:1;background:var(--card);border-radius:var(--radius);padding:14px;text-align:center;box-shadow:var(--shadow)}
+.stat-num{font-size:24px;font-weight:700;color:var(--primary)}
+.stat-label{font-size:11px;color:var(--text2);margin-top:2px}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.mode-card{background:var(--card);border-radius:var(--radius);padding:20px 16px;text-align:center;box-shadow:var(--shadow);cursor:pointer;transition:.2s;border:2px solid transparent}
+.mode-card:active{transform:scale(.97)}
+.mode-card:hover{border-color:var(--primary)}
+.mode-card .icon{font-size:36px;margin-bottom:8px}
+.mode-card .name{font-size:15px;font-weight:600;margin-bottom:4px}
+.mode-card .desc{font-size:11px;color:var(--text2)}
+
+/* Filter Bar */
+.filter-bar{background:var(--card);border-radius:var(--radius);padding:12px;margin-bottom:12px;box-shadow:var(--shadow)}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-row+.filter-row{margin-top:8px}
+.chip{display:inline-flex;align-items:center;padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid #e2e8f0;background:#fff;transition:.2s;white-space:nowrap}
+.chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.chip:active{transform:scale(.95)}
+.range-input{display:flex;align-items:center;gap:6px;font-size:13px}
+.range-input input{width:60px;padding:5px 8px;border:1px solid #e2e8f0;border-radius:8px;text-align:center;font-size:13px}
+.range-input input:focus{outline:none;border-color:var(--primary)}
+.btn-go{background:var(--primary);color:#fff;border:none;padding:6px 16px;border-radius:20px;font-size:13px;cursor:pointer}
+.btn-go:active{opacity:.8}
+
+/* Question Card */
+.q-progress{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:13px;color:var(--text2)}
+.q-progress .bar{flex:1;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden}
+.q-progress .bar-fill{height:100%;background:var(--primary);border-radius:3px;transition:width .3s}
+.q-card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:12px}
+.q-tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:600;margin-bottom:10px}
+.q-tag.tf{background:#fef3c7;color:#92400e}
+.q-tag.single{background:#dbeafe;color:#1e40af}
+.q-tag.multi{background:#ede9fe;color:#5b21b6}
+.q-text{font-size:15px;line-height:1.7;margin-bottom:16px}
+.q-text em{font-style:normal;color:var(--primary);font-weight:600}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:2px solid #e2e8f0;border-radius:var(--radius);cursor:pointer;transition:.2s;font-size:14px;line-height:1.6}
+.opt:active{transform:scale(.98)}
+.opt.selected{border-color:var(--primary);background:var(--primary-light)}
+.opt.correct{border-color:var(--success);background:#f0fdf4}
+.opt.wrong{border-color:var(--danger);background:#fef2f2}
+.opt.missed{border-color:var(--warning);background:#fffbeb}
+.opt .opt-key{width:24px;height:24px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.opt.selected .opt-key{background:var(--primary);color:#fff}
+.opt.correct .opt-key{background:var(--success);color:#fff}
+.opt.wrong .opt-key{background:var(--danger);color:#fff}
+.opt.missed .opt-key{background:var(--warning);color:#fff}
+.opt .opt-text{flex:1}
+
+/* TF options */
+.tf-opts{display:flex;gap:12px}
+.tf-opt{flex:1;padding:14px;text-align:center;border:2px solid #e2e8f0;border-radius:var(--radius);cursor:pointer;font-size:16px;font-weight:600;transition:.2s}
+.tf-opt:active{transform:scale(.97)}
+.tf-opt.selected{border-color:var(--primary);background:var(--primary-light)}
+.tf-opt.correct{border-color:var(--success);background:#f0fdf4}
+.tf-opt.wrong{border-color:var(--danger);background:#fef2f2}
+.tf-opt.missed{border-color:var(--warning);background:#fffbeb}
+
+/* Answer Feedback */
+.feedback{margin-top:12px;padding:12px 16px;border-radius:var(--radius);font-size:14px;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.feedback.wrong{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+
+/* Nav Buttons */
+.nav-btns{display:flex;gap:10px;margin-top:16px}
+.nav-btn{flex:1;padding:12px;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;transition:.2s}
+.nav-btn:active{transform:scale(.97)}
+.nav-btn.prev{background:#f1f5f9;color:var(--text)}
+.nav-btn.next{background:var(--primary);color:#fff}
+.nav-btn.next:disabled{opacity:.5}
+.nav-btn.submit{background:var(--success);color:#fff}
+
+/* Wrong Book */
+.wrong-empty{text-align:center;padding:60px 20px;color:var(--text2)}
+.wrong-empty .icon{font-size:48px;margin-bottom:12px}
+.wrong-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.wrong-count{font-size:13px;color:var(--text2)}
+.btn-clear{background:none;border:1px solid var(--danger);color:var(--danger);padding:4px 12px;border-radius:16px;font-size:12px;cursor:pointer}
+
+/* Exam */
+.exam-setup{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.exam-setup h3{font-size:16px;margin-bottom:14px}
+.exam-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9}
+.exam-row:last-child{border:none}
+.exam-label{font-size:14px}
+.exam-val{font-size:14px;color:var(--primary);font-weight:600}
+.exam-select{padding:6px 10px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px}
+.btn-start{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:600;cursor:pointer;margin-top:16px}
+.btn-start:active{opacity:.8}
+
+.exam-top{display:flex;justify-content:space-between;align-items:center;background:var(--card);padding:12px 16px;border-radius:var(--radius);margin-bottom:12px;box-shadow:var(--shadow)}
+.exam-timer{font-size:20px;font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums}
+.exam-timer.warn{color:var(--danger);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.exam-qcount{font-size:13px;color:var(--text2)}
+.btn-finish{background:var(--danger);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer}
+
+/* Results */
+.result-card{background:var(--card);border-radius:var(--radius);padding:30px 20px;text-align:center;box-shadow:var(--shadow);margin-bottom:16px}
+.result-score{font-size:56px;font-weight:800;color:var(--primary)}
+.result-score.high{color:var(--success)}
+.result-score.low{color:var(--danger)}
+.result-label{font-size:14px;color:var(--text2);margin-top:4px}
+.result-stats{display:flex;gap:16px;justify-content:center;margin-top:20px}
+.result-stat{text-align:center}
+.result-stat .num{font-size:22px;font-weight:700}
+.result-stat .lbl{font-size:11px;color:var(--text2)}
+.result-stat.green .num{color:var(--success)}
+.result-stat.red .num{color:var(--danger)}
+.result-stat.gray .num{color:var(--text2)}
+.btn-back{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer}
+
+/* Review mode in exam */
+.review-list{display:flex;flex-direction:column;gap:10px}
+.review-item{background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.review-item:active{opacity:.8}
+.review-item .ri-q{font-size:13px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:10px}
+.review-item .ri-tag{font-size:11px;padding:2px 8px;border-radius:8px;white-space:nowrap}
+.ri-tag.ok{background:#dcfce7;color:#166534}
+.ri-tag.ng{background:#fef2f2;color:#991b1b}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--card);border-radius:var(--radius);padding:20px;max-width:500px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.modal-box h4{font-size:14px;margin-bottom:10px;color:var(--primary)}
+.modal-box .modal-q{font-size:15px;line-height:1.7;margin-bottom:12px}
+.modal-box .modal-opt{font-size:14px;line-height:1.8;padding:2px 0}
+.modal-box .modal-ans{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:14px}
+.modal-box .modal-ans.correct{background:#f0fdf4;color:#166534}
+.modal-box .modal-ans.wrong{background:#fef2f2;color:#991b1b}
+.modal-close{display:block;width:100%;padding:12px;margin-top:16px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.fade-in{animation:fadeIn .3s ease}
+
+/* Dark mode support */
+@media(prefers-color-scheme:dark){
+  :root{--bg:#0f172a;--card:#1e293b;--text:#f1f5f9;--text2:#94a3b8;--shadow:0 2px 12px rgba(0,0,0,.3)}
+  .chip{border-color:#334155;background:#1e293b;color:#f1f5f9}
+  .chip.active{background:var(--primary);color:#fff}
+  .opt{border-color:#334155}
+  .opt.selected{background:#1e3a5f;border-color:var(--primary)}
+  .range-input input{background:#1e293b;border-color:#334155;color:#f1f5f9}
+  .tabbar{background:#1e293b;border-color:#334155}
+  .exam-select{background:#1e293b;border-color:#334155;color:#f1f5f9}
+}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="home-hero">
+    <h2>常减压蒸馏装置操作工中级工</h2>
+    <p>企业题库 · 共1191题</p>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">413</div><div class="stat-label">判断题</div></div>
+    <div class="stat-card"><div class="stat-num">778</div><div class="stat-label">单选题</div></div>
+    <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">多选题</div></div>
+  </div>
+  <div class="mode-grid">
+    <div class="mode-card" onclick="showStudyFilter()"><div class="icon">👀</div><div class="name">看题学习</div><div class="desc">逐题浏览，答案直接显示</div></div>
+    <div class="mode-card" onclick="startPractice('all')"><div class="icon">📖</div><div class="name">顺序刷题</div><div class="desc">从第1题开始顺序练习</div></div>
+    <div class="mode-card" onclick="showFilter()"><div class="icon">🎯</div><div class="name">分类练习</div><div class="desc">按题型或题号范围练习</div></div>
+    <div class="mode-card" onclick="showExamSetup()"><div class="icon">📝</div><div class="name">模拟考试</div><div class="desc">限时答题，交卷评分</div></div>
+    <div class="mode-card" onclick="switchTab('wrong')"><div class="icon">📕</div><div class="name">错题本</div><div class="desc">回顾做错的题目</div></div>
+    <div class="mode-card" onclick="resumeProgress()"><div class="icon">🔄</div><div class="name">继续上次</div><div class="desc">恢复上次刷题进度</div></div>
+  </div>
+</div>
+
+<!-- PRACTICE -->
+<div id="page-practice" class="page">
+  <div class="filter-bar" id="practice-filter" style="display:none">
+    <div class="filter-row">
+      <span class="chip active" data-type="all" onclick="setType(this)">全部</span>
+      <span class="chip" data-type="tf" onclick="setType(this)">判断题</span>
+      <span class="chip" data-type="single" onclick="setType(this)">单选题</span>
+      <span class="chip" data-type="multi" onclick="setType(this)">多选题</span>
+    </div>
+    <div class="filter-row">
+      <div class="range-input">
+        <span>题号</span>
+        <input type="number" id="range-from" min="1" max="1191" placeholder="起">
+        <span>-</span>
+        <input type="number" id="range-to" min="1" max="1191" placeholder="止">
+        <button class="btn-go" onclick="applyFilter()">开始</button>
+      </div>
+    </div>
+  </div>
+  <div class="q-progress">
+    <span id="q-current">1</span>/<span id="q-total">1191</span>
+    <div class="bar"><div class="bar-fill" id="q-bar" style="width:0%"></div></div>
+  </div>
+  <div id="q-area"></div>
+  <div class="nav-btns">
+    <button class="nav-btn prev" onclick="prevQ()">上一题</button>
+    <button class="nav-btn next" id="btn-next" onclick="nextQ()">下一题</button>
+  </div>
+</div>
+
+<!-- STUDY MODE -->
+<div id="page-study" class="page">
+  <div class="filter-bar" id="study-filter" style="display:none">
+    <div class="filter-row">
+      <span class="chip active" data-study-type="all" onclick="setStudyType(this)">全部</span>
+      <span class="chip" data-study-type="tf" onclick="setStudyType(this)">判断题</span>
+      <span class="chip" data-study-type="single" onclick="setStudyType(this)">单选题</span>
+      <span class="chip" data-study-type="multi" onclick="setStudyType(this)">多选题</span>
+    </div>
+    <div class="filter-row">
+      <div class="range-input">
+        <span>题号</span>
+        <input type="number" id="study-from" min="1" max="1191" placeholder="起">
+        <span>-</span>
+        <input type="number" id="study-to" min="1" max="1191" placeholder="止">
+        <button class="btn-go" onclick="applyStudyFilter()">开始</button>
+      </div>
+    </div>
+  </div>
+  <div class="q-progress" id="study-progress" style="display:none">
+    <span id="study-current">1</span>/<span id="study-total">1191</span>
+    <div class="bar"><div class="bar-fill" id="study-bar" style="width:0%"></div></div>
+  </div>
+  <div id="study-q-area"></div>
+  <div class="nav-btns" style="display:none">
+    <button class="nav-btn prev" onclick="studyPrev()">上一题</button>
+    <button class="nav-btn next" onclick="studyNext()">下一题</button>
+  </div>
+</div>
+
+<!-- WRONG BOOK -->
+<div id="page-wrong" class="page">
+  <div class="wrong-header">
+    <h3 style="font-size:16px">📕 错题本</h3>
+    <div><span class="wrong-count" id="wrong-count"></span>
+    <button class="btn-clear" onclick="clearWrong()">清空</button></div>
+  </div>
+  <div id="wrong-list"></div>
+</div>
+
+<!-- EXAM SETUP -->
+<div id="page-exam" class="page">
+  <div class="exam-setup">
+    <h3>📝 模拟考试设置</h3>
+    <div class="exam-row"><span class="exam-label">题目范围</span>
+      <select class="exam-select" id="exam-type" onchange="updateExamInfo()">
+        <option value="all">全部题目</option>
+        <option value="tf">仅判断题</option>
+        <option value="single">仅单选题</option>
+        <option value="multi">仅多选题</option>
+      </select>
+    </div>
+    <div class="exam-row"><span class="exam-label">题目数量</span>
+      <select class="exam-select" id="exam-count" onchange="updateExamInfo()">
+        <option value="50">50题</option>
+        <option value="100" selected>100题</option>
+        <option value="150">150题</option>
+        <option value="200">200题</option>
+      </select>
+    </div>
+    <div class="exam-row"><span class="exam-label">考试时长</span>
+      <select class="exam-select" id="exam-time" onchange="updateExamInfo()">
+        <option value="60">60分钟</option>
+        <option value="90" selected>90分钟</option>
+        <option value="120">120分钟</option>
+      </select>
+    </div>
+    <div class="exam-row"><span class="exam-label">预计用时</span><span class="exam-val" id="exam-est">约90分钟</span></div>
+    <button class="btn-start" onclick="startExam()">开始考试</button>
+  </div>
+</div>
+
+<!-- EXAM IN PROGRESS -->
+<div id="page-exam-run" class="page">
+  <div class="exam-top">
+    <div class="exam-timer" id="exam-timer">90:00</div>
+    <div class="exam-qcount" id="exam-qcount">1/100</div>
+    <button class="btn-finish" onclick="finishExam()">交卷</button>
+  </div>
+  <div id="exam-q-area"></div>
+  <div class="nav-btns">
+    <button class="nav-btn prev" onclick="examPrev()">上一题</button>
+    <button class="nav-btn next" onclick="examNext()">下一题</button>
+  </div>
+</div>
+
+<!-- EXAM RESULTS -->
+<div id="page-result" class="page">
+  <div class="result-card">
+    <div class="result-score" id="result-score">0</div>
+    <div class="result-label">总分（满分100）</div>
+    <div class="result-stats">
+      <div class="result-stat green"><div class="num" id="result-correct">0</div><div class="lbl">答对</div></div>
+      <div class="result-stat red"><div class="num" id="result-wrong">0</div><div class="lbl">答错</div></div>
+      <div class="result-stat gray"><div class="num" id="result-unanswered">0</div><div class="lbl">未答</div></div>
+    </div>
+  </div>
+  <h3 style="font-size:15px;margin-bottom:12px">答题详情</h3>
+  <div class="review-list" id="review-list"></div>
+  <div style="margin-top:16px"><button class="btn-back" onclick="backHome()">返回首页</button></div>
+</div>
+
+<!-- WRONG ANSWER REVIEW -->
+<div id="page-wrong-review" class="page">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+    <button onclick="switchTab('wrong')" style="background:none;border:none;font-size:20px;cursor:pointer">←</button>
+    <h3 style="font-size:16px">错题回顾</h3>
+  </div>
+  <div class="q-progress">
+    <span id="wr-current">1</span>/<span id="wr-total">0</span>
+    <div class="bar"><div class="bar-fill" id="wr-bar" style="width:0%"></div></div>
+  </div>
+  <div id="wr-q-area"></div>
+  <div class="nav-btns">
+    <button class="nav-btn prev" onclick="wrongPrev()">上一题</button>
+    <button class="nav-btn next" onclick="wrongNext()">下一题</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="modal-body"></div>
+</div>
+
+<!-- Tab Bar -->
+<div class="tabbar">
+  <div class="tab active" data-tab="home" onclick="switchTab('home')"><span class="tab-icon">🏠</span><span class="tab-label">首页</span></div>
+  <div class="tab" data-tab="practice" onclick="switchTab('practice')"><span class="tab-icon">📖</span><span class="tab-label">刷题</span></div>
+  <div class="tab" data-tab="wrong" onclick="switchTab('wrong')"><span class="tab-icon">📕</span><span class="tab-label">错题<span class="tab-badge" id="wrong-badge" style="display:none">0</span></span></div>
+  <div class="tab" data-tab="exam" onclick="switchTab('exam')"><span class="tab-icon">📝</span><span class="tab-label">考试</span></div>
+</div>
+
+<script>
+// ===== DATA =====
+const QS = [{"id":1,"type":"tf","q":"交接班记录需要领导审阅签字。","a":"√"},{"id":2,"type":"tf","q":"岗位交接班记录不属于运行记录。","a":"×"},{"id":3,"type":"tf","q":"设备巡检记录不允许撕页重写。","a":"√"},{"id":4,"type":"tf","q":"设备巡检记录不属于运行记录。","a":"×"},{"id":5,"type":"tf","q":"HSE 管理体系中，危害主要是指危险源和事故隐患。","a":"√"},{"id":6,"type":"tf","q":"HSE 管理体系中，危害主要包括物的不安全状态、社区和相关方、产品、废物的危害等方面。","a":"√"},{"id":7,"type":"tf","q":"为做好防冻防凝工作，应加强报告制度，有情况立即汇报领导和上级部门。","a":"√"},{"id":8,"type":"tf","q":"对已冻结的铸铁管线、阀门等可以用高温蒸汽迅速解冻。","a":"×"},{"id":9,"type":"tf","q":"烟尘也能造成职业病。","a":"√"},{"id":10,"type":"tf","q":"职业中毒不属于职业病。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"×"},{"id":11,"type":"tf","q":"采样时需要携带便携式硫化氢报警仪，装置正常巡检可以不带。","a":"×"},{"id":12,"type":"tf","q":"现场安装的固定式硫化氢报警仪的报警设定值为 10ppm。","a":"√"},{"id":13,"type":"tf","q":"进入受限空间作业中断 40 分钟，可以直接进入受限空间继续作业。","a":"×"},{"id":14,"type":"tf","q":"进入受限空间前必须办理受限空间作业许可证。","a":"√"},{"id":15,"type":"tf","q":"高处作业时，安全带应高挂低用。","a":"√"},{"id":16,"type":"tf","q":"进行高空作业时，现场作业人在作业过程中，发现情况异常应立即发出讯号后，等待救援。","a":"×"},{"id":17,"type":"tf","q":"为提高工作效率，接到施工任务后，应立即组织施工作业。","a":"×"},{"id":18,"type":"tf","q":"重大施工作业前，应制定落实施工安全措施和应急处理措施。","a":"√"},{"id":19,"type":"tf","q":"动火作业必须经过动火分析并合格后方可进行。","a":"√"},{"id":20,"type":"tf","q":"动火作业人将动火安全作业证（票）交给动火现场负责人检查，确认证（票）所列安全措施已经落实无误后，方可按规定的时间、地点、内容进行动火作业。","a":"√"},{"id":21,"type":"tf","q":"若生产需要，可以将临时用电直接转为正式用电。","a":"×"},{"id":22,"type":"tf","q":"临时用电许可证的有效期限可以使用多个班次。","a":"×"},{"id":23,"type":"tf","q":"移动式起重机吊装前需办理吊装作业许可证。","a":"√"},{"id":24,"type":"tf","q":"起重机吊臂回转范围内应采用警戒带或其他方式隔离，无关人员不得进入该区域内。","a":"√"},{"id":25,"type":"tf","q":"红色表示指令，要求人们必须遵守的规定。","a":"×"},{"id":26,"type":"tf","q":"绿色表示给人们提供允许、安全的信息。","a":"√"},{"id":27,"type":"tf","q":"心跳一般通过触摸手腕处的桡动脉、颈部的颈动脉来判断。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":28,"type":"tf","q":"职业中毒危害防护设备、应急救援设施和通讯报警装置处于不正常状态时，用人单位应当停止使用有毒物品作业。","a":"√"},{"id":29,"type":"tf","q":"在使用计算机应用软件 Word 的“查找”功能查找文档中的字串时，可以使用通配符。","a":"√"},{"id":30,"type":"tf","q":"计算机应用软件 Word 字处理软件不仅可以进行文字处理，还可以插入图片、声音等，但不能输入数学公式。","a":"×"},{"id":31,"type":"tf","q":"在计算机应用软件 Excel 中的打印可实现放大或缩小比例打印。","a":"√"},{"id":32,"type":"tf","q":"保存工作簿的快捷键是 Ctrl+F。","a":"×"},{"id":33,"type":"tf","q":"溶液中溶质的质量分数是用溶质质量占溶液质量的百分比来表示的。","a":"√"},{"id":34,"type":"tf","q":"由于达到化学平衡状态时的正逆反应速率相等，所以，该状态下反应混合物中各组分的质量分数保持一定，不再改变。","a":"√"},{"id":35,"type":"tf","q":"1 毫升 0.1mol/L 硫酸溶液比 100 毫升的 0.1mol/L 硫酸溶液的浓度小。","a":"×"},{"id":36,"type":"tf","q":"用溶液中任一物质的量与该溶液中所有物质的量之和的比来表示的溶液组成的方法叫摩尔分数","a":"√"},{"id":37,"type":"tf","q":"石油中的微量元素按其化学属性可划分成如下三类：一是变价金属；二是碱金属和碱土金属；三是卤素和其他元素。","a":"√"},{"id":38,"type":"tf","q":"石油的微量元素的含量与石油的属性有关，含镍低，含钒高，这是我国原油的一大特点。","a":"×"},{"id":39,"type":"tf","q":"互相混合的两油品的组成及性质相差越大、黏度相差越大，则混合后实测的黏度与用加和法计算出的黏度两者相差就越大。","a":"×"},{"id":40,"type":"tf","q":"实践证明，油品的黏度不具有简单的可加性。","a":"√"},{"id":41,"type":"tf","q":"同一馏程的馏分，黏度大小都相同。","a":"×"},{"id":42,"type":"tf","q":"油品黏度通常随着它的馏程增高而增加。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":43,"type":"tf","q":"单位质量物质温度升高 1℃所吸收的热量称为该物质的质量热容，其单位是kJ/(kg℃)，由此可见，物质的质量热容与其所处的温度无关。","a":"×"},{"id":44,"type":"tf","q":"温度高低、压力高低、体积变化与物质的质量热容大小有关。","a":"√"},{"id":45,"type":"tf","q":"烃类的气化热比水的大些。","a":"×"},{"id":46,"type":"tf","q":"当相对分子质量接近时，芳香烃的气化热最大。","a":"√"},{"id":47,"type":"tf","q":"油品的特性因数 K 值大小与中平均沸点有关。","a":"√"},{"id":48,"type":"tf","q":"油品的特性因数 K 值大小与相对分子质量无关。","a":"×"},{"id":49,"type":"tf","q":"对于定态流动系统，单位时间进入各截面的流体质量相等。","a":"√"},{"id":50,"type":"tf","q":"对于定态流动系统，单位时间进入各截面的流体体积相等。","a":"×"},{"id":51,"type":"tf","q":"流体输送管路的直径可根据流量和流速的大小来选定。","a":"√"},{"id":52,"type":"tf","q":"体积流量一定时，流速与管径成反比。","a":"×"},{"id":53,"type":"tf","q":"热负荷大小与传热流体的焓差无关。","a":"×"},{"id":54,"type":"tf","q":"热负荷是单位时间内两流体间传热的传热量。","a":"√"},{"id":55,"type":"tf","q":"增加管壳式换热器的管程数可得到较大的平均温差，从而可强化传热。","a":"×"},{"id":56,"type":"tf","q":"传热过程的强化就是力求流体间在单位时间内、单位传热面积传递的热量尽可能多。","a":"√"},{"id":57,"type":"tf","q":"对于没有侧线产品的蒸馏塔，塔顶产品等于进入塔的原料量和塔底产品之差。","a":"√"},{"id":58,"type":"tf","q":"对于有侧线产品的蒸馏塔，塔顶产品和塔底产品之和等于进入塔的原料量。","a":"×"},{"id":59,"type":"tf","q":"精馏塔饱和蒸汽进料，则精馏段回流液流量与提馏段下降液体流量相等。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":60,"type":"tf","q":"精馏塔冷液进料，上升到精馏段的蒸汽流量比提馏段的蒸汽流量要大。","a":"×"},{"id":61,"type":"tf","q":"塔的气速增高，气液相形成湍流的泡沫层，使传质效率提高，所以气速越大越好。","a":"×"},{"id":62,"type":"tf","q":"液泛时的气速为塔操作的极限速度。","a":"√"},{"id":63,"type":"tf","q":"过量的雾沫夹带造成液相在塔板间的返混，塔板效率下降。","a":"√"},{"id":64,"type":"tf","q":"雾沫夹带对塔操作的影响表现在塔板效率提高。","a":"×"},{"id":65,"type":"tf","q":"漏液量大，必然影响气液在塔板上的充分接触，使塔板效率下降。","a":"√"},{"id":66,"type":"tf","q":"造成漏液的主要原因是气速太大和板面上液面落差所引起的气流的分布不均匀。","a":"×"},{"id":67,"type":"tf","q":"混合物各组分的溶解度不同是精馏操作的依据。","a":"×"},{"id":68,"type":"tf","q":"回流是保证精馏过程连续稳定操作的必不可少的条件之一。","a":"√"},{"id":69,"type":"tf","q":"进料热状况对精馏操作有影响。","a":"√"},{"id":70,"type":"tf","q":"回流比大，分离效果好，因此回流比越大越好。","a":"×"},{"id":71,"type":"tf","q":"流体在直管内流动时，当雷诺数大于 4000 时，流动类型属于层流。","a":"×"},{"id":72,"type":"tf","q":"流体在直管内流动时，当雷诺数等于 1000 时，流动类型属于层流。","a":"√"},{"id":73,"type":"tf","q":"目前，我国不能使用流量计的计量方式作石油及其产品计量。","a":"×"},{"id":74,"type":"tf","q":"用于企业内部经济核算的能源、物料计量器具，属于 B 级计量器具的范围。","a":"√"},{"id":75,"type":"tf","q":"投用有旁路阀的新物料计量表，开关阀门没有必要缓慢地进行。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"×"},{"id":76,"type":"tf","q":"对有旁路阀的新物料计量表的投用步骤：先开旁路阀，流体先从旁路管流动一段时间；缓慢开启上游阀；缓慢开启下游阀；缓慢关闭旁路阀。","a":"√"},{"id":77,"type":"tf","q":"多级离心泵的一个级由一个叶轮和一个径向扩压导叶组成。","a":"√"},{"id":78,"type":"tf","q":"一般来说，闭式叶轮比开式叶轮泄漏量大，效率低。","a":"×"},{"id":79,"type":"tf","q":"离心泵中内装式机械密封属于外流型机械密封，外装式机械密封属于内流型机械密封。","a":"×"},{"id":80,"type":"tf","q":"离心泵机械密封的冲洗目的是隔离介质、冷却和改善润滑。","a":"√"},{"id":81,"type":"tf","q":"浮头式换热器的结构特点是一端管板与壳体固定，而另一端的管板可以在壳体内自由浮动。其结构简单，检修清洗较方便。","a":"×"},{"id":82,"type":"tf","q":"管壳式换热器是把管子和管板连接，再用壳体固定。它的形式大致分为固定管板式、浮头式、U 形管式、滑动管板式、填料函式及套管式等几种。","a":"√"},{"id":83,"type":"tf","q":"无焰炉的炉体近似于立式炉，在长方形的辐射室上部为对流室，在炉底部设有喷火嘴，燃料在辐射室两侧炉墙上布满的无焰燃烧器内进行燃烧。","a":"×"},{"id":84,"type":"tf","q":"管式加热炉的最大特点是炉内安设有一定数量的管子，被加热的流体如原油等可连续通过，靠着炉管壁吸收燃料在炉内燃烧所产生的热量，以加热到规定的温度。","a":"√"},{"id":85,"type":"tf","q":"润滑油库的新旧油桶要摆放整齐有序、废弃旧油桶不能利用、旧油桶的油塞要拧紧，做到防雨、防晒、防尘，防冻。存放三个月以上润滑油（脂）须经分析合格后方可使用。","a":"√"},{"id":86,"type":"tf","q":"新购入的润滑油品可以使用废弃旧油桶盛装润滑油。","a":"×"},{"id":87,"type":"tf","q":"电化学腐蚀是指金属和外部介质发生了电化学反应，在反应区有隔离的阳极区和阴极区，电子由阴极区流向阳极区。","a":"×"},{"id":88,"type":"tf","q":"金属和外部介质直接进行化学反应叫金属的化学腐蚀，如金属与干的气体反应或在高温中的氧化，都属于这一类腐蚀。","a":"√"},{"id":89,"type":"tf","q":"压力容器的最高工作压力是指容器顶部在正常工作情况下，其顶部可能达到的最高绝对压力。","a":"×"},{"id":90,"type":"tf","q":"压力容器的类别是根据危险程度的不同，利用设计压力和容积在不同介质分组图上查取相应的类别。","a":"√"},{"id":91,"type":"tf","q":"输送无毒、非可燃流体介质，设计压力小于或者等于 1.0Mpa，并且设计温度高于—20℃但是不高于 185℃的工业管道属于 GC3 级工业管道。","a":"√"},{"id":92,"type":"tf","q":"输送毒性程度为极度危害介质，高度危害气体介质和工作温度高于其标准沸点的高度危害的液体介质的管道属于 GC2 级工业管道。","a":"×"},{"id":93,"type":"tf","q":"耐压试验的主要目的是检验容器受压部件的结构强度，验证其是否具有在设计压力下安全运行所需的承载能力。","a":"√"},{"id":94,"type":"tf","q":"已经做过气压强度试验并合格的容器，必须再做气密性试验。","a":"×"},{"id":95,"type":"tf","q":"当离心泵的有效汽蚀余量 (NPSH) 等于必须汽蚀余量(NPSH) 时，泵开始汽蚀。","a":"√"},{"id":96,"type":"tf","q":"离心泵出现汽蚀现象即是液体汽化----冲击空穴----汽体凝结----叶片剥蚀的过程。","a":"×"},{"id":97,"type":"tf","q":"已知 R1= R2= R3=3Ω，这三个电阻并联后的总电阻也是 3Ω。","a":"×"},{"id":98,"type":"tf","q":"带指示灯的现场操作柱，红色信号灯亮时，说明电机正在运行。","a":"√"},{"id":99,"type":"tf","q":"对于管线，机泵等产生的静电，可通过安装防静电接地装置加以消除。","a":"√"},{"id":100,"type":"tf","q":"埋在地下的接地线一般采用带有绝缘的单芯电缆。","a":"×"},{"id":101,"type":"tf","q":"型号为 YB 的电动机属于增安型防爆电动机。","a":"×"},{"id":102,"type":"tf","q":"型号为 YB-250S-4WTH 的电机，可在湿热带地区及户外使用。","a":"√"},{"id":103,"type":"tf","q":"调节器的积分时间 Ti 越小，则积分速度越大，积分特性曲线的斜率越大，积分作用越强，消除余差越快。","a":"√"},{"id":104,"type":"tf","q":"对于压力、流量等被控变量来说，对象调节通道时间常数 T0 较小，而负荷变化较快，这时应采用微分调节规律。","a":"×"},{"id":105,"type":"tf","q":"串级控制系统属于定值控制系统，副回路是一个随动系统，主调节器根据负荷和条件的变化，不断调整副回路的设定值，使副回路适应不同的负荷和条件。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":106,"type":"tf","q":"在串级控制中，一般情况下主回路常选择 PI 或 PI 调节器，副回路常选择 P或 PID 调节器。","a":"×"},{"id":107,"type":"tf","q":"分程控制中所有调节阀的风开风关必须一致。","a":"×"},{"id":108,"type":"tf","q":"大转矩蝶阀应选用气动长行程执行机构。","a":"√"},{"id":109,"type":"tf","q":"开关形式有常开式和常闭式二种。","a":"√"},{"id":110,"type":"tf","q":"当压力开关的被测压力等于额定值时，弹性元件的自由端产生位移直接或经过比较后推动开关元件，改变开关元件的通断状态。","a":"×"},{"id":111,"type":"tf","q":"加热炉炉管贯通时，可以同时试压。","a":"×"},{"id":112,"type":"tf","q":"冷却器贯通试蒸汽压时，水程应放空。","a":"√"},{"id":113,"type":"tf","q":"贯通试压达到规定压力后恒压至检查完毕，无问题应即行消压，不能带压离人。","a":"√"},{"id":114,"type":"tf","q":"贯通试压时给汽越快越好。","a":"×"},{"id":115,"type":"tf","q":"装置开车进油前要确认塔、容器的安全阀前后手阀是否关闭。","a":"×"},{"id":116,"type":"tf","q":"装置开车前，对容器的检查包括各设施齐全完好、残留物是否清除、液面计指示引出管是否畅通、标尺是否对应等。","a":"√"},{"id":117,"type":"tf","q":"抽真空试验合格后停真空泵，真空度由其自行消掉。","a":"×"},{"id":118,"type":"tf","q":"减压塔抽真空时，减顶罐应先加满水封。","a":"√"},{"id":119,"type":"tf","q":"常减压蒸馏装置开车前，储运系统应提前准备好开工用原油、煤油、柴油。","a":"√"},{"id":120,"type":"tf","q":"加热炉点火前应提前引瓦斯到炉膛内。","a":"×"},{"id":121,"type":"tf","q":"进油前要落实好退油去向，并用蒸汽贯通退油线。","a":"√"},{"id":122,"type":"tf","q":"装置开车前应组织操作人员学习讨论开车方案。","a":"×"},{"id":123,"type":"tf","q":"装置开车引瓦斯前，燃料罐及其管线应先用蒸汽或氮气吹扫置换。","a":"√"},{"id":124,"type":"tf","q":"装置开车时，开常减压侧线应自下而上逐个开。","a":"×"},{"id":125,"type":"tf","q":"对原油系统进行试蒸汽压时，电脱盐罐应切除。","a":"√"},{"id":126,"type":"tf","q":"原油冷进料线由于进加热炉，不用试压。","a":"×"},{"id":127,"type":"tf","q":"如果生产过程超出安全操作范围，工艺联锁控制系统可以使装置或独立单元进入安全状态。","a":"√"},{"id":128,"type":"tf","q":"自动联锁控制系统发生故障时，会影响到被控过程的安全运行。","a":"×"},{"id":129,"type":"tf","q":"开车过程中由于侧线泵来油较轻，易引起泵抽空。","a":"×"},{"id":130,"type":"tf","q":"开车过程中由于塔内该侧线塔板受液槽尚未来油或来油不足，也会使泵抽空。","a":"√"},{"id":131,"type":"tf","q":"电脱盐罐应设置安全阀。","a":"√"},{"id":132,"type":"tf","q":"电脱盐罐进行试水压装水时，顶出口放空阀应关闭。","a":"×"},{"id":133,"type":"tf","q":"热虹吸式换热器安装位置很重要，特别是进料管口和返塔管口，如果不合适就无法很好地运行。","a":"√"},{"id":134,"type":"tf","q":"热虹吸重沸器特点是汽化率高，可以达到 80％，重沸器分馏效果远远大于一块理论板。","a":"×"},{"id":135,"type":"tf","q":"蒸汽发生器采用的是纯净软化水进行产汽，日常生产中不必再进行排污。","a":"×"},{"id":136,"type":"tf","q":"蒸汽发生器发生的低压蒸汽，应经过加热炉对流段过热后送至个吹汽点。","a":"√"},{"id":137,"type":"tf","q":"封油在引用时可直接投入封油系统。","a":"×"},{"id":138,"type":"tf","q":"封油在投用时，要保证封油泵出口压力在正常值，防止被注封油机泵的介质倒串入封油系统。","a":"√"},{"id":139,"type":"tf","q":"减顶水封罐在操作中水界位的高度应特别注意控制好，水界位过低时，造成外送减顶油带水，水界位过高时，排水会带油或有乳化的水包油排出。","a":"×"},{"id":140,"type":"tf","q":"减顶水封罐在投用后，要经常检查实际的油水界位高度，与仪表控制的是否一致，防止出现假界面。","a":"√"},{"id":141,"type":"tf","q":"装置开车进油时，各塔底流量控制仪表应投用自动控制，这样有利于各塔底液位平衡。","a":"×"},{"id":142,"type":"tf","q":"装置在进油前应联系仪表工将装置所有仪表校验，以保证装置进油时所有仪表能启动投用。","a":"√"},{"id":143,"type":"tf","q":"装置冷循环中应联系仪表工将有关仪表投用，并根据冷循环时仪表指示与正常生产仪表指示的误差来判断仪表使用情况。","a":"√"},{"id":144,"type":"tf","q":"进油时内操将仪表改自动，并根据原油流向沿途打开原油控制阀，炉子进料阀，渣油液位控制阀。","a":"×"},{"id":145,"type":"tf","q":"装置开车时退油目的是把装置内含水较多的原油改到原油罐区去沉降脱水。","a":"√"},{"id":146,"type":"tf","q":"开车进油时，减压塔底见液面后，启动渣油泵实现装置内冷循环。","a":"×"},{"id":147,"type":"tf","q":"恒温脱水时可以看塔顶油水分离器有无水放出，无则说明水分基本脱尽。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":148,"type":"tf","q":"恒温脱水时观察进料温度和塔底温度的温度差，温差很大时说明已脱尽。","a":"×"},{"id":149,"type":"tf","q":"点火前，全开烟道挡板以赶去炉膛内的可燃气体即可点火。","a":"×"},{"id":150,"type":"tf","q":"炉子负荷增加时，应先增加燃料量，再增送风量，最后增引风量。","a":"√"},{"id":151,"type":"tf","q":"给汽提蒸汽时，打开蒸汽阀门直接注入塔内即可。","a":"×"},{"id":152,"type":"tf","q":"给汽提蒸汽时要注意塔内压力变化和塔底液位的变化。","a":"√"},{"id":153,"type":"tf","q":"开常压侧线后要及时切换原油，并尽可能多拨常压塔最下层侧线量以保证减压系统顺利开工。","a":"√"},{"id":154,"type":"tf","q":"塔顶回流带水会导致塔顶温度上升，压力下降。","a":"×"},{"id":155,"type":"tf","q":"调节好火嘴的风、汽、油门，使火嘴的燃烧正常。烧燃料油火焰呈杏黄色，烧燃料气火焰呈天蓝色。","a":"√"},{"id":156,"type":"tf","q":"当火嘴燃料油与蒸汽配比不当，蒸汽量过大时，火焰发飘无力，火焰根部呈黑色，甚至会冒黑烟。","a":"×"},{"id":157,"type":"tf","q":"电脱盐罐封人孔前要进行空罐送电试验","a":"√"},{"id":158,"type":"tf","q":"电脱盐罐空送电试验以备相电流达到额定值为正常","a":"×"},{"id":159,"type":"tf","q":"为防止换热器泄漏必须保证安装、检修的质量，选择好合适的垫片，严格按规定试压试漏。","a":"√"},{"id":160,"type":"tf","q":"换热器泄露和换热介质的温度变化无关。","a":"×"},{"id":161,"type":"tf","q":"原油混杂会造成电脱盐罐脱水困难，甚至会引起电脱盐罐跳闸。","a":"√"},{"id":162,"type":"tf","q":"电脱盐一级注水注入原油泵出口比注入电脱盐罐入口的混合效果更好。","a":"×"},{"id":163,"type":"tf","q":"为了避免离心泵的过度混合，降低破乳难度，可选择将电脱盐注水点移至换热系统后进脱盐罐前。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":164,"type":"tf","q":"电脱盐一级注水注入原油泵出口比注入原油泵进口的混合效果更好。","a":"×"},{"id":165,"type":"tf","q":"电脱盐二级排水回注一级的目的节能降耗，同时也可以减少污水处理的负荷。","a":"√"},{"id":166,"type":"tf","q":"电脱盐二级排水回注一级主要是为了脱盐效果好。","a":"×"},{"id":167,"type":"tf","q":"电脱盐进罐温度要控制在指标内，使脱盐效果更佳。","a":"√"},{"id":168,"type":"tf","q":"电脱盐罐油水界面高低与脱盐效果无关。","a":"×"},{"id":169,"type":"tf","q":"电脱盐罐油水混合器混合强度太大会造成原油进罐温度升高。","a":"×"},{"id":170,"type":"tf","q":"电脱盐罐油水混合器混合强度太大会造成电脱盐罐电流上升。","a":"√"},{"id":171,"type":"tf","q":"调节塔顶回流返塔温度是调节塔顶温度的主要手段。","a":"×"},{"id":172,"type":"tf","q":"调节塔顶回流量是调节塔顶温度的主要手段。","a":"√"},{"id":173,"type":"tf","q":"塔顶循环回流返塔温度不变，塔顶循环回流量越大带走的热量越少。","a":"×"},{"id":174,"type":"tf","q":"塔顶循环回流流量大，对塔上部分的分馏效果有利。","a":"√"},{"id":175,"type":"tf","q":"其他工艺参数不变，加大塔顶冷回流量，塔顶温度升高。","a":"×"},{"id":176,"type":"tf","q":"用塔顶冷回流量调节塔顶温度的调节方法，在装置塔顶负荷过大时不能起到很好的调节作用。","a":"√"},{"id":177,"type":"tf","q":"原油加工量过大或操作不正常，发生冲塔时，应初侧线流量不变。","a":"×"},{"id":178,"type":"tf","q":"初侧线抽出作常一中回流时，初侧线抽出温度升高，常一侧线产品质量干点升高。","a":"√"},{"id":179,"type":"tf","q":"降低初馏塔进料量时，初底液面一定会下降。","a":"×"},{"id":180,"type":"tf","q":"初馏塔物料处于不平衡状态时表现为初馏塔底液面不稳定。","a":"√"},{"id":181,"type":"tf","q":"只要初馏塔顶温度保持不变，初顶汽油干点就不会改变。","a":"×"},{"id":182,"type":"tf","q":"其它工艺条件不变，提高初顶温度，则初顶汽油干点升高。","a":"√"},{"id":183,"type":"tf","q":"加热炉对流室管线的腐蚀主要是露点腐蚀。","a":"×"},{"id":184,"type":"tf","q":"塔顶低温腐蚀主要是由 HCI-H2S-H2O 造成。","a":"√"},{"id":185,"type":"tf","q":"电脱盐油水界位应用注水量来调节。","a":"×"},{"id":186,"type":"tf","q":"当电脱盐罐水位过高时，应开大电脱盐罐排水量，避免引起电脱盐罐电流电压波动。","a":"√"},{"id":187,"type":"tf","q":"其他工艺参数不变,减少塔底吹汽量，塔顶压力会降低。","a":"√"},{"id":188,"type":"tf","q":"其他工艺参数不变, 加大塔顶循环回流量，减小塔顶冷回流量，塔顶压力会升高。","a":"×"},{"id":189,"type":"tf","q":"在塔顶负荷过大，塔顶冷回流不能调节塔顶温度时，应设法减少塔顶负荷，增加中段回流量，减少塔底汽提蒸汽量。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":190,"type":"tf","q":"在塔顶负荷过大时，用塔顶冷回流是完全可以调节塔顶温度的。","a":"×"},{"id":191,"type":"tf","q":"处理量不变时，塔底液面偏高，可以通过加大塔底抽出量的方法来降低液面。","a":"√"},{"id":192,"type":"tf","q":"原油性质变轻应适当增加初馏塔底抽出量。","a":"×"},{"id":193,"type":"tf","q":"其他条件不变，原油性质变轻，初馏塔顶油水分离罐油位下降。","a":"×"},{"id":194,"type":"tf","q":"其他条件不变，初馏塔顶温度提高，顶油水分离罐油位上升。","a":"√"},{"id":195,"type":"tf","q":"其他条件不变，原油性质变重，初馏塔顶油水分离罐油水界位会下降。","a":"×"},{"id":196,"type":"tf","q":"常顶油水分离罐油水界位过低，可通过降低排水量来提高油水界位。","a":"√"},{"id":197,"type":"tf","q":"减压馏分油作为催化裂化装置原料，当馏分油的残炭值过高时，催化剂结焦量明显上升。","a":"√"},{"id":198,"type":"tf","q":"馏分油作为催化裂化原料时，其残炭越小越好。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"×"},{"id":199,"type":"tf","q":"通过降低处理量可以有效地防止多管程加热炉偏流。","a":"×"},{"id":200,"type":"tf","q":"多管程的加热炉一旦物料产生偏流，则小流量的炉管极易局部过热而结焦，致使炉管压降增大，流量更小，严重时烧坏炉管。","a":"√"},{"id":201,"type":"tf","q":"过气化度太低时，随同上部产品蒸发上去的过重馏分有可能因为最低一个抽出侧线下方内回流不够，而带到最低的一个侧线中去，导致最低侧线产品的馏分变宽。","a":"√"},{"id":202,"type":"tf","q":"生产过程中过汽化率越高越好。","a":"×"},{"id":203,"type":"tf","q":"加热炉进料调节阀要选用气关阀。","a":"√"},{"id":204,"type":"tf","q":"加热炉进料调节阀选用气关阀是从方便操作方面考虑的。","a":"×"},{"id":205,"type":"tf","q":"初顶压力降低，其他参数不变，则初顶产品变轻。","a":"×"},{"id":206,"type":"tf","q":"在初顶温度不变条件下，初顶压力升高，初顶产品收率将有所下降。","a":"√"},{"id":207,"type":"tf","q":"启用塔底汽提蒸汽前，应放净冷凝水。","a":"√"},{"id":208,"type":"tf","q":"塔底吹汽蒸汽压力一般控制在 0.5MPa 左右。","a":"×"},{"id":209,"type":"tf","q":"加热炉的过剩空气系数越大，排烟损失越大，炉效率越低。","a":"√"},{"id":210,"type":"tf","q":"加热炉的过剩空气系数越小，其热效率就越高，所以过剩空气系数为控制为1 时最好。","a":"×"},{"id":211,"type":"tf","q":"加热炉的过剩空气系数越大燃烧越完全，其热效率就越高。","a":"×"},{"id":212,"type":"tf","q":"加热炉热效率是指加热炉炉管内物料所吸收的热量与燃料燃烧所发出的热量及其他供热之和的比值的百分数。","a":"√"},{"id":213,"type":"tf","q":"天气变化，如下大雨不会对炉出口温度有影响。","a":"×"},{"id":214,"type":"tf","q":"加热炉炉膛温度及进料温度不变条件下，提高加热炉进料量，则炉出口温度下降。","a":"√"},{"id":215,"type":"tf","q":"炉出口温度在自动控制状态下控制良好时，应多改手动调节以更好控制炉温。","a":"×"},{"id":216,"type":"tf","q":"为了保证加热炉炉出口温度在工艺指标范围之内，提降进料量时，可根据进料流量变化幅度调节。","a":"√"},{"id":217,"type":"tf","q":"初顶压力升高，则初顶产品干点一定下降。","a":"×"},{"id":218,"type":"tf","q":"进塔原料变轻时，汽油干点会降低。","a":"√"},{"id":219,"type":"tf","q":"常顶（汽油）干点偏高，可适当减小常顶回流。","a":"×"},{"id":220,"type":"tf","q":"为保证常顶(汽油)产品干点，当常顶压力降低时，要适当降低塔顶温度；压力升高时，要适当提高塔顶温度。","a":"√"},{"id":221,"type":"tf","q":"常一线(煤油)干点偏低可通过适当提高常一线馏出量来提高。","a":"√"},{"id":222,"type":"tf","q":"增大常一线抽出量是提高常一(煤油)线产品闪点的最有效方法。","a":"×"},{"id":223,"type":"tf","q":"常一(煤油)初馏点升高其干点也一定升高。","a":"×"},{"id":224,"type":"tf","q":"其他条件不变，提高常一线重沸器温度，则常一初馏点升高。","a":"√"},{"id":225,"type":"tf","q":"常二(柴油)初馏点降低其干点不一定降低。","a":"√"},{"id":226,"type":"tf","q":"常二(柴油)初馏点升高其干点也一定升高。","a":"×"},{"id":227,"type":"tf","q":"稳定汽提塔的液位，减少汽提塔吹入的过热蒸汽，可以使润滑油头部变重。","a":"×"},{"id":228,"type":"tf","q":"稳定汽提塔的液位，并在汽提塔吹入适当的过热蒸汽，可以使润滑油头部变重。","a":"√"},{"id":229,"type":"tf","q":"在真空度发生变化时，为得到相同黏度的侧线油，馏出口温度不相同。例如真空度高，馏出油黏度升高，为获得同样的黏度就必须降低馏出口温度。","a":"√"},{"id":230,"type":"tf","q":"上一侧线馏出量过大，会使下层塔板内回流量减少，下一側线产品黏度降低。","a":"×"},{"id":231,"type":"tf","q":"减压塔由于塔板比常压塔少，所以减压各馏分油之间无法实现脱空。","a":"√"},{"id":232,"type":"tf","q":"为了减少减压产品间的重迭，要有较高的塔顶温度。","a":"×"},{"id":233,"type":"tf","q":"装置停车时应遵循先降温后降量的原则。","a":"×"},{"id":234,"type":"tf","q":"装置停车时应先降量，控制好温度防止超温，达到降温条件后，按速度要求降温，防止温度下降过快引起设备泄露。","a":"√"},{"id":235,"type":"tf","q":"停车降量过程中要注意防止原油系统压力超高。均匀调节原油进料、炉进料，平衡好各塔液面。","a":"√"},{"id":236,"type":"tf","q":"停车降量应快速降量，以节约时间。","a":"×"},{"id":237,"type":"tf","q":"装置停车降量过程蒸汽发生器需要增大软化水量，以多产蒸汽。","a":"×"},{"id":238,"type":"tf","q":"装置停车降量时，自产蒸汽不能满足生产需要时可引用管网蒸汽补充。","a":"√"},{"id":239,"type":"tf","q":"装置停车降量、降温过程时，各中段和塔顶循环回流量要及时相应减少，防止泵抽空打乱操作。","a":"√"},{"id":240,"type":"tf","q":"装置停车降量、降温时，最后停的回流是最低的回流。","a":"×"},{"id":241,"type":"tf","q":"装置停车降温时，侧线产品应继续送合格罐。","a":"×"},{"id":242,"type":"tf","q":"装置停车降量、降温过程，要经常注意各侧线产品的颜色。","a":"√"},{"id":243,"type":"tf","q":"装置停车降量、降温时，为控制平稳三塔液面，应适当关小侧线泵及回流泵。","a":"×"},{"id":244,"type":"tf","q":"装置停车降量、降温时，为控制平稳三塔液面，应适当关小原油泵及初底泵。","a":"√"},{"id":245,"type":"tf","q":"装置停车时，塔顶汽油回流罐应用水垫高界位，尽量把汽油抽净，然后才蒸罐。","a":"√"},{"id":246,"type":"tf","q":"装置停车，塔顶汽油回流罐超压时，不可通过放空线进行泄压。","a":"×"},{"id":247,"type":"tf","q":"装置停车时，关减压侧线的次序是自上而下。","a":"×"},{"id":248,"type":"tf","q":"装置停车时，关常压侧线的次序是自下而上。","a":"√"},{"id":249,"type":"tf","q":"装置停车，停减压回流时最后停的一定是减顶循环回流。","a":"√"},{"id":250,"type":"tf","q":"装置熄火后，加热炉真空瓦斯嘴可不进行吹扫。","a":"×"},{"id":251,"type":"tf","q":"装置停车熄火后，瓦斯或燃料油线吹扫不能往炉膛内放空。","a":"√"},{"id":252,"type":"tf","q":"装置停车时，由于汽包热源已少，过热蒸汽需进行放空。","a":"√"},{"id":253,"type":"tf","q":"停车时蒸汽发生器改放空应在降温循环后进行。","a":"×"},{"id":254,"type":"tf","q":"装置停车破真空，抽真空末级尾气阀门必须关闭，防止空气倒串引起事故。","a":"√"},{"id":255,"type":"tf","q":"装置停车停真空泵时，先关真空泵出口阀，再关抽真空蒸汽。","a":"×"},{"id":256,"type":"tf","q":"装置停车退油时，应及时调节渣油冷却器冷却水，保证冷后温度在指标范围内，防止进罐渣油冷后温度过高。","a":"√"},{"id":257,"type":"tf","q":"装置停车退油时，达到低液位是要及时停泵防止抽空。","a":"×"},{"id":258,"type":"tf","q":"容器所装介质为气体的，可先打开人孔再进行吹扫。","a":"×"},{"id":259,"type":"tf","q":"在停车检修过程中，最先开启塔、容器顶部的人孔。","a":"√"},{"id":260,"type":"tf","q":"装置停车时，加热炉熄火后，停渣油泵改循环。","a":"×"},{"id":261,"type":"tf","q":"装置停车时，加热炉熄火后改循环，必须关闭渣油出装置阀门。","a":"√"},{"id":262,"type":"tf","q":"浮阀塔板分馏效率低，一般使用在负荷变化小的场合( )。","a":"×"},{"id":263,"type":"tf","q":"固舌塔板具有压降小，结构简单等优点，但塔板负荷弹性小，效率较低，用于部分炼油装置中。","a":"√"},{"id":264,"type":"tf","q":"减压塔的进料段，处于精馏段与汽提段连接的半球形变径区，因此它的进料段空间比较小。","a":"×"},{"id":265,"type":"tf","q":"浮阀塔板的操作范围比较宽，效率高，适用于常压分馏塔。","a":"√"},{"id":266,"type":"tf","q":"同一台泵，在不同的工况下具有相同的比转数。","a":"×"},{"id":267,"type":"tf","q":"离心泵的特性曲线有三条。","a":"√"},{"id":268,"type":"tf","q":"换热器型号 FA-700-120-25-4,其中 A 表示管子规格为φ19×2，正三角形排列，管心距为 25 mm 的系列。","a":"√"},{"id":269,"type":"tf","q":"常减压装置用的浮头式换热器、固定管板式换热器、U 形管式换热器。它们是以流速作为选用依据的。","a":"×"},{"id":270,"type":"tf","q":"固定管板式换热器壳程清洗较难，不能进行机械清洗。","a":"√"},{"id":271,"type":"tf","q":"固定管板式换热器结构简单、易清洗，结垢时能进行机械清洗。","a":"×"},{"id":272,"type":"tf","q":"常减压装置用量最多的换热器是 U 形管式换热器。","a":"×"},{"id":273,"type":"tf","q":"浮头式换热器，一端可相对壳体滑动，可承受较大的管壳间温差热应力，浮头端可拆卸，管束可抽出。","a":"√"},{"id":274,"type":"tf","q":"换热器壳程一般加装横向折流板。","a":"√"},{"id":275,"type":"tf","q":"换热器壳程一般加装纵向折流板。","a":"×"},{"id":276,"type":"tf","q":"为避免直接冲刷管束和造成振动，常常在出入口处设置防冲板。","a":"×"},{"id":277,"type":"tf","q":"换热器安装防冲板能起保护管束作用，但也易产生部分传热死区。","a":"√"},{"id":278,"type":"tf","q":"电脱盐罐中电极板的作用是在电极板间形成均匀磁场。","a":"×"},{"id":279,"type":"tf","q":"原油电脱盐罐的电极结构是多种多样的，水平式电极是国内外最广泛采用的形式。","a":"√"},{"id":280,"type":"tf","q":"在一定范围内混合器开度越小，混合越激烈，电脱盐装置脱盐效果越好。","a":"√"},{"id":281,"type":"tf","q":"通过开大混合阀可以提高电脱盐原油的混合强度。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"×"},{"id":282,"type":"tf","q":"电脱盐罐压力要控制适宜，一般不宜低于 0.5Mpa，否则原油会汽化，脱盐罐不能正常运行，但也不能太高，否则会跳安全阀。","a":"√"},{"id":283,"type":"tf","q":"电脱盐罐进罐温度高有利于脱盐脱水，因此温度越高越好。","a":"×"},{"id":284,"type":"tf","q":"常减压蒸馏装置常用的软垫片一般以石墨为主体配以橡胶等材料制造而成。","a":"×"},{"id":285,"type":"tf","q":"适合于高温高压条件下正常使用的垫片有金属包垫片、聚四氟乙烯垫片。","a":"√"},{"id":286,"type":"tf","q":"对于计量泵，在其他条件不变时，介质的温度降低，则其体积流量增大。","a":"×"},{"id":287,"type":"tf","q":"N 型轴柱塞式计量泵通过转动调节手轮带动 N 形轴上下移动，从而改变行程来实现计量泵流量从零到 100％额定流量的调节。","a":"√"},{"id":288,"type":"tf","q":"电脱盐混合器开度过大，易造成原油乳化。","a":"√"},{"id":289,"type":"tf","q":"一般情况下，处理较大密度原油时，要将混合阀的压差调小。","a":"×"},{"id":290,"type":"tf","q":"调频泵切换到工频泵操作中，启动工频泵前应开进口阀，关出口阀。","a":"√"},{"id":291,"type":"tf","q":"调频泵切换到工频泵时，停运调频泵时可先停泵再关闭出口阀。","a":"×"},{"id":292,"type":"tf","q":"工频泵切换到调频泵时，因调频泵启动转速较慢，所以开泵前应适当关小工频泵出口阀。","a":"√"},{"id":293,"type":"tf","q":"工频泵切换到调频泵时，开泵前应将风开式调节阀的副线阀全关。","a":"×"},{"id":294,"type":"tf","q":"离心泵在启动之前进口阀需开一半位置。","a":"×"},{"id":295,"type":"tf","q":"离心泵在启动之前出口阀需全关。","a":"√"},{"id":296,"type":"tf","q":"离心泵排出端压力超过设计压力会导致机泵流量降低。","a":"√"},{"id":297,"type":"tf","q":"离心泵发生汽蚀现象，机泵流量没有明显变化。","a":"×"},{"id":298,"type":"tf","q":"当要启动活塞式压缩机时，为了减少电机的启动电流，应采用 50%负荷控制。","a":"×"},{"id":299,"type":"tf","q":"当要启动活塞式压缩机时，为了减少电机的启动电流，应采用 0%负荷控制，待活塞式压缩机运行正常后，逐挡加载，直到 100%负荷为止。","a":"√"},{"id":300,"type":"tf","q":"型号为 XP-316-A 的可燃气体报警仪是一种探针型报警仪。","a":"×"},{"id":301,"type":"tf","q":"型号为 XP-316-A 的可燃气体报警仪是一种抽吸式报警仪。","a":"√"},{"id":302,"type":"tf","q":"在使用便携式硫化氢报警仪时，要快速移动报警仪，这样才能得到全面准确的判断。","a":"×"},{"id":303,"type":"tf","q":"对于便携式硫化氢报警仪，在使用之前要检查电池的极性是否接对，电压是否达到要求。","a":"√"},{"id":304,"type":"tf","q":"机泵超负荷运行不会引起泵跳闸。","a":"×"},{"id":305,"type":"tf","q":"供电系统晃电，会引起泵跳闸。","a":"√"},{"id":306,"type":"tf","q":"机泵抽空时，不会损坏叶轮及轴封元件。","a":"×"},{"id":307,"type":"tf","q":"机泵抽空时，泵会震动大并有杂音出现。","a":"√"},{"id":308,"type":"tf","q":"离心泵振动大会引起密封泄漏，如处理不及时，会引发着火事故。","a":"√"},{"id":309,"type":"tf","q":"介质密度变化后会引起机泵振动。","a":"×"},{"id":310,"type":"tf","q":"机泵运行时润滑油油位过高不会造成轴承发热。","a":"×"},{"id":311,"type":"tf","q":"机泵运行时润滑油油位过高也会造成轴承发热。","a":"√"},{"id":312,"type":"tf","q":"离心泵长期不盘车易造成盘车不动。","a":"√"},{"id":313,"type":"tf","q":"离心泵盘车不动时，可以启动电机，待机泵转动后，再迅速按停电机。","a":"×"},{"id":314,"type":"tf","q":"低压电动机的保护形式有断路保护、空载保护。","a":"×"},{"id":315,"type":"tf","q":"电机运行过程中三相保险丝中有一相熔断会使电机转速降低。","a":"√"},{"id":316,"type":"tf","q":"炉管压力降是判断炉管结焦程度的一个重要指标。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":317,"type":"tf","q":"若处理量及油品不变而炉膛温度及入炉压力均降低则可初步判断炉管已结焦。","a":"×"},{"id":318,"type":"tf","q":"启动鼓风机时应全关进口蝶阀，使风机空载启动。","a":"√"},{"id":319,"type":"tf","q":"启动鼓风机前应全开进口蝶阀。","a":"×"},{"id":320,"type":"tf","q":"机泵润滑油变色后要及时更换。","a":"√"},{"id":321,"type":"tf","q":"机泵润滑油含少量的水份并不会影响轴承的轴承润滑。","a":"×"},{"id":322,"type":"tf","q":"输送易燃易爆介质的工业管道外部检查时必须每 1 年检查一次防静电接地电阻。","a":"√"},{"id":323,"type":"tf","q":"输送易燃易爆介质的工业管道外部检查时必须定期检查防静电接地电阻，其中管道对地电阻不得大于 10 欧姆。","a":"×"},{"id":324,"type":"tf","q":"常压炉采用适当增加炉管吹汽量来防止炉管结焦。","a":"×"},{"id":325,"type":"tf","q":"减压炉采用适当增加炉管吹汽量来防止炉管结焦。","a":"√"},{"id":326,"type":"tf","q":"离心泵正常运转时，滑动轴承温度应不大于 75℃。","a":"×"},{"id":327,"type":"tf","q":"离心泵正常运转时，滑动轴承温度应不超过 65℃。","a":"√"},{"id":328,"type":"tf","q":"电机运行中，必要时可在电机外壳贴酒精温度计监视温度，但控制温度应低于电机的最高允许温度。","a":"√"},{"id":329,"type":"tf","q":"电机外壳温度升高一定是电机超负荷引起的。","a":"×"},{"id":330,"type":"tf","q":"离心泵正常运转时，对于转速为 1500 转/分钟的轴承其振动值应≤0.09mm。","a":"√"},{"id":331,"type":"tf","q":"离心泵因密封泄漏检修时可不进行切断电机电源处理。","a":"×"},{"id":332,"type":"tf","q":"换热器内漏可以从压力高一侧油品颜色变化做判断。","a":"×"},{"id":333,"type":"tf","q":"换热器内漏可以从压力低一侧油品颜色变化做判断。","a":"√"},{"id":334,"type":"tf","q":"加热炉炉管结焦的现象之一是在相同的处理量下，炉膛温度升高，炉出口温度反应缓慢。","a":"√"},{"id":335,"type":"tf","q":"加热炉炉管结焦从炉管外表面无法判断。","a":"×"},{"id":336,"type":"tf","q":"电脱盐罐电极棒击穿与电极棒的耐压性能无关。","a":"×"},{"id":337,"type":"tf","q":"电脱盐罐电极棒击穿的原因主要是电极棒附有水滴或导电杂质。","a":"√"},{"id":338,"type":"tf","q":"初馏塔进料带水一定会造成进料温度下降。","a":"√"},{"id":339,"type":"tf","q":"初馏塔进料带水定会造成塔顶温度上升。","a":"×"},{"id":340,"type":"tf","q":"初馏塔底液面计失灵时其指示值会波动较大。","a":"×"},{"id":341,"type":"tf","q":"初馏塔底液面计失灵时可依据初底泵进口压力来判断。","a":"√"},{"id":342,"type":"tf","q":"初馏塔塔顶油水分离罐液面满，塔顶回流调节阀在自动控制时流量会增大。","a":"×"},{"id":343,"type":"tf","q":"初馏塔塔顶油水分离罐液面满的会造成加热炉低压瓦斯带液，炉膛温度上升，烟囱冒黑烟，火嘴漏油或炉底着火。","a":"√"},{"id":344,"type":"tf","q":"蒸汽喷射器喘气是由于蒸气压力高造成的。","a":"×"},{"id":345,"type":"tf","q":"蒸气喷射器的实际出口压强高于他的极限反压强会引起其工作不稳定。","a":"√"},{"id":346,"type":"tf","q":"原油进初馏塔温度低的原因之一是原油含水量小。","a":"×"},{"id":347,"type":"tf","q":"原油带水严重处理不及时，会造成初顶安全阀起跳。","a":"√"},{"id":348,"type":"tf","q":"原油中断会造成初馏塔液面下降，塔底温度上升。","a":"√"},{"id":349,"type":"tf","q":"原油中断会造成初馏塔液面下降，塔底温度降低。","a":"×"},{"id":350,"type":"tf","q":"净化风中断会使常一线油出装置流量调节阀自动关闭。","a":"√"},{"id":351,"type":"tf","q":"净化风中断会使调节阀自动关闭。","a":"×"},{"id":352,"type":"tf","q":"在生产中发生停蒸汽，减压塔真空度会下降。","a":"√"},{"id":353,"type":"tf","q":"正常生产中，系统停蒸汽，装置不会受到影响。","a":"×"},{"id":354,"type":"tf","q":"停机泵冷却水，会造成机泵密封泄漏。","a":"√"},{"id":355,"type":"tf","q":"机泵冷却水中断会造成机泵串轴。","a":"×"},{"id":356,"type":"tf","q":"炉管破裂会造成加热炉出口温度超高。","a":"√"},{"id":357,"type":"tf","q":"加热炉出口温度超高时一定是炉管破裂造成的。","a":"×"},{"id":358,"type":"tf","q":"燃料油带水易造成加热炉灭火。","a":"√"},{"id":359,"type":"tf","q":"加热炉冒黑烟一定是燃料油带水所引起。","a":"×"},{"id":360,"type":"tf","q":"蒸汽喷射器喘气一定会发出异常响声。","a":"√"},{"id":361,"type":"tf","q":"真空度下降会造成蒸汽喷射器喘汽。","a":"×"},{"id":362,"type":"tf","q":"加热炉燃料气带油会造成加热炉出口温度升高。","a":"√"},{"id":363,"type":"tf","q":"加热炉冒黑烟一定是由于燃料气带油造成的。","a":"×"},{"id":364,"type":"tf","q":"正常生产中，循环水压力降低一定会造成减压真空度下降。","a":"√"},{"id":365,"type":"tf","q":"正常生产中，循环水压力降低会造成常压塔操作压力下降。","a":"×"},{"id":366,"type":"tf","q":"常一线油颜色变深后，应立即检查常二线油的颜色。","a":"√"},{"id":367,"type":"tf","q":"塔底液位过低，会引起常压塔侧线颜色变深。","a":"×"},{"id":368,"type":"tf","q":"油嘴漏油一定是雾化蒸汽带水或燃料油带水造成的。","a":"×"},{"id":369,"type":"tf","q":"由于雾化蒸汽与油的配比不当造成火嘴漏油时，必须调节油汽配比，直至火焰颜色正常为止。","a":"√"},{"id":370,"type":"tf","q":"加热炉炉膛各点温度差别较大时应停用燃烧火焰较长的火嘴。","a":"×"},{"id":371,"type":"tf","q":"在用火嘴分布不均匀会造成加热炉炉膛各点温度差别大。","a":"√"},{"id":372,"type":"tf","q":"塔底吹汽带水，应检查是否蒸气发生器液位过高。","a":"√"},{"id":373,"type":"tf","q":"塔底吹汽带水，应停止吹汽。","a":"×"},{"id":374,"type":"tf","q":"为防止换热器使用中泄漏、跑油、着火，首先必须保证安装、检修的质量。","a":"√"},{"id":375,"type":"tf","q":"换热器因为憋压而泄漏，应打开放空阀泄压。","a":"×"},{"id":376,"type":"tf","q":"低压瓦斯带液严重的主要原因是瓦斯管线的伴热蒸汽未投用或蒸汽量小。","a":"×"},{"id":377,"type":"tf","q":"为防止燃料气带液，瓦斯分液罐应经常排凝。","a":"√"},{"id":378,"type":"tf","q":"当电脱盐电极棒击穿，无需将该电脱盐罐切出，可以在线更换电极棒。","a":"×"},{"id":379,"type":"tf","q":"当电脱盐电极棒被击穿时必须将该电脱盐罐切出检修，更换电极棒。","a":"√"},{"id":380,"type":"tf","q":"换热器漏油着火，应用蒸汽灭火和掩护漏点。","a":"√"},{"id":381,"type":"tf","q":"换热器投用的原则是先投用热源，再投用冷源。","a":"×"},{"id":382,"type":"tf","q":"加热炉炉管漏油严重着大火时，加热炉应全部熄火。","a":"√"},{"id":383,"type":"tf","q":"正常生产中，如常压炉炉管漏油严重着大火时，应按正常停车处理。","a":"×"},{"id":384,"type":"tf","q":"塔顶空冷器发生漏油，应立即将该空冷器停电。","a":"×"},{"id":385,"type":"tf","q":"塔顶空冷器发生漏油，应立即将该空冷器切出。","a":"√"},{"id":386,"type":"tf","q":"机泵抱轴要将该泵停下。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":387,"type":"tf","q":"机泵抱轴主要是由于机泵超负荷运行而引起的。","a":"×"},{"id":388,"type":"tf","q":"当工艺管线泄漏着大火时，要立即切断油源。","a":"√"},{"id":389,"type":"tf","q":"工艺管线发生泄漏后切出，关闭两端阀门即可。","a":"×"},{"id":390,"type":"tf","q":"炉管发生结焦应停工处理。","a":"√"},{"id":391,"type":"tf","q":"常压炉炉管烧焦时，烧焦的炉管依次由后向前，全部红一遍。","a":"×"},{"id":392,"type":"tf","q":"加热炉火嘴在点火时点不着，可继续开大燃料气阀门即可点着。","a":"×"},{"id":393,"type":"tf","q":"开车点火时，炉膛负压太大易会引起加热炉点火点不着。","a":"√"},{"id":394,"type":"tf","q":"若燃料气带液导致加热炉烟囱冒大量黑烟，应立即停下燃料气入炉。","a":"×"},{"id":395,"type":"tf","q":"装置常用的自动联锁控制有加热炉烟道挡板联锁控制系统。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","a":"√"},{"id":396,"type":"tf","q":"正常生产中，当加热炉燃烧不正常冒烟时，应开大烟道挡板。","a":"√"},{"id":397,"type":"tf","q":"正常生产中，当加热炉燃烧不正常冒烟时，应关小烟道挡板。","a":"×"},{"id":398,"type":"tf","q":"装置长时间停电时，应采取紧急停车处理。","a":"√"},{"id":399,"type":"tf","q":"装置停电后恢复来电，应首先启动回流泵。","a":"×"},{"id":400,"type":"tf","q":"为了防止冻凝，对拌热系统或冷却水系统必须保留少量长冒汽、长流水。","a":"√"},{"id":401,"type":"tf","q":"重油管线在冬天时不必投用拌热系统。","a":"×"},{"id":402,"type":"tf","q":"停用的汽油管线因憋压造成泄漏，应打开放空阀排放泄压。","a":"×"},{"id":403,"type":"tf","q":"停用的汽油管线，要有防止因高温暴晒造成憋压着火爆炸的措施。","a":"√"},{"id":404,"type":"tf","q":"减压抽真空泵故障会出现串气，吸入管发热，扩压管发热等现象。","a":"√"},{"id":405,"type":"tf","q":"减压抽真空泵故障必须要停下减压系统进行处理。","a":"×"},{"id":406,"type":"tf","q":"发现离心泵抽空后应立即按下停泵按钮。","a":"×"},{"id":407,"type":"tf","q":"当两台泵同时运行、抢量时，应调整两台泵的出口阀至压力相同。","a":"√"},{"id":408,"type":"tf","q":"装置停工后地下污水井可直接封闭。","a":"×"},{"id":409,"type":"tf","q":"为防止电缆沟发生闪爆事故，应在电缆沟内填入沙子。","a":"√"},{"id":410,"type":"tf","q":"机泵超负荷运行易引起机泵烧电机。","a":"√"},{"id":411,"type":"tf","q":"机泵电机装了短路保护和过载保护后就能避免烧电机事故的发生。","a":"×"},{"id":412,"type":"tf","q":"高温机泵泄漏着火主要是由于机泵密封面泄漏或法兰撕裂而引起的。","a":"√"},{"id":413,"type":"tf","q":"高温机泵泄漏着火应立即关闭进、出口阀门。","a":"×"},{"id":414,"type":"single","q":"下列记录中不属于运行记录的是( )记录。","opts":{"A":"交接班","B":"设备点检","C":"工艺数据统计","D":"DCS 操作"},"a":"A"},{"id":415,"type":"single","q":"交接班的“五不接”中卫生不好不接，不包括( )。","opts":{"A":"设备卫生","B":"操作室卫生","C":"现场卫生","D":"个人卫生"},"a":"D"},{"id":416,"type":"single","q":"填写交接班记录时不需要的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"填写清楚","B":"工艺数据统计","C":"在要求时间范围内填写","D":"严禁撕⻚重写"},"a":"B"},{"id":417,"type":"single","q":"交接班记录填写时，一般要求使用的字体是( )。","opts":{"A":"宋体","B":"正楷","C":"隶书","D":"仿宋"},"a":"D"},{"id":418,"type":"single","q":"以下设备巡检记录填写要求，正确的是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料数据真实有效","B":"允许撕⻚重写","C":"不允许更改","D":"允许他人代签字"},"a":"A"},{"id":419,"type":"single","q":"不允许在设备巡检记录中出现( )。","opts":{"A":"凭旧换新","B":"划改内容","C":"撕⻚重写","D":"双方签字"},"a":"C"},{"id":420,"type":"single","q":"以下设备巡检记录填写要求，错误的是( )。","opts":{"A":"数据真实有效品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"填写时间符合要求","C":"允许按要求方式更改","D":"允许他人代签字"},"a":"D"},{"id":421,"type":"single","q":"以下设备巡检记录填写要求，错误的是( )。","opts":{"A":"数据真实有效","B":"填写时间符合要求","C":"不允许更改","D":"字迹清晰工整"},"a":"C"},{"id":422,"type":"single","q":"造 成生 产 安全 事 故的 原 因 是 主 要人 的 不安 全 行 为， 物 的不 安 全状 态 ，（ ）。","opts":{"A":"生产环境恶劣","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料设备未按时检修","C":"违反劳动纪律","D":"管理缺陷"},"a":"D"},{"id":423,"type":"single","q":"识别危害时应充分考虑人员、设备、（ ）、环境、方法五个方面","opts":{"A":"材料","B":"物资","C":"地质","D":"气候"},"a":"A"},{"id":424,"type":"single","q":"在 HSE 管理体系中，造成死亡、职业病、伤害、财产损失或环境破坏的事件称为( )。","opts":{"A":"灾害","B":"毁坏品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"事故","D":"不符合"},"a":"C"},{"id":425,"type":"single","q":"HSE 管理体系中，危害是指可能造成( )、疾病、财产损失、工作环境破坏的根源或状态。","opts":{"A":"设备事故","B":"工艺事故","C":"人员伤亡","D":"环境污染"},"a":"C"},{"id":426,"type":"single","q":"为了做好防冻防凝工作，做法错误的是( )。","opts":{"A":"加强报告制度","B":"加强巡检力度","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料有情况向上级或领导汇报","D":"独立解决问题"},"a":"D"},{"id":427,"type":"single","q":"为了做好防冻防凝工作，低温处的阀门井、消火栓、管沟要逐个检查，排除积水，采取( )措施。","opts":{"A":"加固","B":"疏导","C":"防冻保温","D":"吹扫"},"a":"C"},{"id":428,"type":"single","q":"为 了作 好 防冻 防 凝工 作 ， 停 用 的设 备 、管 线 与 生产 系 统连 接 处要 加 好( )，并把积水排放吹扫干净。","opts":{"A":"阀⻔","B":"盲板","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料法兰","D":"保温层"},"a":"B"},{"id":429,"type":"single","q":"防冻防凝工作，以下做法错误的是( )。","opts":{"A":"停用设备、管线与系统连接处加好盲板","B":"加强巡检力度","C":"汽头直排蒸汽","D":"水头⻓流水"},"a":"C"},{"id":430,"type":"single","q":"与化工生产密切相关的职业病是( )。","opts":{"A":"耳聋","B":"职业性皮肤病","C":"关节炎品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"眼炎"},"a":"B"},{"id":431,"type":"single","q":"不属于石化行业职业病的是( )。","opts":{"A":"佝偻","B":"尘肺病","C":"刺激性物质引起的皮炎","D":"电光性眼炎"},"a":"A"},{"id":432,"type":"single","q":"在职业病危害因素来源中，不属于环境因素的是( )。","opts":{"A":"可⻅光","B":"工业毒物","C":"高温","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料夜班作业"},"a":"D"},{"id":433,"type":"single","q":"属于石化行业职业病的是( )。","opts":{"A":"近视","B":"尘肺病","C":"肩周炎","D":"哮喘"},"a":"B"},{"id":434,"type":"single","q":"便携式硫化氢报警仪的报警设定值为( )ppm。","opts":{"A":"10","B":"20","C":"25","D":"50品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":435,"type":"single","q":"现场安装的固定式硫化氢报警仪的报警设定值为( )ppm。","opts":{"A":"10","B":"20","C":"25","D":"50"},"a":"A"},{"id":436,"type":"single","q":"吸入微量的硫化氢感到头痛恶心的时候，应立即吸入( )。","opts":{"A":"Cl2","B":"SO2","C":"CO2","D":"大量新鲜空气"},"a":"D"},{"id":437,"type":"single","q":"进入受限空间作业，错误的做法是( )。","opts":{"A":"作业安全措施落实完毕","B":"受限空间作业许可证办理完毕","C":"受限空间作业分析数据电话告知合格","D":"人员安全教育合格"},"a":"C"},{"id":438,"type":"single","q":"受限空间作业监护人的安全职责，错误的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"不清楚安全防范措施","B":"在入口处监护，防止未经授权人员进入","C":"掌握作业人员情况并与其保持沟通","D":"负责作业人员进入和出来时的清点并登记名字"},"a":"A"},{"id":439,"type":"single","q":"受限空间作业监护人的安全职责，错误的是( )。","opts":{"A":"清楚可能存在的危害和对作业人员的影响","B":"在入口处监护，对未经授权人员进入进行登记","C":"掌握作业人员情况并与其保持沟通","D":"负责作业人员进入和出来时的清点并登记名字"},"a":"B"},{"id":440,"type":"single","q":"可以进入汽油储罐作业的分析数据为( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料氧含量 17.5%，可燃气体浓度 0.11%（体积百分数）","B":"氧含量 19.5%，可燃气体浓度 0.11%（体积百分数）","C":"氧含量 19.5%，可燃气体浓度 0.51%（体积百分数）","D":"氧含量 24%，可燃气体浓度 0.11%（体积百分数）"},"a":"B"},{"id":441,"type":"single","q":"在坠落防护措施中，最优先的选择是( )。","opts":{"A":"使用工作平台","B":"设置固定的楼梯、护栏和限制系统","C":"使用边缘限位安全绳","D":"使用坠落警示标志"},"a":"B"},{"id":442,"type":"single","q":"在作业基准面（ ）米以上进行的高处作业是特殊高处作业","opts":{"A":"30品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"25","C":"50","D":"20"},"a":"A"},{"id":443,"type":"single","q":"在作业基准面（ ）米以上进行的高处作业是特殊高处作业。","opts":{"A":"30","B":"25","C":"50","D":"20"},"a":"A"},{"id":444,"type":"single","q":"在高处作业防坠落的最后措施( )。","opts":{"A":"安全带","B":"安全网品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"安全帽","D":"安全绳"},"a":"B"},{"id":445,"type":"single","q":"重大危险的施工作业，应有( )单位同时派出安全监护人。","opts":{"A":"区域管理单位、施工单位","B":"施工单位、监理单位","C":"施工单位、设计单位","D":"区域管理单位、监理单位"},"a":"A"},{"id":446,"type":"single","q":"石化企业设备检修时，( )作业需要事先办理安全作业许可证。","opts":{"A":"非禁火区进行动火","B":"抽插盲板","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料清理现场","D":"设备内"},"a":"D"},{"id":447,"type":"single","q":"作业前的技术、安全交底，不包括的内容是( )。","opts":{"A":"作业工程造价","B":"作业内容","C":"安全措施","D":"应急措施"},"a":"A"},{"id":448,"type":"single","q":"施工作业前，应重点进行危害辨识，不包括( )。","opts":{"A":"作业环境","B":"天气条件","C":"作业过程品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"作业时机"},"a":"B"},{"id":449,"type":"single","q":"下列叙述中，不符合动火分析规定的是( )。","opts":{"A":"取样要有代表性，特殊动火的分析样品要保留到动火作业结束","B":"取样时间与动火作业的时间不得超过 60min，如超过此间隔时间或动火停歇超过60min 以上，必须重新取样分析","C":"若有两种以上的混合可燃气体,应以爆炸下限低者为准","D":"进入设备内动火，同时还需分析测定空气中有毒有害气体和氧含量，有毒有害气体含量不得超过《工业企业设计卫生标准》(GBZl—2002)中规定的最高容许浓度，氧含量应为 18％～22％"},"a":"B"},{"id":450,"type":"single","q":"不符合”四不动火”要求的是( )。","opts":{"A":"没有签发合格的动火作业票不动火","B":"动火地点或内容变更时，应在动火安全作业证上标明，否则也不得动火","C":"安全防范措施没有落实不动火品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"动火作业监护人不在现场不动火"},"a":"B"},{"id":451,"type":"single","q":"下列关于动火安全作业证制度说法，不正确的是( )。","opts":{"A":"在禁火区进行动火作业应办理”动火安全作业证”，严格履行申请、审核和批准手续","B":"动火作业人员在接到动火证后，要详细核对各项内容如发现不符合动火安全规定，有权拒绝动火，并向单位防火部⻔报告","C":"动火地点或内容变更时，应在动火安全作业证上标明，否则也不得动火","D":"高处进行动火作业和设备内动火作业时，除办理”动火安全作业证”外，还必须办理”高处安全作业证”和”受限空间作业证”"},"a":"C"},{"id":452,"type":"single","q":"不符合”四不动火”要求的是( )。","opts":{"A":"动火作业监护人在动火过程中落实各项安全防范措施","B":"安全防范措施没有落实不动火","C":"用火时间、地点、内容与动火作业票内容不符不动火品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"没有签发合格的动火作业票不动火"},"a":"A"},{"id":453,"type":"single","q":"临时照明应遵循的安全要求是( )。","opts":{"A":"使用金属材料悬挂导线，保证悬挂牢固、不移位","B":"行灯电源电压不超过 72V，灯泡外部有非金属保护罩","C":"在特别潮湿场所、导电良好的地面、锅炉或金属容器内的照明电源电压不得大于36V","D":"现场照明应满足所在区域安全作业亮度、防爆、防水等要求"},"a":"D"},{"id":454,"type":"single","q":"临时用电作业批准人的安全职责不包括( )。","opts":{"A":"清楚作业过程中可能存在的危害和⻛险","B":"清楚安全控制措施","C":"确认安全措施落实情况，包括检查气体取样和检测结果","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料掌握正确使用个人防护装备的方法"},"a":"D"},{"id":455,"type":"single","q":"临时照明应遵循的安全要求是( )。","opts":{"A":"使用金属材料悬挂导线，保证悬挂牢固、不移位","B":"行灯电源电压不超过 72V，灯泡外部有非金属保护罩","C":"在非易燃易爆区进行临时用电作业时，必须办理临时用电许可证和动火作业许可证。","D":"现场照明应满足所在区域安全作业亮度、防爆、防水等要求"},"a":"D"},{"id":456,"type":"single","q":"临时照明应遵循的安全要求是( )。","opts":{"A":"使用金属材料悬挂导线，保证悬挂牢固、不移位","B":"行灯电源电压不超过 72V，灯泡外部有非金属保护罩","C":"在特别潮湿场所、导电良好的地面、锅炉或金属容器内的照明电源电压不得大于12V","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料现场照明应满足所在区域安全作业亮度要求"},"a":"C"},{"id":457,"type":"single","q":"吊装作业许可证申请前应准备的资料不包括( )。","opts":{"A":"⻛险评估结果","B":"吊装作业计划","C":"安全培训记录","D":"起重机出厂合格证书"},"a":"D"},{"id":458,"type":"single","q":"吊装作业许可证申请前应准备的资料不包括( )。","opts":{"A":"作业人员健康记录","B":"吊装作业计划","C":"安全培训记录","D":"起重机外观检查结果、钢丝绳和吊钩检查结果品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":459,"type":"single","q":"下列选项中，( )不符合起重作业要求。","opts":{"A":"起重司机具备 5 年以上操作经验","B":"有资质的起重机检查人员","C":"在起重机司机或其他指定人员知晓的情况下，加油工也可进入驾驶室从事职责范围内的作业","D":"学习满半年以上的实习起重机司机可以在有资质的司机直接监督下作业"},"a":"A"},{"id":460,"type":"single","q":"吊装作业许可证申请前应准备的资料不包括( )。","opts":{"A":"⻛险评估结果","B":"吊装作业计划","C":"安全装备用具","D":"起重机外观检查结果、钢丝绳和吊钩检查结果品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":461,"type":"single","q":"下列选项中不传递安全信息含义的颜色是( )。","opts":{"A":"红","B":"蓝","C":"绿","D":"白"},"a":"D"},{"id":462,"type":"single","q":"( )色表示提醒人们注意。","opts":{"A":"红","B":"蓝","C":"黄","D":"绿"},"a":"C"},{"id":463,"type":"single","q":"( )色表示禁止、停止、危险以及消防设备的意思。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"红","B":"蓝","C":"黄","D":"绿"},"a":"A"},{"id":464,"type":"single","q":"( )色表示给人们提供允许、安全的信息。","opts":{"A":"红","B":"蓝","C":"黄","D":"绿"},"a":"D"},{"id":465,"type":"single","q":"关于火灾中烧伤患者急救说法，不正确的是（ ）。","opts":{"A":"迅速扑灭火灾烧伤患者的火点品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"拨打急救电话 120","C":"危重病人应立即送往医院","D":"心跳呼吸停止者立即行心肺复苏"},"a":"C"},{"id":466,"type":"single","q":"触电急救的原则的八字原则是：迅速、就地、准确、坚持。其中“迅速”是指( )。","opts":{"A":"迅速报警","B":"迅速脱离电源","C":"迅速送医院","D":"迅速离开"},"a":"B"},{"id":467,"type":"single","q":"发现触电事故，下列急救方法不正确的是( )。","opts":{"A":"电源开关离救护人员很近时，应立即拉掉开关切断电源","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料当电源开关离救护人员较远时，可用绝缘手套或木棒将电源切断","C":"当触电者脱离电源后，立即送往医院","D":"心跳停止的要立即采取心肺复苏术施救"},"a":"C"},{"id":468,"type":"single","q":"关于急性化学中毒患者急救的说法，正确的是( )。","opts":{"A":"在中毒现场立即救治","B":"迅速脱去或剪去被毒物污染的衣物，保留内衣内裤","C":"进入有毒环境急救的人员需戴防毒面具及安全带,并避免处于上⻛向","D":"经口中毒者，毒物为非腐蚀性者，应立即用催吐或洗胃方法清除"},"a":"D"},{"id":469,"type":"single","q":"在计算机应用软件 Word 中不能进行的文档操作是( )。","opts":{"A":"当前文档与另一同类型的文档合并成一个新文挡","B":"打开纯文本文挡品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"当前文档保存为纯文本文挡","D":"删除当前文挡"},"a":"D"},{"id":470,"type":"single","q":"计算机应用软件 Word 的“文件”命令菜单底部显示的文件名所对应的文件是( )。","opts":{"A":"当前已经打开的所有文档","B":"当前被操作的文档","C":"扩展名是 DOC 的所有文档","D":"最近被操作过的文档"},"a":"D"},{"id":471,"type":"single","q":"在计算机应用软件 Word 的“页面设置”对话框中，不可以设置的选项为( )。","opts":{"A":"字体","B":"位置","C":"纸型","D":"纸张大小"},"a":"A"},{"id":472,"type":"single","q":"在计算机应用软件 Excel 工作表中，单元格区域 D2:E4 所包含的单元格个数是( )。","opts":{"A":"5","B":"6品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"7","D":"8"},"a":"B"},{"id":473,"type":"single","q":"在计算机应用软件 Excel 工作表中，选定某单元格，单击“编辑”菜单下的“删除”选项，不可能完成的操作是( )。","opts":{"A":"删除该行","B":"右侧单元格左移","C":"删除该列","D":"左侧单元格右移"},"a":"D"},{"id":474,"type":"single","q":"在计算机应用软件 Excel 工作表中，第 11 行第 14 列单元格地址可表示为( )。","opts":{"A":"M10","B":"N10","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料M11","D":"N11"},"a":"D"},{"id":475,"type":"single","q":"在计算机应用软件 Excel 工作表中，可按需拆分窗口，一张工作表最多拆分为( )个窗口。","opts":{"A":"3","B":"4","C":"5","D":"任意多"},"a":"B"},{"id":476,"type":"single","q":"1%","opts":{"C":"90%品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"大于 11.1%"},"a":"A"},{"id":477,"type":"single","q":"3%","opts":{"B":"4%","C":"小于 4%","D":"大于 4%"},"a":"D"},{"id":478,"type":"single","q":"1 升质量浓度为 10%的食盐溶液，如果从其中取出 100 毫升，那么这 100 毫升食盐溶液的质量浓度是( )。","opts":{"A":"1%","B":"10%","C":"90%","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料50%"},"a":"B"},{"id":479,"type":"single","q":"石油的微量元素的含量与石油的属性有关，( )，这是我国原油的一大特点。","opts":{"A":"含镍低，含钒高","B":"含镍高，含钒低","C":"含镍高，含钒高","D":"含镍低，含钒低品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"B"},{"id":480,"type":"single","q":"石油中微量元素主要集中在( )馏分。","opts":{"A":"汽油","B":"煤油","C":"柴油","D":"渣油"},"a":"D"},{"id":481,"type":"single","q":"在石油中，一部分微量金属是以油溶性有机化合物或络合物形式存在的，下列正确的是( )。","opts":{"A":"钙","B":"钾","C":"钠","D":"钒"},"a":"D"},{"id":482,"type":"single","q":"在石油中，一部分微量金属是以无机的水溶性盐类形式存在的，下列正确的是( )。","opts":{"A":"镍的卟啉络合物","B":"铁的氧化物","C":"钠的氯化物","D":"钒的卟啉络合物"},"a":"C"},{"id":483,"type":"single","q":"当油品温度升高时，油品内部不会发生的现象是（ ）。","opts":{"A":"分子间距离拉远","B":"流体体积膨胀","C":"分子相互作用增强","D":"粘度下降"},"a":"C"},{"id":484,"type":"single","q":"油品的温度升高，其黏度（ ）。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"增大","B":"不变","C":"减小","D":"与温度无关"},"a":"C"},{"id":485,"type":"single","q":"油品的黏度增大，其( )。","opts":{"A":"比重增大","B":"平均沸点小","C":"特性因数 K 值变小","D":"相对分子质量变大"},"a":"A"},{"id":486,"type":"single","q":"互相混合的两油品的组成及性质相差越大、黏度相差越大，则混合后实测的黏度与用加和法计算出的黏度两者相差就( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料越大","B":"越小","C":"等于零","D":"基本不变"},"a":"B"},{"id":487,"type":"single","q":"油品黏度与化学组成的关系，下列说法错误的是( )。","opts":{"A":"多环短侧链的稠环芳烃及胶质应在润滑油精制中除去","B":"环状化合物中随着侧链⻓度的增加及侧链数目的增加，黏度增加","C":"对于不同原油，要切割同一黏度的馏分油，其切割范围也就不同","D":"芳烃的黏度高于环烷烃及环烷—芳烃黏度"},"a":"D"},{"id":488,"type":"single","q":"油品黏度与化学组成的关系，下列说法错误的是（ ）。","opts":{"A":"含环状烃多则黏度高品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"当环数相同时，其侧链越⻓则黏度越大","C":"三环及三环以上的化合物中，环烷烃黏度小于芳香烃黏度","D":"馏程升高，则黏度升高"},"a":"C"},{"id":489,"type":"single","q":"润滑油理想组分是（ ）的烃类。","opts":{"A":"黏度小，且随着温度的变化，黏度变化较小","B":"黏度大，且随着温度的变化，黏度变化较小","C":"黏度小，且黏度随温度变化","D":"黏度大，且黏度随温度变化"},"a":"B"},{"id":490,"type":"single","q":"润滑油理想组分的的化学组成应包含（ ）。","opts":{"A":"少环⻓侧链的烷烃—环烷烃、芳香烃","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料多环⻓侧链的烷烃—环烷烃、芳香烃","C":"少环短侧链的烷烃—环烷烃、芳香烃","D":"多环短侧链的烷烃—环烷烃、芳香烃"},"a":"A"},{"id":491,"type":"single","q":"与物质的质量热容大小无关的有( )。","opts":{"A":"物质的量","B":"温度高低","C":"压力高低","D":"体积变化"},"a":"A"},{"id":492,"type":"single","q":"就不同族的烃类而言，当相对分子质量接近时，( )的质量热容最大。","opts":{"A":"轻芳香烃","B":"环烷烃品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"烷烃","D":"重芳香烃"},"a":"C"},{"id":493,"type":"single","q":"压力对于液态烃类质量热容的影响一般可以忽略；但压力对于气态烃类质量热容的影响是明显的，当压力( )时，其质量热容就需要作压力校正。","opts":{"A":"大于 0.45MPa","B":"大于 0.15MPa","C":"大于 0.25MPa","D":"大于 0.35MPa"},"a":"D"},{"id":494,"type":"single","q":"与物质的质量热容大小有关的有( )。","opts":{"A":"物质的量","B":"温度高低","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料质量多少","D":"密度高低"},"a":"B"},{"id":495,"type":"single","q":"当相对分子质量接近时，( )的气化热最大。","opts":{"A":"芳香烃","B":"异构烷烃","C":"环烷烃","D":"正构烷烃"},"a":"A"},{"id":496,"type":"single","q":"查有关图表确定石油馏分的常压气化热不需要用到( )。","opts":{"A":"中平均沸点","B":"平均相对分子质量","C":"相对密度品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"混合粘度"},"a":"D"},{"id":497,"type":"single","q":"石油馏分的常压气化热可以根据( )、平均相对分子质量和相对密度三个参数的两个查有关图表确定。","opts":{"A":"体积平均沸点","B":"质量平均沸点","C":"中平均沸点","D":"立方平均沸点"},"a":"C"},{"id":498,"type":"single","q":"油品的特性因数 K 值大小与( )有关。","opts":{"A":"中平均沸点","B":"临界温度","C":"混合粘度","D":"分子质量"},"a":"A"},{"id":499,"type":"single","q":"当油品的( )相近时，油品的特性因数 K 值大小的顺序为芳香烃＜环烷烃＜烷烃。","opts":{"A":"混合粘度","B":"临界温度","C":"相对分子质量","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料气化热"},"a":"C"},{"id":500,"type":"single","q":"油品的特性因数 K 值大小与( )有关。","opts":{"A":"平均沸点","B":"临界温度","C":"混合粘度","D":"相对分子质量"},"a":"D"},{"id":501,"type":"single","q":"油品的特性因数 K 值是油品的平均沸点和( )的函数。","opts":{"A":"粘度","B":"相对密度","C":"气化热","D":"质量平均沸点品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"B"},{"id":502,"type":"single","q":"不可压缩流体在管内流动，下列说法错误的是( )。","opts":{"A":"输入量等于输出量","B":"任两个截面的流速相等","C":"任两个截面的质量流量相等","D":"单位时间任两个截面的体积流量相等"},"a":"B"},{"id":503,"type":"single","q":"不可压缩流体在管内流动，下列说法正确的是( )。","opts":{"A":"输入量略大于输出量","B":"任两个截面的流速相等","C":"任两个截面的质量流量相等","D":"任两个截面的体积流量与流速成正比品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":504,"type":"single","q":"下列说法正确的是( )。","opts":{"A":"对于定态流动系统，单位时间进入各截面的流体质量相等","B":"可压缩流体流经各截面的体积流量相等","C":"对于定态流动系统，单位时间进入各截面的流体体积相等","D":"定态流动系统中，流体在管路中的流动规律与管路上的管件、阀⻔及输送设备有关"},"a":"A"},{"id":505,"type":"single","q":"不可压缩流体在管路中流动，下列物料衡算表达式错误的是( )。","opts":{"A":"质量流量ωs1=ωs2","B":"质量流量ωs= u1A1ρ1= u2A2ρ2","C":"体积流量 Vs= u1A1 = u2A2","D":"体积流量 Vs= u1A1 = u2A2 而ωs1≠ωs2"},"a":"D"},{"id":506,"type":"single","q":"不可压缩流体在管内流动，下列说法错误的是( )。1","opts":{"A":"输入量等于输出量","B":"任两个截面的流速相等","C":"任两个截面的质量流量相等","D":"单位时间任两个截面的体积流量相等"},"a":"B"},{"id":507,"type":"single","q":"流体输送管路的直径可以根据流量和( )来选择。","opts":{"A":"温度","B":"密度","C":"压力","D":"流速"},"a":"D"},{"id":508,"type":"single","q":"在定态流动系统中，水连续地从粗管流入细管。粗管内径为细管的两倍，那么细管内水的流速是粗管的( )倍。","opts":{"A":"2","B":"4","C":"6","D":"8"},"a":"B"},{"id":509,"type":"single","q":"在定态流动系统中，水连续地从粗管流入细管。若要求细管中水的流速为粗管中流速的四倍，则粗管的管径是细管的管径的( )倍。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"2","B":"6","C":"8","D":"12"},"a":"A"},{"id":510,"type":"single","q":"两流体传热过程中，热负荷随流体流量的降低而( )。","opts":{"A":"增大","B":"不确定","C":"不变","D":"减小"},"a":"D"},{"id":511,"type":"single","q":"两流体传热过程中，热负荷随流体流量的增大而( )。","opts":{"A":"增大品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"减小","C":"不变","D":"不确定"},"a":"A"},{"id":512,"type":"single","q":"热负荷与下列( )无关。","opts":{"A":"流体的流量","B":"流体的平均比热","C":"流体的流速","D":"流体传热前后的温差"},"a":"C"},{"id":513,"type":"single","q":"下列方法可以强化传热的是( )。","opts":{"A":"采用少孔物质结构","B":"减小流体的扰动","C":"采用逆流传热","D":"增大管径"},"a":"C"},{"id":514,"type":"single","q":"下列方法可以强化传热的是( )。","opts":{"A":"增大流体的扰动","B":"采用大直径管品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"采用平板面","D":"减小流体流速"},"a":"A"},{"id":515,"type":"single","q":"不能强化传热的途径有( )。","opts":{"A":"防止设备结垢","B":"增大总传热系数","C":"降低平均温差","D":"增大传热面积"},"a":"C"},{"id":516,"type":"single","q":"下列方法可以强化传热的是( )。","opts":{"A":"减小流体流速","B":"采用大直径管","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料采用平板面","D":"采用翅片面"},"a":"D"},{"id":517,"type":"single","q":"关于蒸馏塔的物料平衡正确的说法是( )。","opts":{"A":"进入塔的物料质量与离开的物料质量相等","B":"进入塔的物料体积与离开的物料体积相等","C":"进入塔的物料质量与塔底出来的物料质量相等","D":"进入塔的物料质量与塔顶出来的物料质量相等"},"a":"A"},{"id":518,"type":"single","q":"对于装置的物料平衡，操作上重点关注的是( )。","opts":{"A":"塔顶压力稳定","B":"侧线产品流量相等","C":"三塔底液位稳定品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"加热炉出口温度符合要求"},"a":"C"},{"id":519,"type":"single","q":"对于精馏塔的物料衡算，下列正确的是( )。","opts":{"A":"进塔原料量等于塔顶冷凝水、塔底产品、塔顶产品与侧线产品之和","B":"进塔原料量等于塔底产品、塔顶产品与侧线产品之和","C":"进塔原料量与汽提蒸汽量之和等于塔底产品、塔顶产品与侧线产品之和","D":"塔顶冷凝水的量等于塔底汽提蒸汽与侧线汽提蒸汽之和"},"a":"B"},{"id":520,"type":"single","q":"对于饱和蒸汽进料，上升到精馏段的蒸汽流量 V 与提馏段蒸汽流量 V′、原料液流量 F 的关系是( )。","opts":{"A":"V=V′+F","B":"V＜V′","C":"V＞V′+F","D":"V＜V′+F"},"a":"A"},{"id":521,"type":"single","q":"对于冷液进料(原料液的温度低于泡点)，提馏段下降液体流量 L′与精馏段回流液流量 L、原料液 F 的关系为( )。","opts":{"A":"L′=L","B":"L′=L+F","C":"L′＞L+F","D":"L′＜L+F品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":522,"type":"single","q":"对于冷液进料（提馏段下降液体流量 L′与精馏段回流液流量 L、原料液流量 F 、 精 馏 段 的 蒸 汽 流 量 V 与 提 馏 段 蒸 汽 流 量 V′ ） ， 下 列 关 系 正 确 的 是( )。","opts":{"A":"L′=L","B":"V′＞V","C":"L′=L+F","D":"L′＜L+F"},"a":"B"},{"id":523,"type":"single","q":"对于泡点进料，提馏段下降液体流量 L′与精馏段回流液流量 L、原料液流量 F 的关系为( )。","opts":{"A":"L′=L","B":"L′＜L+F","C":"L′＞L+F","D":"L′=L+F品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":524,"type":"single","q":"产生液泛的原因是( )。","opts":{"A":"气液相中之一的流量增大","B":"塔板间距大","C":"液相厚度不均匀","D":"板面形成液面落差"},"a":"A"},{"id":525,"type":"single","q":"发生液泛时的现象是( )。","opts":{"A":"降液管液面低","B":"塔压降不变","C":"塔压降下降","D":"塔压降上升"},"a":"D"},{"id":526,"type":"single","q":"关于液泛，下列说法不正确的是( )。","opts":{"A":"对一定的液体流量，气速过大，容易产生液泛","B":"液体流量过大时，降液管截面不足以使液体通过，容易产生液泛","C":"板间距大，可提高液泛速度","D":"板面气流分布不均匀，容易产生液泛"},"a":"D"},{"id":527,"type":"single","q":"关于液泛，下列说法正确的是( )。","opts":{"A":"对一定的液体流量，气速越大越好","B":"液体流量过大时，降液管截面不足以使液体通过，容易产生液泛","C":"板间距小，可提高液泛速度","D":"板面气流分布不均匀，容易产生液泛"},"a":"B"},{"id":528,"type":"single","q":"下列因素中可导致雾沫夹带量大的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"空塔气速低","B":"空塔气速高","C":"塔板间距大","D":"降液管截面积大"},"a":"B"},{"id":529,"type":"single","q":"雾沫夹带对塔操作的影响表现在( )。","opts":{"A":"塔压降大","B":"增大气液两相传质面积","C":"塔板效率下降","D":"塔板效率提高"},"a":"C"},{"id":530,"type":"single","q":"下列因素中可导致雾沫夹带量大的是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料空塔气速低,塔板间距小","B":"空塔气速高,塔板间距大","C":"空塔气速低,塔板间距大","D":"空塔气速高,塔板间距小"},"a":"D"},{"id":531,"type":"single","q":"造成漏液的主要原因有( )。","opts":{"A":"塔径大品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"气速高","C":"塔板间距大","D":"液面落差引起的气流分布不均匀"},"a":"D"},{"id":532,"type":"single","q":"造成漏液的主要原因有( )。","opts":{"A":"气速低","B":"气速高","C":"塔板间距大","D":"气流分布均匀"},"a":"A"},{"id":533,"type":"single","q":"漏液对塔操作的影响表现在( )。","opts":{"A":"塔压降大","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料增大气液两相传质面积","C":"塔板效率下降","D":"塔板效率提高"},"a":"C"},{"id":534,"type":"single","q":"造成漏液的主要原因是( )。","opts":{"A":"塔压降大","B":"液体量大","C":"气速高","D":"气速低"},"a":"D"},{"id":535,"type":"single","q":"精馏操作过程，必须具备的条件有( )。","opts":{"A":"混合液各组分相对挥发度不同","B":"气液两相的溶解度不同品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"适当的操作温度及压力","D":"足够的分离时间"},"a":"A"},{"id":536,"type":"single","q":"精馏塔自上而下存在( )。","opts":{"A":"流速差","B":"质量差","C":"体积差","D":"温度差"},"a":"D"},{"id":537,"type":"single","q":"精馏操作过程，不是必须具备的条件有( )。","opts":{"A":"混合液各组分相对挥发度不同","B":"气液两相接触时必须存在密度差","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料塔内有气相回流和液相回流","D":"具有气液两相充分接触的场所"},"a":"B"},{"id":538,"type":"single","q":"不是精馏操作过程必须具备的条件是( )。","opts":{"A":"混合液各组分相对挥发度不同","B":"塔内有气相回流和液相回流","C":"气液两相的溶解度不同","D":"具有气液两相充分接触的场所"},"a":"C"},{"id":539,"type":"single","q":"1～2品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"D":"2～5"},"a":"C"},{"id":540,"type":"single","q":"回流比大对精馏塔操作的影响，下列错误的是( )。","opts":{"A":"塔负荷高","B":"分离效果变差","C":"操作费用高","D":"传质推动力增加"},"a":"B"},{"id":541,"type":"single","q":"不影响精馏操作的因素有( )。","opts":{"A":"进料量","B":"回流比大小","C":"进料组成","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料塔釜压力"},"a":"D"},{"id":542,"type":"single","q":"不影响精馏塔分离效果的因素有( )。","opts":{"A":"回流比","B":"进料温度","C":"塔底泵出口压力","D":"进料组成"},"a":"C"},{"id":543,"type":"single","q":"流体在直管内流动时，当雷诺数( )时，流体的流动属于过渡流。","opts":{"A":"Re≥4000","B":"Re≤2000","C":"Re≥3000","D":"2000≤Re≤4000品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":544,"type":"single","q":"流体在直管内流动时，当雷诺数( )时，流体的流动属于层流。","opts":{"A":"Re≥4000","B":"Re≤2000","C":"Re≥3000","D":"2000≤Re≤4000"},"a":"B"},{"id":545,"type":"single","q":"下列流体在直管内流动，其雷诺数如下，属于层流的是( )。","opts":{"A":"Re=1500","B":"Re=4000","C":"Re=3500","D":"Re=3000"},"a":"A"},{"id":546,"type":"single","q":"流体在直管内流动时，当雷诺数( )时，流体的流动属于湍流。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"Re≥4000","B":"Re≤2000","C":"Re≥3000","D":"2000≤Re≤4000"},"a":"A"},{"id":547,"type":"single","q":"液体、气体和蒸汽等流体的管道输送，一般采用( )计量方法。","opts":{"A":"人工检尺","B":"衡器计量","C":"流量计","D":"液位计"},"a":"C"},{"id":548,"type":"single","q":"瓶装、桶装石油产品或袋装、盒装固体产品，石油产品用汽车或铁路罐车运输时，一般采用( )计量方法。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料人工检尺","B":"衡器计量","C":"流量计","D":"液位计"},"a":"B"},{"id":549,"type":"single","q":"目前，我国石油及其产品的计量方式不允许使用( )。","opts":{"A":"人工检尺品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"衡器计量","C":"流量计计量","D":"估算计量"},"a":"D"},{"id":550,"type":"single","q":"对有旁路阀的新物料计量表的投用步骤：先开旁路阀，流体先从旁路管流动一段时间；缓慢开启上游阀；缓慢开启下游阀；缓慢( )。","opts":{"A":"开启上游阀","B":"关闭上游阀","C":"开启旁路阀","D":"关闭旁路阀"},"a":"D"},{"id":551,"type":"single","q":"物料计量表投入使用后，应做的检查工作不包括（ ）。","opts":{"A":"检查显示屏是否正确","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料打开旁路阀⻔检查流程是否导通","C":"指针式表盘是否存在卡顿现象","D":"计量表两端法兰是否存在泄漏"},"a":"B"},{"id":552,"type":"single","q":"新物料计量表投用前，应重点检查的内容不包括（ ）。","opts":{"A":"计量表显示屏红线标识正确","B":"检验证书是否有效","C":"计量表安装方向是否正确","D":"计量表外观有无油污、破损"},"a":"A"},{"id":553,"type":"single","q":"对有旁路阀的新物料计量表的投用步骤：先开旁路阀，流体先从旁路管流动一段时间；缓慢开启上游阀；缓慢( )；缓慢关闭旁路阀。","opts":{"A":"开启上游阀","B":"关闭上游阀品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"开启下游阀","D":"关闭下游阀"},"a":"C"},{"id":554,"type":"single","q":"离心泵压出室的径向导叶用于( )。","opts":{"A":"收集液体和增速","B":"增速和扩压","C":"收集液体和扩压","D":"增加动能和增加压力能"},"a":"C"},{"id":555,"type":"single","q":"一台泵的级数越多，流量( )。","opts":{"A":"越大","B":"越小","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料不变","D":"成正比增大"},"a":"C"},{"id":556,"type":"single","q":"多级离心泵的一个级由一个叶轮和一个( )组成。","opts":{"A":"压出室","B":"轴套","C":"轴承","D":"径向扩压导叶"},"a":"D"},{"id":557,"type":"single","q":"增加离心泵的级数，目的是( )。","opts":{"A":"增加流量","B":"增加扬程","C":"减少功率品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"减少水力损失"},"a":"B"},{"id":558,"type":"single","q":"介 质压 力 对平 衡 型机 械 密 封 影 响较 小 ，故 平 衡 型机 械 密封 特 别适 用 于( )离心泵。","opts":{"A":"低扬程","B":"高扬程","C":"各种扬程","D":"中扬程"},"a":"B"},{"id":559,"type":"single","q":"离心泵中介质泄漏方向与离心力方向相反的机械密封为( )机械密封。","opts":{"A":"全流型","B":"混合型","C":"内流型品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"外流型"},"a":"C"},{"id":560,"type":"single","q":"离心泵单弹簧式机械密封在高速下使用弹簧容易变形，故适用于小轴径的机械密封。而多弹簧式机械密封在高速下使用弹簧不容易变形，适用于( )的机械密封。","opts":{"A":"大轴径","B":"低速","C":"小轴颈","D":"低速"},"a":"A"},{"id":561,"type":"single","q":"离心泵中介质泄漏方向与离心力方向相同的机械密封为( )机械密封。","opts":{"A":"全流型","B":"混合型","C":"内流型品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"外流型"},"a":"D"},{"id":562,"type":"single","q":"采用焊接方式与壳体连接固定两端管板的是( )。","opts":{"A":"U 形管式换热器","B":"浮头式换热器","C":"固定管板式换热器","D":"填料函式换热器"},"a":"C"},{"id":563,"type":"single","q":"浮头式换热器的结构复杂，下面不是主要零部件的是( )。","opts":{"A":"防冲板","B":"挡板","C":"浮头管板","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料试压阀"},"a":"D"},{"id":564,"type":"single","q":"一端管板与壳体固定，而另一端的管板可以在壳体内自由浮动，这种换热器是( )。","opts":{"A":"固定管板式换热器","B":"浮头式换热器","C":"U 形管式换热器","D":"填料函式换热器"},"a":"B"},{"id":565,"type":"single","q":"U 形管换热器在壳程内可按工艺要求安装( )。","opts":{"A":"折流板","B":"止回阀","C":"加热管","D":"管箱品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":566,"type":"single","q":"管式加热炉按传热方式可称为( )。","opts":{"A":"圆筒炉","B":"方箱炉","C":"辐射室炉","D":"纯加热炉"},"a":"C"},{"id":567,"type":"single","q":"管式加热炉按结构可称为( )。","opts":{"A":"对流炉","B":"辐射炉","C":"加热炉","D":"圆筒炉品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":568,"type":"single","q":"对流室位于辐射室上部，烟囱安设在对流室的上部，并装有烟道挡板，可用来调节风量，火嘴在炉底中央，火焰向上喷射，这种炉子是( )。","opts":{"A":"箱式炉及斜顶炉","B":"圆筒炉","C":"立式炉","D":"无焰炉"},"a":"B"},{"id":569,"type":"single","q":"圆筒炉的主要结构一般不含( )。","opts":{"A":"鼓⻛机","B":"辐射管","C":"对流管","D":"烟囱"},"a":"A"},{"id":570,"type":"single","q":"常用阀门丝杆与螺母之间处，应定期加注润滑脂，而不常用阀门丝杆螺母处，应( )。","opts":{"A":"不需要加注润滑脂","B":"用润滑脂封死","C":"⻓期保持轴⻅光","D":"定期加注润滑脂"},"a":"B"},{"id":571,"type":"single","q":"设备润滑的”五定”是( )。","opts":{"A":"定人、定时、定质、定量、定点","B":"定员、定时、定标、定量、定点","C":"定员、定编、定量、定点、定质","D":"定时、定质、定量、定点、定编"},"a":"A"},{"id":572,"type":"single","q":"不是透平压缩机的在用润滑油进行定期抽检的主要项目的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"粘度、闪点","B":"水分、杂质","C":"抗乳化性","D":"灰分、残炭"},"a":"D"},{"id":573,"type":"single","q":"非设备润滑的”三级过滤”要求的是( )。","opts":{"A":"从大桶过滤到中桶","B":"从中桶过滤到加油壸","C":"在过滤机中加三层滤布","D":"加油壸过滤到轴承箱"},"a":"C"},{"id":574,"type":"single","q":"化学腐蚀是指金属与介质之间发生( )作用而引起的破坏。","opts":{"A":"电化学","B":"物理化学","C":"纯化学","D":"纯物理"},"a":"C"},{"id":575,"type":"single","q":"炼油设备的壁温高于( )时，任何处于含硫环境下的金属都会受到高温硫化氢不同程度的腐蚀。","opts":{"A":"250℃品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"200℃","C":"300℃","D":"350℃"},"a":"B"},{"id":576,"type":"single","q":"腐蚀是指金属在周围介质（最常见的是液体和气体）作用下，不是因为( )而产生的破坏。","opts":{"A":"化学变化","B":"电化学变化","C":"物理溶解","D":"机械损伤"},"a":"D"},{"id":577,"type":"single","q":"最高工作压力大于等于 10MPa 小于 100MPa 的压力容器属于( )。","opts":{"A":"低压容器","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料中压容器","C":"高压容器","D":"超高压容器"},"a":"C"},{"id":578,"type":"single","q":"对夹套容器，其最高工作压力是指压力容器在正常使用过程中，（ ）可能产生的最高压力差值。","opts":{"A":"夹套底部","B":"夹套内部","C":"夹套中部","D":"夹套顶部"},"a":"D"},{"id":579,"type":"single","q":"最高工作压力大于等于 0.1MPa 小于 1.6MPa 的压力容器属于( )。","opts":{"A":"低压容器","B":"中压容器品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"高压容器","D":"超高压容器"},"a":"A"},{"id":580,"type":"single","q":"最高工作压力大于等于 1.6MPa 小于 10MPa 的压力容器属于( )。","opts":{"A":"低压容器","B":"中压容器","C":"高压容器","D":"超高压容器"},"a":"B"},{"id":581,"type":"single","q":"输送可燃流体介质、有毒流体介质，设计压力 3.0MPa，并且设计温度 300℃的工业管道属于( )级工业管道。","opts":{"A":"GC1","B":"GC2","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料GC3","D":"GC4"},"a":"B"},{"id":582,"type":"single","q":"输送非可燃流体介质、无毒流体介质，设计压力>10.0MPa，并且设计温度≥400℃的工业管道属于( )级工业管道。","opts":{"A":"GC4","B":"GC3","C":"GC2","D":"GC1"},"a":"D"},{"id":583,"type":"single","q":"输送火灾危险性为甲、乙类可燃气体或者甲类可燃液体（包括液化烃）的管道，并且设计压力大于或者等于 4.0Mpa 的管道属于( )级工业管道。","opts":{"A":"GC1","B":"GC2","C":"GC3品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"GC4"},"a":"A"},{"id":584,"type":"single","q":"输送无毒、非可燃流体介质，设计压力小于或者等于 1.0Mpa，并且设计温度高于－20℃但是不高于 185℃的管道属于( )级工业管道。","opts":{"A":"GC1","B":"GC2","C":"GC3","D":"GC4"},"a":"C"},{"id":586,"type":"single","q":"容器制成以后或经检修投入生产之前应进行压力试验，压力试验的目的是检查容器的( )。","opts":{"A":"宏观强度和致密性","B":"微观强度和致密性","C":"强度","D":"致密性"},"a":"A"},{"id":588,"type":"single","q":"容器制成以后或经检修投入生产之前应进行压力试验，压力试验的目的是检查容器的( )。","opts":{"A":"材质是否合格","B":"垫片安装正确","C":"阀⻔是否泄漏","D":"强度达到设计要求"},"a":"D"},{"id":589,"type":"single","q":"离心泵的有效汽蚀余量(NPSH)随流量的增加而减小， 离心泵的必须汽蚀余量(NPSH)随流量的增加而( )。","opts":{"A":"减小","B":"不变","C":"增大","D":"不能确定品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":590,"type":"single","q":"设计泵前系统和安装位置时,不能提高离心泵抗汽蚀的措施有( )。","opts":{"A":"增大泵前压力","B":"减小泵前管路的流动损失","C":"增大吸上装置的安装高度","D":"增大地面上储罐安装高度"},"a":"D"},{"id":591,"type":"single","q":"离心泵的有效汽蚀余量(NPSH)与吸入系统有关，而与泵本身无关。 而离心泵的必须汽蚀余量(NPSH)与吸入系统无关，而与泵本身( )。","opts":{"A":"设计无关","B":"设计有关","C":"安装位置有关","D":"制造无关"},"a":"B"},{"id":592,"type":"single","q":"若离心泵要正常连续工作，吸入液面上的压力要( )叶轮入口处的压力。叶轮入口处的压力越低，吸入能力越大。","opts":{"A":"大于","B":"小于","C":"等于","D":"小于或等于"},"a":"A"},{"id":593,"type":"single","q":"下列电气元件通常可以装在防爆操作柱上的是( )。","opts":{"A":"热继电器","B":"接触器","C":"按钮或扳把开关","D":"转速表"},"a":"C"},{"id":594,"type":"single","q":"已知 R1=10Ω，R2=10Ω，把两个电阻并联起来，其总电阻为( )。","opts":{"A":"R=10","B":"R=20","C":"R=15","D":"R=5"},"a":"D"},{"id":595,"type":"single","q":"在燃料油生产装置中的现场照明线路控制通常使用的开关是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料防爆开关","B":"空气开关","C":"胶盒开关","D":"拉线开关"},"a":"A"},{"id":596,"type":"single","q":"电气设备金属外壳应有( )。","opts":{"A":"防雷接地保护","B":"防静电接地保护","C":"防过电压保护","D":"可靠的接地或接零保护"},"a":"D"},{"id":597,"type":"single","q":"关于设备接地线的说法，错误的是( )。","opts":{"A":"油罐的接地线主要用于防雷防静电保护品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"电机的接地线主要用于防过电压保护","C":"管线的接地线主要用于防静电保护","D":"独立避雷针的接地线主要用于接闪器和接地体之间的连接"},"a":"B"},{"id":598,"type":"single","q":"防雷装置的接地电阻，一般要求为( )以下。","opts":{"A":"1","B":"4","C":"10","D":"100"},"a":"C"},{"id":599,"type":"single","q":"独立避雷针一般组成其部分有( )。","opts":{"A":"接闪器、引下线、接地体","B":"避雷针、铁塔品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"避雷塔、接地极","D":"避雷针、避雷线"},"a":"A"},{"id":600,"type":"single","q":"电动机的型号主要表示电机的( )特性。","opts":{"A":"电机的类型、用途和技术结构特征","B":"电机的电压","C":"电机的电流","D":"电机的容量"},"a":"A"},{"id":601,"type":"single","q":"在燃料油生产装置，通常使用的电动机类型是( )。","opts":{"A":"直流电动机","B":"三相防爆交流异步或同步电动机","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料单相交流密闭型电动机","D":"普通非防爆电动机"},"a":"B"},{"id":602,"type":"single","q":"已知一台型号为 YB-250S-4 的电机，下列表示错误型号的是( )。","opts":{"A":"Y 表示节能型三相交流异步电动机","B":"B 表示隔爆型电动机","C":"250 表示该电机直径 250 毫米","D":"4 表示该电机为 4 极电机"},"a":"C"},{"id":603,"type":"single","q":"下列选项中，通常不列入电机铭牌的有( )。","opts":{"A":"电机额定转速","B":"电机额定电流","C":"电机噪音分⻉数额定功率品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"电机效率"},"a":"D"},{"id":604,"type":"single","q":"某调节系统采用比例积分作用调节器,某人用先比例后加积分的试凑法来整定调节 器的 参数,若比例 带的 数值已基 本合适,在加入 积分 作用的过程 中，则( )。","opts":{"A":"适当减小后再提高比例","B":"适当增加比例带","C":"适当减小比例带","D":"无需改变比例带"},"a":"C"},{"id":605,"type":"single","q":"在 PID 调节中，比例作用是依据( )来动作的,在系统中起着稳定被调参数的作用。","opts":{"A":"偏差变化速度","B":"余差变化速度","C":"余差品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"偏差的大小"},"a":"D"},{"id":606,"type":"single","q":"属于串级调节系统的参数整定方法有( )。","opts":{"A":"两步整定法","B":"经验法","C":"临界比例度法","D":"衰减曲线法"},"a":"A"},{"id":607,"type":"single","q":"在 PID 调节中，微分作用是依据( )来动作的，在系统中起着超前调节的作用。","opts":{"A":"偏差的大小","B":"偏差变化速度","C":"余差","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料余差变化速度"},"a":"B"},{"id":608,"type":"single","q":"关于串级控制系统，下列说法不正确的是( )。","opts":{"A":"是由主、副两个调节器串接工作","B":"主调节器的输出作为副调节器的给定值","C":"目的是为了实现对副变量的定值控制","D":"副调节器的输出去操纵调节阀"},"a":"C"},{"id":609,"type":"single","q":"下列选项中，不是串级调节系统调节器选择依据的是( )。","opts":{"A":"工艺要求","B":"对象特性","C":"干扰性质","D":"安全要求品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":610,"type":"single","q":"由前一个调节器的输出作为后一个调节器的设定值，后一个调节器的输出送到调节阀，这样的控制系统是( )系统","opts":{"A":"前馈控制","B":"串级控制","C":"分程控制","D":"均匀控制"},"a":"B"},{"id":611,"type":"single","q":"关于分程控制系统，下列说法不正确的是( )。","opts":{"A":"是由一个调节器同时控制两个或两个以上的调节阀","B":"主要目的是为了减小可调范围 R","C":"主要目的是为了扩大可调范围 R","D":"每一个调节阀根据工艺的要求在调节器输出的一段信号范围内动作"},"a":"B"},{"id":612,"type":"single","q":"下列选项中，可以满足开停车时小流量和正常生产时的大流量的要求，使之都能有较好的调节质量的控制方案是( )。","opts":{"A":"简单","B":"串级","C":"分程","D":"比值品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":613,"type":"single","q":"分程调节系统调节器的型式主要不能依据( )而定。","opts":{"A":"工艺要求","B":"对象特性","C":"干扰性质","D":"安全要求"},"a":"D"},{"id":614,"type":"single","q":"有两个调节阀，其可调比 R1=R2=30，第一个阀最大流量 Q1max=100m3/h，第二个阀最大流量 Q2max=4m3/h，采用分程调节时，可调比达到( )。","opts":{"A":"740","B":"300","C":"60","D":"900"},"a":"A"},{"id":615,"type":"single","q":"当继电器的线圈得电时，将会产生( )。","opts":{"A":"常开触点和常闭触点都闭合","B":"常开触点和常闭触点都断开","C":"常开触点断开，常闭触点闭合","D":"常开触点闭合，常闭触点断开"},"a":"D"},{"id":616,"type":"single","q":"工业中应用较多的氧含量分析仪器有( )。","opts":{"A":"红外线气体分析仪","B":"氧化锆式氧含量分析仪","C":"磁氧式分析仪","D":"气相色谱仪"},"a":"B"},{"id":617,"type":"single","q":"关于联锁的概念，下列说法错误的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"电磁阀一般使用的是⻓期带电的电磁阀","B":"故障检测元件的接点一般采用常闭型，工艺正常时接点闭合，越限时断开","C":"所有的工艺参数越限都会引发联锁的动作","D":"重要设备的联锁应采用“三取二检测系统”"},"a":"C"},{"id":618,"type":"single","q":"贯通试压时，下列设备应走副线的是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料罐","B":"换热器","C":"冷却器","D":"脉冲式流量计"},"a":"D"},{"id":619,"type":"single","q":"贯通试压时发现有泄漏应( )处理。","opts":{"A":"先消压后","B":"立即","C":"带压","D":"试完压一起处理"},"a":"A"},{"id":620,"type":"single","q":"关于贯通试压的方法，正确的是( )。","opts":{"A":"先贯通流程后调整流程最后一道阀⻔试压品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"直接调整流程最后一道阀⻔试压","C":"关死流程最后一道阀⻔试压","D":"关死流程最后一道阀⻔用泵出口阀⻔调节压力"},"a":"A"},{"id":621,"type":"single","q":"贯通试压给蒸汽时，应( )。","opts":{"A":"切净水后缓慢给汽","B":"切净水后迅速给汽","C":"直接缓慢给汽","D":"直接快速给汽"},"a":"A"},{"id":622,"type":"single","q":"为了更好地检验设备，贯通试压时给汽要慢，( )提压。","opts":{"A":"快速","B":"分步","C":"先快后慢","D":"一步"},"a":"B"},{"id":623,"type":"single","q":"初底油线试蒸汽压过程要对( )进行吹扫试压。","opts":{"A":"备用设备","B":"温度计品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"所有压力表","D":"液位计"},"a":"A"},{"id":624,"type":"single","q":"初底油完整的试压流程是由初底泵到( )。","opts":{"A":"拔头油最后一台换热器前","B":"减压炉控制阀前","C":"常压炉出口阀前","D":"初馏塔进口阀前"},"a":"C"},{"id":625,"type":"single","q":"装置检修时开启容器人孔的非必备条件有( )。","opts":{"A":"残液退净","B":"吹扫完毕","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料压力、温度降到安全标准","D":"天气晴朗"},"a":"D"},{"id":626,"type":"single","q":"装置开车前要检查塔、容器的( )和采样阀是否完全关闭。","opts":{"A":"压力表","B":"安全阀","C":"温度计","D":"底部放空阀"},"a":"D"},{"id":627,"type":"single","q":"装置开车前要检查塔、容器的底部放空阀和( )是否完全关闭。","opts":{"A":"压力表","B":"采样阀","C":"温度计品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"安全阀"},"a":"B"},{"id":628,"type":"single","q":"装置开车前要检查塔内的( )是否安装齐全，符合要求。","opts":{"A":"塔盘、保温","B":"部件、保温","C":"保温","D":"塔盘、部件"},"a":"D"},{"id":629,"type":"single","q":"减压塔顶油水分离罐水封被破坏，会使减顶( )下降。","opts":{"A":"压力","B":"真空度","C":"回流量","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料温度"},"a":"B"},{"id":630,"type":"single","q":"其他条件不变，循环冷却水温度升高，减顶真空度将( )。","opts":{"A":"升高","B":"不变","C":"下降","D":"上下波动"},"a":"C"},{"id":631,"type":"single","q":"减压抽真空试验时要求真空度要在( )。","opts":{"A":"620mmHg 以上","B":"620mmHg 以下","C":"720mmHg 以上","D":"720mmHg 以下品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":632,"type":"single","q":"抽真空试验前应做的准备工作不包括( )。","opts":{"A":"关闭减压塔个出入口阀⻔","B":"检查各导淋阀⻔是否关闭","C":"减顶液封罐加水","D":"减底泵试运"},"a":"D"},{"id":633,"type":"single","q":"开车前，一般应将( )引入装置，做为回流使用。","opts":{"A":"汽油","B":"煤油","C":"柴油","D":"渣油"},"a":"C"},{"id":634,"type":"single","q":"常减压蒸馏装置的离心泵一般使用( )。","opts":{"A":"HL32 气缸油","B":"HL46 液压油","C":"2# 锂基脂","D":"3# 锂基脂"},"a":"B"},{"id":635,"type":"single","q":"常减压蒸馏装置开车前，应收配好中和胺、( )，待作初馏塔、常压塔、减压塔顶挥发管线防腐使用。","opts":{"A":"汽油","B":"煤油","C":"柴油","D":"缓蚀剂"},"a":"D"},{"id":636,"type":"single","q":"常减压蒸馏装置开车前，应将( )引入装置。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"水、电、汽、⻛","B":"水、电、氮气","C":"水、电、氮气、蒸汽","D":"水、电、汽、氮气、燃料"},"a":"A"},{"id":637,"type":"single","q":"装置开车进油前，应改好流程并经( )三级大检查确认无误。","opts":{"A":"⻋间、班组、技术员","B":"操作人员、⻋间、技术员","C":"操作人员、技术员、班⻓","D":"操作人员、班⻓、⻋间"},"a":"D"},{"id":638,"type":"single","q":"常减压蒸馏装置开车前，不是油品系统准备的是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料煤油","B":"原油","C":"缓蚀剂","D":"柴油"},"a":"C"},{"id":639,"type":"single","q":"装置进油准备工作不包括（ ）。","opts":{"A":"开⻋前检查","B":"抽真空试验","C":"贯通试压","D":"油压试验"},"a":"D"},{"id":640,"type":"single","q":"装置在( )工作结束后，可以准备进油。","opts":{"A":"开⻋前检查品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"贯通试压、抽真空试验、试油压","C":"开⻋前检查、贯通试压","D":"开⻋前检查、贯通试压、抽真空试验"},"a":"D"},{"id":641,"type":"single","q":"装置开车，开常压侧线时，侧线泵常抽空，主要原因是( )。","opts":{"A":"侧线抽出温度过高","B":"侧线内含水","C":"侧线泵预热未够时间","D":"常压炉出口温度低"},"a":"B"},{"id":643,"type":"single","q":"装置开车，开常三线时，侧线泵常抽空，主要原因是( )。","opts":{"A":"侧线抽出温度过高","B":"管线与汽提塔油温差较大，造成介质气化","C":"侧线泵预热未够时间","D":"常压炉出口温度低"},"a":"B"},{"id":645,"type":"single","q":"原油系统试蒸汽压过程要特别注意( )设备，严禁憋压损坏。","opts":{"A":"非受压","B":"换热器","C":"控制阀","D":"冷却器"},"a":"A"},{"id":646,"type":"single","q":"对原油系统进行试蒸汽压时，( )设备应单独进行试压。","opts":{"A":"电脱盐罐","B":"换热器","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料控制阀","D":"原油泵"},"a":"A"},{"id":647,"type":"single","q":"常底油系统试压流程是由常底泵到( )。","opts":{"A":"减压塔","B":"减压炉进料控制阀前","C":"减压炉出口","D":"减压塔塔底"},"a":"B"},{"id":648,"type":"single","q":"常减压蒸馏装置初馏塔前，按原油流程排列的主要设备是( )。","opts":{"A":"电脱盐、换热器、原油泵、初馏塔","B":"原油泵、换热器、电脱盐、初馏塔","C":"换热器、电脱盐、原油泵、初馏塔品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"原油泵、电脱盐、换热器、初馏塔"},"a":"B"},{"id":649,"type":"single","q":"如果生产过程超出安全操作范围，工艺联锁控制系统可以使装置或独立单元进入( )。","opts":{"A":"平稳状态","B":"事故状态","C":"停⻋状态","D":"安全状态"},"a":"D"},{"id":650,"type":"single","q":"鼓风机-自然通风门的联锁控制程序一般分为鼓风机故障和( )两部分。","opts":{"A":"燃料气流量阀⻔关闭","B":"自然通⻛⻔打开","C":"炉膛灭火蒸汽打开品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"引⻛机停运"},"a":"B"},{"id":651,"type":"single","q":"工艺联锁控制系统用于监视装置或( )的操作。","opts":{"A":"机泵","B":"加热炉","C":"塔","D":"独立单元"},"a":"D"},{"id":652,"type":"single","q":"ESD 是( )。","opts":{"A":"集散控制系统","B":"计算机控制系统","C":"报警系统","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料自动联锁保护系统"},"a":"D"},{"id":653,"type":"single","q":"离心泵在启动之前，最严重的错误是未进行( )。","opts":{"A":"盘⻋","B":"检查底角螺丝","C":"机泵卫生","D":"扫线"},"a":"A"},{"id":654,"type":"single","q":"开车过程中由于侧线泵体内有冷油、冷凝水易引起泵( )。","opts":{"A":"倒转","B":"自停","C":"抽空","D":"着火品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":655,"type":"single","q":"下列选项中，( )不是开常压系统时侧线泵容易抽空的原因。","opts":{"A":"泵入口管线内存水没放尽，开侧线遇高温油品汽化。","B":"脱水阶段塔板上部分冷凝水进入泵体，开侧线遇高温油品汽化。","C":"塔内该侧线塔板受液槽尚未来油或来油不足","D":"侧线来油轻"},"a":"D"},{"id":656,"type":"single","q":"在电脱盐开车准备时，应对电脱盐罐进行( )。","opts":{"A":"蒸汽压试验","B":"贯通试验","C":"空载试验","D":"装油试验"},"a":"C"},{"id":657,"type":"single","q":"对原油系统进行试压时，由于蒸汽温度过高，故对( )只试水压。","opts":{"A":"混合柱","B":"换热器","C":"电脱盐罐","D":"原油泵"},"a":"C"},{"id":658,"type":"single","q":"电脱盐通用投用时应做的准备工作不包括( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"注水泵试运","B":"破乳剂准备","C":"变压器空载试验正常","D":"原油脱水"},"a":"D"},{"id":659,"type":"single","q":"对原油系统进行试压时，由于蒸汽温度过高，应将( )切除。","opts":{"A":"初馏塔","B":"电脱盐罐","C":"换热器","D":"原油泵"},"a":"B"},{"id":660,"type":"single","q":"下列各项中，不会对热虹吸式换热器运行造成影响的因素有( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料塔底液面","B":"气化率","C":"液位压头","D":"介质"},"a":"D"},{"id":661,"type":"single","q":"下列各项中，塔底液位和液位压头外，还会对热虹吸式换热器运行造成影响的因素有( )。","opts":{"A":"塔底抽出量","B":"气化率","C":"塔顶压力","D":"介质"},"a":"B"},{"id":662,"type":"single","q":"热虹吸式重沸器是指重沸器中由于( )，导致汽液混合物的相对密度显著减少，使重沸器的入方和出方产生静压差，因此不需用泵循环。塔底流体不断被“虹吸”入重沸器，( )后返回塔内。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料冷却、冷凝","B":"加热、升华","C":"冷冻、凝固","D":"加热、汽化"},"a":"D"},{"id":663,"type":"single","q":"热虹吸式换热器( )很重要，特别是进料管口和返塔管口，如果不合适就无法很好地运行。","opts":{"A":"换热面积","B":"安装位置","C":"传热系数","D":"换热量"},"a":"B"},{"id":664,"type":"single","q":"常减压蒸馏装置中，蒸汽发生器属于( )设备。","opts":{"A":"环保品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"计量","C":"安全","D":"节能"},"a":"D"},{"id":665,"type":"single","q":"蒸汽发生器采用( )进行产汽。","opts":{"A":"软化水","B":"生活用水","C":"新鲜水","D":"循环水"},"a":"A"},{"id":666,"type":"single","q":"( )是保证蒸汽质量的指标之一。","opts":{"A":"蒸发面积","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料蒸发量","C":"蒸发速度","D":"蒸发强度"},"a":"D"},{"id":667,"type":"single","q":"汽包液位过高会引起( )。","opts":{"A":"气阻","B":"水击","C":"压力降低","D":"压力升高"},"a":"B"},{"id":668,"type":"single","q":"前后密封需注封油的机泵封油投用时应( )。","opts":{"A":"先注前密封","B":"先注后密封品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"前后密封一起注","D":"无特别要求"},"a":"B"},{"id":669,"type":"single","q":"下列选项中，热油泵预热操作错误的是( )。","opts":{"A":"通入冷却水","B":"关闭进口阀","C":"及时打上封油","D":"加强盘⻋"},"a":"B"},{"id":670,"type":"single","q":"封油投用时应先( )。","opts":{"A":"升温","B":"降压","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料脱水","D":"无特别要求"},"a":"C"},{"id":671,"type":"single","q":"离心泵在输送有毒强腐蚀介质，对密封要求严格，不允许外泄或输送介质中含有固体颗粒，使用双端面机构密封时需要打入( )。","opts":{"A":"封油","B":"N32 气缸油","C":"N46 液压油","D":"锂基脂"},"a":"A"},{"id":672,"type":"single","q":"减顶水封罐在操作中如果水界位过低会造成( )。","opts":{"A":"减顶瓦斯量增加","B":"真空度下降","C":"蒸汽抽空器喘动品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"减顶污水带油"},"a":"D"},{"id":673,"type":"single","q":"减顶水封罐在操作中( )应特别注意控制好。","opts":{"A":"水封罐水界位的高度","B":"水封罐油位高度","C":"水封罐的压力","D":"水封罐的温度"},"a":"A"},{"id":674,"type":"single","q":"对减顶水封罐作用阐述错误的是( )","opts":{"A":"将喷射器抽出的介质分离成油和水","B":"利用该容器的结构，使容器内产生一定高度的水面，对大气腿进行水封作用","C":"将喷射器抽出的介质分离成油和水、瓦斯","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料防止空气进入抽真空系统，破坏真空度并产生爆炸危险"},"a":"C"},{"id":675,"type":"single","q":"减压水封破坏会造成( )串空气进入，引起火灾爆炸事故。","opts":{"A":"减顶气分液罐","B":"减压塔","C":"减顶冷却器","D":"减顶污水系统"},"a":"B"},{"id":676,"type":"single","q":"常减压蒸馏装置一般用( )作为仪表用风。","opts":{"A":"净化⻛","B":"非净化⻛","C":"低压氮","D":"高压氮品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":677,"type":"single","q":"仪表风含有油雾和( )对气动仪表的运行有较大影响。","opts":{"A":"空气","B":"水","C":"氧气","D":"氮气"},"a":"B"},{"id":678,"type":"single","q":"装置开车时，对仪表投用阐述正确的是( )","opts":{"A":"装置开⻋试蒸汽压时，所有仪表就应启动投用","B":"装置开⻋开始进油时，所有仪表就应启动投用","C":"装置开⻋正常时，所有仪表才能启动投用","D":"只有装置开⻋正常后，仪表才能投用自动控制"},"a":"B"},{"id":680,"type":"single","q":"退油时，控制好( )是保证全塔物料平衡的关键。","opts":{"A":"塔顶温度","B":"塔顶压力","C":"侧线温度","D":"塔底液位"},"a":"D"},{"id":681,"type":"single","q":"退油时，应先退( )系统的油。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"原油","B":"初底油","C":"常底油","D":"减底油"},"a":"D"},{"id":682,"type":"single","q":"进油时，应先进( )系统的油。","opts":{"A":"汽提塔","B":"初馏塔","C":"常压塔","D":"减压塔"},"a":"B"},{"id":683,"type":"single","q":"进退油时，三塔液面控制( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料越高越好","B":"控制稍高一点","C":"控制稍低一点","D":"越低越好"},"a":"B"},{"id":684,"type":"single","q":"在开车进油前，应将原油引到原油泵进口，并( )。","opts":{"A":"放空⻅油","B":"打开出口阀排空","C":"吹扫原油泵","D":"预热原油泵"},"a":"A"},{"id":685,"type":"single","q":"开车进油时，常压塔底见液面后，启动( )向减压炉进油。","opts":{"A":"原油泵品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"初底泵","C":"常底泵","D":"减底泵"},"a":"C"},{"id":686,"type":"single","q":"开车进油时，减压塔底见液面后，启动( )向外退油。","opts":{"A":"原油泵","B":"初底泵","C":"常底泵","D":"减底泵"},"a":"D"},{"id":687,"type":"single","q":"开车进油时，初馏塔底见液面后，启动( )向常压炉进油。","opts":{"A":"原油泵","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料初底泵","C":"常底泵","D":"减底泵"},"a":"B"},{"id":688,"type":"single","q":"恒温脱水时观察( )，可以判断水是否已脱尽。","opts":{"A":"进料温度和塔顶温度的温度差","B":"塔底温度和塔顶温度的温度差","C":"塔顶压力上升至稳定","D":"塔顶压力下降至稳定"},"a":"D"},{"id":689,"type":"single","q":"恒温脱水时观察( )，可以判断水是否已脱尽。","opts":{"A":"在进出料不变的情况下，塔底液位不再下降","B":"在进出料不变的情况下，塔底液位不再上升品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"进料温度和塔顶温度的温度差","D":"塔底温度和塔顶温度的温度差"},"a":"A"},{"id":690,"type":"single","q":"恒温脱水时观察( )，可以判断水是否已脱尽。","opts":{"A":"进料温度和塔顶温度的温度差","B":"塔底温度和塔顶温度的温度差","C":"进料温度和塔底温度的温度差","D":"进料温度和汽化温度的温度差"},"a":"C"},{"id":691,"type":"single","q":"恒温脱水时观察( )，可以判断水是否已脱尽。","opts":{"A":"进料温度和塔顶温度的温度差","B":"塔底温度和塔顶温度的温度差","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料在物料平衡的情况下，塔顶回流罐水界位不再上升","D":"在物料平衡的情况下，塔顶回流罐水界位不再下降"},"a":"C"},{"id":692,"type":"single","q":"加热炉火嘴燃烧产生红色火焰的主要原因是( )。","opts":{"A":"供⻛不足","B":"炉膛氧含量大","C":"雾化蒸汽量大","D":"炉膛负压小"},"a":"A"},{"id":693,"type":"single","q":"为 使加 热 炉燃 烧 处于 正 常 状 态 ，应 合 理调 配 燃 烧所 需 的燃 料 量， 以 及( )量。","opts":{"A":"介质","B":"过热蒸汽","C":"空气品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"瓦斯"},"a":"C"},{"id":694,"type":"single","q":"加热炉操作要控制好“三门一板”，使燃料完全燃烧，以减少( )的排量。","opts":{"A":"O2","B":"CO2","C":"N2","D":"CO"},"a":"D"},{"id":695,"type":"single","q":"加热炉点火时，应( )。","opts":{"A":"关小烟道挡板，开大⻛⻔","B":"开大烟道挡板，开大⻛⻔","C":"关小烟道挡板，关小⻛⻔","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料开大烟道挡板，关小⻛⻔"},"a":"C"},{"id":696,"type":"single","q":"塔底给汽提蒸汽时，应( )。","opts":{"A":"先切净水、后缓慢给汽","B":"先切净水、后迅速给汽","C":"直接缓慢给汽","D":"直接快速给汽"},"a":"A"},{"id":697,"type":"single","q":"1～0.5%(质量)","opts":{"C":"2～4%(质量)","D":"10～20%(质量)品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":698,"type":"single","q":"塔内吹入过热蒸汽可使油品的油气分压( )。","opts":{"A":"升高","B":"降低","C":"不变","D":"无法确定"},"a":"B"},{"id":699,"type":"single","q":"常压塔底吹入过热蒸汽可达到( )目的。","opts":{"A":"加热渣油","B":"提高常压拔出率","C":"增湿","D":"提高减压拔出率"},"a":"B"},{"id":700,"type":"single","q":"增加侧线馏出量，其他操作条件不变，该侧线产品( )。","opts":{"A":"馏程的 90%点升高","B":"馏程的 90%点降低","C":"馏程不变","D":"闪点降低"},"a":"A"},{"id":701,"type":"single","q":"正常操作过程中，常顶压力不变，常顶温度升高，则( )。","opts":{"A":"常顶干点升高","B":"常顶干点降低","C":"常顶干点不变","D":"常顶初馏点降低"},"a":"A"},{"id":702,"type":"single","q":"当常压塔塔顶( )上升时，侧线产品会变轻，收率下降。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"温度","B":"压力","C":"温度及压力","D":"注氨量"},"a":"B"},{"id":703,"type":"single","q":"常一(煤油)线产品闪点低、干点高，则应( )。","opts":{"A":"适当增大常一馏出量","B":"适当减少常一馏出量","C":"适当加大塔底汽提蒸汽量","D":"适当降低常一线重沸器温度"},"a":"B"},{"id":704,"type":"single","q":"加热炉用瓦斯点第一个火嘴时，一次点不着时应( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料换一个瓦斯嘴继续点","B":"继续点此瓦斯嘴，点着为止","C":"改点油嘴","D":"重新吹扫炉膛再进行点火"},"a":"D"},{"id":705,"type":"single","q":"加热炉在使用燃料油时，利用( )的冲击和搅拌作用使燃料油成雾状喷出与空气充分混合而达到燃烧完全。","opts":{"A":"油嘴","B":"雾化蒸汽","C":"瓦斯","D":"吹灰器"},"a":"B"},{"id":706,"type":"single","q":"加热炉点火前要确保燃料油的雾化蒸汽引入，雾化蒸汽压力( )燃料油的压力","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料大于","B":"小于","C":"等于","D":"大于或小于"},"a":"A"},{"id":707,"type":"single","q":"装置开车时，增点火嘴正确的方法是( )。","opts":{"A":"借炉膛温度自燃","B":"火嘴卸下，用打火机点火","C":"用⻓明灯点火","D":"借两旁火苗点火"},"a":"C"},{"id":708,"type":"single","q":"电脱盐罐进水试压过程中，要逐个检查（ ）及采样线是否畅通。","opts":{"A":"入口阀","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料出口阀","C":"安全阀","D":"看样管"},"a":"D"},{"id":709,"type":"single","q":"电脱盐罐温度要适宜，一般不宜低于( )℃。","opts":{"A":"130","B":"110","C":"120","D":"140"},"a":"B"},{"id":710,"type":"single","q":"进水试压中详细检查有无泄漏处，要特别检查（ ）有无泄漏。","opts":{"A":"变压器","B":"采样阀","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料混合器","D":"电极法兰"},"a":"D"},{"id":711,"type":"single","q":"内部构件和空送电无问题后，可封人孔（ ）。","opts":{"A":"进水试压","B":"进油试压","C":"蒸汽试压","D":"进油启动"},"a":"A"},{"id":712,"type":"single","q":"换热器在投用时，( )可减少温差应力的产生，防止换热器泄漏。","opts":{"A":"先投用热介质","B":"先投用冷介质","C":"冷、热介质同时投用品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"无法确定"},"a":"B"},{"id":713,"type":"single","q":"换热器由于验收前需要进行水压试验，所以在进行蒸汽试压时要特别注意检查（ ）是否拆除。","opts":{"A":"垫片","B":"盲板","C":"放空堵头","D":"螺栓"},"a":"B"},{"id":714,"type":"single","q":"换热器在停用时，( )可减少温差应力的产生，防止换热器泄漏。","opts":{"A":"先停用热介质","B":"先停用冷介质","C":"冷、热介质同时停用","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料无法确定"},"a":"A"},{"id":715,"type":"single","q":"常减压装置往往在( )使用 U 形管换热器，以避免泄漏，影响产品质量。","opts":{"A":"常顶或常顶循环","B":"初底线","C":"常三线","D":"减三线"},"a":"A"},{"id":716,"type":"single","q":"原油混杂电脱盐注破乳化剂量应适当作如下调整：( )。","opts":{"A":"减小","B":"加大","C":"不作调整","D":"停注破乳化剂品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"B"},{"id":717,"type":"single","q":"原油混杂会造成电脱盐罐电流( )。","opts":{"A":"变小","B":"变大","C":"不变","D":"无法确定"},"a":"B"},{"id":718,"type":"single","q":"电脱盐罐进罐温度过高，应进行的操作是( )。","opts":{"A":"加大注水量","B":"减小注水量","C":"视侧线冷后温度情况,适当打开部分换热器热源付线","D":"提高处理量"},"a":"C"},{"id":719,"type":"single","q":"原油混杂会造成电脱盐罐脱水( )。","opts":{"A":"变差","B":"变好","C":"不影响","D":"无法确定"},"a":"A"},{"id":720,"type":"single","q":"电脱盐罐进罐温度过低，应进行的操作是( )。","opts":{"A":"加大注水量","B":"减小注水量","C":"进电脱盐罐前换热器热源有付线的关小付线","D":"降处理量"},"a":"C"},{"id":721,"type":"single","q":"关于电脱盐注水点的说法，正确的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"注在原油泵进口不利于油水充分混合","B":"注在原油泵进口有利于油水充分混合","C":"注在原油泵进口、出口效果一样","D":"注在原油泵进口不易乳化"},"a":"B"},{"id":722,"type":"single","q":"通常情况下，原油进电脱盐罐温度应控制在( )。","opts":{"A":"80℃～100℃","B":"110℃～130℃","C":"130℃～150℃","D":"150℃～160℃"},"a":"B"},{"id":723,"type":"single","q":"关于电脱盐注水点的说法，错误的是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料易乳化原油应注在原油泵入口","B":"易乳化原油应注在混合阀前","C":"含盐高的原油应设置在原油泵后","D":"注水点在换热器前可避免过度混合"},"a":"A"},{"id":724,"type":"single","q":"电脱盐二级排水回注一级可以实现（ ）。","opts":{"A":"降低污水排放量","B":"降低脱盐温度","C":"提高原油量","D":"降低污水含油"},"a":"A"},{"id":725,"type":"single","q":"电脱盐二级排水回注一级的目的错误的是( )。","opts":{"A":"降低消耗品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"提高注水温度","C":"提高脱盐率","D":"节能"},"a":"C"},{"id":726,"type":"single","q":"电脱盐单级注水量通常是原油量的（ ）。","opts":{"A":"10%-12%","B":"15%-20%","C":"2%-4%","D":"3%-8%"},"a":"D"},{"id":727,"type":"single","q":"电脱盐二级排水回注一级的目的是( )。","opts":{"A":"简化流程","B":"降低脱盐温度品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"增加脱盐率","D":"节水"},"a":"D"},{"id":728,"type":"single","q":"以下不属电脱盐运行日常检查的内容是( )。","opts":{"A":"原油进罐温度","B":"油位","C":"电流大小","D":"脱水情况"},"a":"B"},{"id":729,"type":"single","q":"电脱盐正常操作时的注意事项不包括：( )。","opts":{"A":"脱盐温度要控制在指标内","B":"原油注水量调节变化不能太大","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料油水混合阀混合强度不能太大","D":"控制好原油含盐量"},"a":"D"},{"id":731,"type":"single","q":"电脱盐运行日常检查中，要注意电脱盐油水混合阀( )不能太大，否则会造成原油乳化致使脱盐效果差。","opts":{"A":"管径","B":"开度","C":"混合强度品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"压力"},"a":"C"},{"id":732,"type":"single","q":"电脱盐罐油水混合器的作用有( )。","opts":{"A":"提高原油进罐温度","B":"降低原油进罐温度","C":"使油水充分混合、密切接触","D":"提高注水量"},"a":"C"},{"id":733,"type":"single","q":"电脱盐罐油水混合器混合强度太大会造成( )。","opts":{"A":"原油进罐温度升高","B":"原油过度乳化","C":"电脱盐罐注水量下降","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料电脱盐罐电流下降"},"a":"B"},{"id":734,"type":"single","q":"电脱盐罐油水混合器混合强度太小会造成( )。","opts":{"A":"原油进罐温度升高","B":"原油进罐温度降低","C":"降低注水量","D":"油水混合不充分，降低脱盐效果"},"a":"D"},{"id":735,"type":"single","q":"电脱盐罐油水混合器混合强度可以通过改变( )进行调整。","opts":{"A":"混合压差阀开度","B":"电脱盐罐温度","C":"电脱盐罐注水量","D":"电脱盐罐变压器电压品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":736,"type":"single","q":"其他操作参数一定情况下,塔顶循环回流返塔温度越高,说明该循环回流带走的热量( )。","opts":{"A":"越多","B":"越少","C":"没有变化","D":"无法确定"},"a":"B"},{"id":737,"type":"single","q":"下列选项中，在其它工艺参数一定的情况下，可以使塔顶温度升高的是( )。","opts":{"A":"降低塔顶回流量","B":"提高塔顶回流量","C":"提高塔顶压力","D":"降低塔顶压力品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":738,"type":"single","q":"塔顶循环回流返塔温度不变,塔顶循环回流量越大带走的热量( )。","opts":{"A":"越多","B":"越少","C":"不变","D":"无法确定"},"a":"A"},{"id":739,"type":"single","q":"其他工艺参数不变，塔顶循环回流量升高，塔顶温度( )。","opts":{"A":"升高","B":"降低","C":"不变","D":"无法确定"},"a":"B"},{"id":740,"type":"single","q":"下列选项中，在其它工艺参数不变的情况下，可以使塔顶温度降低的是( )。","opts":{"A":"减少塔顶循环回流量","B":"增加塔顶循环回流量","C":"提高进塔流量","D":"降低进塔流量"},"a":"B"},{"id":741,"type":"single","q":"其他工艺参数不变,塔顶循环回流量降低,塔顶温度( )。","opts":{"A":"升高","B":"降低","C":"不变","D":"无法确定"},"a":"A"},{"id":742,"type":"single","q":"用塔顶冷回流量调节塔顶温度的调节方法，在装置( )时不能起到很好的调节作用。","opts":{"A":"加工高含硫原油","B":"加工高酸值原油","C":"塔顶负荷过大","D":"处理量较小"},"a":"C"},{"id":743,"type":"single","q":"其他工艺参数不变,加大塔顶冷回流量，塔顶温度( )。","opts":{"A":"升高","B":"降低","C":"不变","D":"无法确定"},"a":"B"},{"id":744,"type":"single","q":"其他工艺参数不变，减少塔顶冷回流量，塔顶温度( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"升高","B":"降低","C":"不变","D":"无法确定"},"a":"A"},{"id":745,"type":"single","q":"下列选项中，会导至塔顶负荷过大，使塔顶冷回流量对塔顶温度的调节失效的情况是( )。","opts":{"A":"原油性质变轻，汽油组分增高","B":"原油脱盐效果不好，含盐高","C":"原油性质变重，汽油组分减少","D":"原油含硫、含酸较高"},"a":"A"},{"id":746,"type":"single","q":"若初馏塔发生冲塔，应立刻( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料提高初侧线流量","B":"降低初侧线流量","C":"停初侧","D":"保持初侧线不变"},"a":"C"},{"id":747,"type":"single","q":"其他条件不变，初侧线抽出温度升高，初顶汽油干点( )。","opts":{"A":"升高","B":"降低","C":"不变","D":"不确定"},"a":"A"},{"id":748,"type":"single","q":"通常情况下，塔顶抽出量应（ ）进行控制。","opts":{"A":"根据塔底液位变化品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"按照塔顶温度变化","C":"随回流罐油位变化","D":"按照初馏塔进料温度"},"a":"C"},{"id":749,"type":"single","q":"若发现初馏塔顶出黑油，下列处理正确的是( )。","opts":{"A":"提高初侧线流量","B":"降低初侧线流量","C":"停初侧","D":"保持初侧线量不变"},"a":"C"},{"id":750,"type":"single","q":"提高初馏塔进料量会出现( )的现象。","opts":{"A":"初底液面瞬间升高","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料初底液面下降","C":"初馏进料温度剧升","D":"初馏塔进料温度剧降"},"a":"A"},{"id":751,"type":"single","q":"初馏塔物料处于平衡状态时，进入初馏塔的原油量应等于( )。","opts":{"A":"初底抽出量","B":"初顶、初侧抽出量之和","C":"初顶、初侧、初底抽出量之和","D":"常压炉进料之和"},"a":"C"},{"id":752,"type":"single","q":"初馏塔物料处于不平衡状态时表现为( )。","opts":{"A":"初馏塔底液面不稳定","B":"初馏塔底抽出量不稳定品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"减压塔底液面不稳定","D":"常压塔底液面不稳定"},"a":"A"},{"id":753,"type":"single","q":"当提高初馏塔进料量时，下列说法正确的是( )。","opts":{"A":"需同时提高塔顶温度","B":"应同步提高减压炉进料","C":"应该提高回流罐液位控制","D":"初馏塔塔底液位开始上升时，需提高塔底抽出量"},"a":"D"},{"id":754,"type":"single","q":"如果初顶汽油干点过高应( )。","opts":{"A":"适当提高初馏塔顶温度","B":"适当降低初馏塔顶温度","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料降低初馏塔顶压力","D":"提高初馏塔底液面"},"a":"B"},{"id":755,"type":"single","q":"初顶压力降低时，为保持初顶汽油干点不变应( )。","opts":{"A":"降低处理量","B":"适当提高初顶温度","C":"保持初顶温度稳定","D":"适当降低初顶温度"},"a":"D"},{"id":756,"type":"single","q":"提高初顶温度其他工艺条件不变，则初顶汽油( )。","opts":{"A":"干点降低","B":"干点不变","C":"干点升高品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"初馏点降低"},"a":"C"},{"id":757,"type":"single","q":"初顶汽油干点过高，下列调整正确的是( )。","opts":{"A":"适当降低初馏塔顶温度","B":"适当提高初馏塔顶温度","C":"降低初馏塔顶压力","D":"同时减小初顶冷回流量和初顶循环回流量"},"a":"A"},{"id":758,"type":"single","q":"原油水解产生的 HCl 在塔顶遇冷凝水时生成较浓的( )，对金属造成严重腐蚀。","opts":{"A":"硫酸","B":"盐酸","C":"有机酸","D":"硝酸"},"a":"B"},{"id":759,"type":"single","q":"原油中的氯化物在原油被蒸馏过程中受热分解或水解，产生( )使设备及管线造成腐蚀。","opts":{"A":"氯化氢","B":"氯化镁","C":"氯化钠","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料氯化钙"},"a":"A"},{"id":760,"type":"single","q":"初、常顶冷却器冷凝水 pH 值一般控制在( )。","opts":{"A":"2～3","B":"4～5","C":"6～8","D":"10～11"},"a":"C"},{"id":761,"type":"single","q":"当电脱盐罐水位较低时，应通过( )来调节。","opts":{"A":"开大电脱盐罐排水量","B":"关小电脱盐罐排水量","C":"加大注水量","D":"降低原油加工量品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"B"},{"id":762,"type":"single","q":"电脱盐罐水位过高，不易造成电脱盐罐( )。","opts":{"A":"电流大幅波动","B":"脱盐率变化","C":"电压大幅波动","D":"排水带油"},"a":"D"},{"id":763,"type":"single","q":"电脱盐油水界位应用( )调节。","opts":{"A":"注水量","B":"排水量","C":"原油加工量","D":"初馏塔进料量"},"a":"B"},{"id":764,"type":"single","q":"电脱盐罐水位过低，容易造成电脱盐罐( )。","opts":{"A":"电流过高","B":"电流过低","C":"电器跳闸","D":"排水带油"},"a":"D"},{"id":765,"type":"single","q":"其他工艺参数不变,加大塔顶循环回流量，减小塔顶冷回流量，塔顶压力会( )。","opts":{"A":"升高","B":"降低","C":"不变","D":"剧升"},"a":"B"},{"id":766,"type":"single","q":"一般情况下，降低塔顶冷却系统冷后温度，其他工艺参数不变,塔顶压力会( )。","opts":{"A":"升高","B":"降低","C":"不变","D":"剧升"},"a":"B"},{"id":767,"type":"single","q":"塔顶回流带水会造成( )。","opts":{"A":"塔顶温度大幅下降","B":"塔顶温度大幅升高","C":"塔顶压力不变","D":"塔顶压力下降"},"a":"A"},{"id":768,"type":"single","q":"其他工艺参数不变,提高塔底吹汽量，塔顶压力会( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"升高","B":"降低","C":"不变","D":"剧升"},"a":"A"},{"id":769,"type":"single","q":"塔顶温度是由( )调节。","opts":{"A":"塔进料量","B":"塔顶回流量","C":"塔底液面","D":"塔顶压力"},"a":"B"},{"id":770,"type":"single","q":"因初馏塔进料带水造成初侧线颜色变深时，正确的处理是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料降低塔顶温度","B":"提高塔顶压力","C":"加大初侧线量","D":"降低初侧线量"},"a":"D"},{"id":771,"type":"single","q":"装置停开初顶回流线，初顶温度过高时，可以通过( )调节。","opts":{"A":"提高塔进料量","B":"适当减小初顶冷回流量","C":"适当加大初顶冷回流量","D":"降低塔顶压力"},"a":"C"},{"id":772,"type":"single","q":"不会影响塔顶温度的因素有( )。","opts":{"A":"塔顶冷回流品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"塔顶循环回流","C":"塔底抽出流量","D":"塔底吹汽量"},"a":"C"},{"id":773,"type":"single","q":"原油性质变轻初馏塔底抽出量应适当( )。","opts":{"A":"增加","B":"减少","C":"不变","D":"失灵"},"a":"B"},{"id":774,"type":"single","q":"塔底液面偏高，应通过( )方法来降低液面。","opts":{"A":"加大塔进料量","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料降低塔底抽出量","C":"加大塔底抽出量","D":"提高塔进料温度"},"a":"C"},{"id":775,"type":"single","q":"影响塔底液面变化的原因有( )。","opts":{"A":"塔底吹汽量","B":"原油性质变化","C":"侧线出装置温度","D":"塔顶污水流量"},"a":"B"},{"id":776,"type":"single","q":"原油性质变重初馏塔底抽出量应适当( )。","opts":{"A":"增加","B":"减少品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"不变","D":"失灵"},"a":"A"},{"id":777,"type":"single","q":"不会影响常顶油水分离罐油位变化的因素有( )。","opts":{"A":"常顶油水分离罐油的抽出量","B":"常顶油水分离罐界位","C":"原油性质变化","D":"常压塔塔顶温度变化"},"a":"B"},{"id":778,"type":"single","q":"其他条件不变，原油性质变轻，初馏塔顶油水分离罐( )。","opts":{"A":"油位升高","B":"油位降低","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料油位不变","D":"油水界位降低"},"a":"A"},{"id":779,"type":"single","q":"油水分离罐油位过低，可通过( )提高油位。","opts":{"A":"降低油抽出量","B":"提高油抽出量","C":"提高油水界位","D":"降低原油处理量"},"a":"A"},{"id":780,"type":"single","q":"油水分离罐油位过高，可通过( )降低油位。","opts":{"A":"降低油抽出量","B":"提高油抽出量","C":"降低油水界位","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料提高原油处理量"},"a":"B"},{"id":781,"type":"single","q":"常顶油水分离罐油水界位过低，可通过( )提高油水界位。","opts":{"A":"降低油抽出量","B":"提高油抽出量","C":"降低排水量","D":"提高排水量品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":782,"type":"single","q":"常顶油水分离罐油水界位过高，可通过( )降低油水界位。","opts":{"A":"降低油抽出量","B":"提高油抽出量","C":"提高排水量","D":"降低排水量"},"a":"C"},{"id":783,"type":"single","q":"影响常顶油水分离罐油水界位变化的因素有( )。","opts":{"A":"塔顶注水罐液位变化","B":"常压塔塔底吹汽量大小","C":"原油处理量大小","D":"常压塔塔底液面高低"},"a":"B"},{"id":784,"type":"single","q":"常压馏分有作为分子筛原料要求控制的指标是( )。","opts":{"A":"干点","B":"重金属含量","C":"含水量","D":"闪点"},"a":"A"},{"id":785,"type":"single","q":"若减压馏分油含水大于( )，易造成加氢裂化催化剂失活和降低催化剂的强度。","opts":{"A":"200ppm","B":"300ppm","C":"400ppm","D":"500ppm"},"a":"D"},{"id":786,"type":"single","q":"减压馏分油作为加氢裂化装置原料不要求控制的指标是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"残炭","B":"重金属含量","C":"含水量","D":"闪点"},"a":"D"},{"id":788,"type":"single","q":"在炉管各程加设( )，并在操作过程中严密监控各路流量是防止多管程加热炉偏流较为有效的措施。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料压力表","B":"流量控制表","C":"热电偶","D":"注汽点"},"a":"B"},{"id":789,"type":"single","q":"不能作为多管程加热炉偏流的措施有( )。","opts":{"A":"进出口加设压力表","B":"对流室定期吹灰","C":"炉管各程进出口管路进行对称安装","D":"进出口加设流量指示表"},"a":"B"},{"id":790,"type":"single","q":"以下可以防止多管程加热炉偏流的措施是( )。","opts":{"A":"炉管注汽品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"炉管各程进出口管路进行不对称安装","C":"炉管各程进出口管路进行对称安装","D":"炉管进行随意安装"},"a":"C"},{"id":791,"type":"single","q":"在炉管各程加设( )，不能作为防止多管程加热炉偏流较为有效的措施。","opts":{"A":"压力表","B":"流量控制表","C":"热电偶","D":"测厚仪"},"a":"D"},{"id":792,"type":"single","q":"原料油进入塔后的汽化率应该比塔上部各种产品的总收率略高一些，高出的部分称为( )。","opts":{"A":"汽化率","B":"过汽化量","C":"原油收率","D":"过汽化度"},"a":"B"},{"id":793,"type":"single","q":"常压塔进料段压力及各侧线收率一定条件下，提高常压炉炉出口温度(塔进料温度)，则( )。","opts":{"A":"进料总汽化率不变品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"进料总汽化率降低","C":"过汽化率提高","D":"过汽化率降低"},"a":"C"},{"id":794,"type":"single","q":"加热炉进料调节阀选用气关阀的原因是( )。","opts":{"A":"动作快捷","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料方便操作","C":"节约成本","D":"保证安全"},"a":"D"},{"id":795,"type":"single","q":"加热炉进料调节阀一定要选用( )。","opts":{"A":"气开调节阀","B":"气关调节阀","C":"三通调节阀","D":"四通调节阀"},"a":"B"},{"id":796,"type":"single","q":"气关阀调节阀的图纸符号是（ ）。","opts":{"A":"O.C","B":"F.C","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料O.F","D":"F.O"},"a":"D"},{"id":797,"type":"single","q":"加热炉燃料调节阀一定要选用( )。","opts":{"A":"⻛开调节阀","B":"⻛关调节阀","C":"三通调节阀","D":"四通调节阀"},"a":"A"},{"id":798,"type":"single","q":"初顶压力升高，其他参数不变则( )。","opts":{"A":"初顶产品变重","B":"油品汽化率升高","C":"初顶产品不变","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料回流罐油位下降"},"a":"D"},{"id":799,"type":"single","q":"初顶压力稳定，塔顶温度升高，那么塔顶产品（ ）。","opts":{"A":"干点提高","B":"干点降低","C":"干点不变","D":"含水降低"},"a":"A"},{"id":800,"type":"single","q":"初顶压力降低，其他参数不变则( )。","opts":{"A":"初顶产品变重","B":"初顶产品变轻","C":"初顶产品不变","D":"油品汽化率降低品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":801,"type":"single","q":"初顶压力升高，其他参数不变则( )。","opts":{"A":"初顶产品变重","B":"初顶产品变轻","C":"初顶产品不变","D":"油品汽化率升高"},"a":"B"},{"id":803,"type":"single","q":"下列选项中，属于对塔底吹汽品质要求的是( )。","opts":{"A":"蒸汽流量","B":"蒸汽温度","C":"原油量","D":"以上都不是"},"a":"B"},{"id":804,"type":"single","q":"塔底吹汽对吹入蒸汽温度要求为( )。","opts":{"A":"150℃～200℃","B":"200℃～250℃","C":"250℃～300℃","D":"380℃～450℃"},"a":"D"},{"id":805,"type":"single","q":"蒸汽需经过过热再注入塔内是为了( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料节能降耗","B":"保证塔顶质量","C":"保证安全","D":"提高压力"},"a":"A"},{"id":807,"type":"single","q":"加热炉冒黑烟时，小幅提高加热炉过剩空气系数，则( )。","opts":{"A":"不利于加热炉安全运行品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"加热炉热效率将升高","C":"对加热炉热效率无影响","D":"有利于提高加热炉的热负荷"},"a":"B"},{"id":808,"type":"single","q":"加热炉过剩空气系数用字母( )表示。","opts":{"A":"α","B":"b","C":"c","D":"η"},"a":"A"},{"id":809,"type":"single","q":"加热炉不冒黑烟时，提高加热炉过剩空气系数，则( )。","opts":{"A":"对加热炉热效率无影响","B":"加热炉热效率将升高品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"加热炉热效率将下降","D":"有利于提高加热炉的热负荷"},"a":"C"},{"id":811,"type":"single","q":"下列选项中的字母表示加热炉热效率的有( )。","opts":{"A":"a","B":"b","C":"c品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"η"},"a":"D"},{"id":812,"type":"single","q":"加热炉热效率是全炉有效热负荷与( )之比。","opts":{"A":"燃料热值","B":"理论热负荷","C":"燃料总发热量","D":"加热炉总负荷"},"a":"C"},{"id":813,"type":"single","q":"加热炉热效率影响因素( )。","opts":{"A":"排烟温度","B":"燃料组成","C":"炉出口温度","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料炉出口压力"},"a":"A"},{"id":814,"type":"single","q":"不会影响加热炉出口温度的有( )。","opts":{"A":"入炉原料油的温度","B":"入炉原料油的流量","C":"炉膛温度","D":"炉膛氧含量"},"a":"D"},{"id":815,"type":"single","q":"加热炉炉进料温度及进料量不变条件下，提高炉膛温度，则( )。","opts":{"A":"炉出口温度升高","B":"炉出口温度下降","C":"炉出口温度不变","D":"炉出口温度无法确定品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":816,"type":"single","q":"加热炉炉进料温度及进料量不变条件下，降低炉膛温度，则( )。","opts":{"A":"炉出口温度不变","B":"炉出口温度升高","C":"炉出口温度下降","D":"炉出口温度无法确定"},"a":"C"},{"id":817,"type":"single","q":"控制加热炉火嘴燃烧，烧瓦斯时火焰高度应不大于炉膛的( )。","opts":{"A":"二分之一","B":"三分之一","C":"三分之二","D":"四分之一"},"a":"C"},{"id":818,"type":"single","q":"为稳定加热炉炉出口温度，以下措施不正确的是( )。","opts":{"A":"及时、严格准确地进行“三⻔一板”的调节","B":"保证燃料油、蒸汽、瓦斯压力平稳","C":"炉出口温度在自动控制状态下控制良好时，应尽量减少人为调节过多造成的干扰","D":"控制好火嘴火焰高度要大于炉膛的三分之二"},"a":"D"},{"id":819,"type":"single","q":"加热炉燃料油压力过小，会出现的现象有( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"火焰发红","B":"火焰缩短","C":"火焰⻓而有力","D":"火焰⻓而无力"},"a":"B"},{"id":820,"type":"single","q":"加热炉燃料油压力过大，会出现的现象有( )。","opts":{"A":"火焰发红","B":"火焰发白","C":"火焰短而无力","D":"火焰短而有力"},"a":"A"},{"id":821,"type":"single","q":"初顶干点偏高，可适当( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料加大初顶回流","B":"提高初顶回流温度","C":"减小初顶循环回流","D":"减小初顶冷回流"},"a":"A"},{"id":822,"type":"single","q":"正常操作过程中，初顶压力不变，初顶温度升高，则( )。","opts":{"A":"初顶干点升高","B":"初顶干点降低","C":"初顶干点不变","D":"初顶初馏点降低"},"a":"A"},{"id":823,"type":"single","q":"( )是调节初顶(汽油)产品干点的主要参数。","opts":{"A":"初底温度品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"初顶温度","C":"初侧温度","D":"初底液面"},"a":"B"},{"id":824,"type":"single","q":"初顶干点偏低，可适当( )。","opts":{"A":"降低初顶温度","B":"提高初顶压力","C":"加大初顶回流","D":"减小初顶回流"},"a":"D"},{"id":825,"type":"single","q":"正常操作过程中，常一线抽出量过大，会引起( )。","opts":{"A":"初顶干点升高","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料初顶干点降低","C":"常顶干点升高","D":"常顶干点降低"},"a":"C"},{"id":826,"type":"single","q":"( )是常顶(汽油)产品干点的主要调节参数。","opts":{"A":"常底温度","B":"常顶温度","C":"常顶压力","D":"常底液面"},"a":"B"},{"id":827,"type":"single","q":"常顶回流量过少，可使常顶干点升高，应适当( )。","opts":{"A":"增大常顶回流","B":"降低常顶回流品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"提高常顶温度","D":"降低常顶压力"},"a":"A"},{"id":828,"type":"single","q":"常一(煤油)线产品干点偏低，可( )。","opts":{"A":"适当加大常一馏出量","B":"适当减少常一馏出量","C":"加大常顶冷回流量","D":"加大常一中回流量"},"a":"A"},{"id":829,"type":"single","q":"通常情况下，降低常一(煤油)线产品干点的措施有( )。","opts":{"A":"适当加大常一馏出量","B":"适当减少常一馏出量","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料适当减少常顶冷回流量","D":"适当减少常一中回流量"},"a":"B"},{"id":830,"type":"single","q":"常一(煤油)线产品干点偏高，可( )。","opts":{"A":"适当加大常一馏出量","B":"适当减少常一馏出量","C":"减少常顶冷回流量","D":"减少常一中回流量"},"a":"B"},{"id":831,"type":"single","q":"常一(煤油)线产品闪点偏低，可( )。","opts":{"A":"提高常一重沸器温度","B":"降低常一重沸器温度","C":"提高常顶压力品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"降低常一抽出量+"},"a":"A"},{"id":832,"type":"single","q":"不影响常一(煤油)初馏点的因素有( )。","opts":{"A":"常顶温度","B":"常一重沸器温度","C":"常顶回流量","D":"初馏塔进料温度"},"a":"D"},{"id":833,"type":"single","q":"其他条件不变，提高常一线重沸器温度，则( )。","opts":{"A":"常一干点降低","B":"常一干点升高","C":"常一初馏点降低","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料常一初馏点升高"},"a":"D"},{"id":834,"type":"single","q":"其他条件不变，常顶温度升高，则( )。","opts":{"A":"常顶干点降低","B":"常顶初馏点升高","C":"常一初馏点升高","D":"常一初馏点降低"},"a":"C"},{"id":835,"type":"single","q":"常二(柴油)线产品“95%馏出口温度”偏高，则可( )。","opts":{"A":"适当增大常二馏出量","B":"适当减少常二馏出量","C":"适当降低常压塔进料温度","D":"适当提高常二线馏出汽相温度品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"B"},{"id":836,"type":"single","q":"降低常二线汽提蒸汽量，则( )。","opts":{"A":"常二干点降低","B":"常二干点升高","C":"常二初馏点降低","D":"常二初馏点升高"},"a":"C"},{"id":837,"type":"single","q":"影响常二(柴油)初馏点的因素有( )。","opts":{"A":"常二线的馏出温度","B":"常三汽提蒸汽量","C":"常一线馏出温度","D":"常三线的馏出温度"},"a":"A"},{"id":838,"type":"single","q":"加大常二线汽提蒸汽量，则( )。","opts":{"A":"常二干点降低","B":"常二干点升高","C":"常二初馏点降低","D":"常二初馏点升高"},"a":"D"},{"id":839,"type":"single","q":"下列选项中，不是影响常二(柴油)初馏点的因素有( )。","opts":{"A":"常二线的馏出温度","B":"常二汽提蒸汽量","C":"常一线的馏出量","D":"常三线的馏出温度"},"a":"D"},{"id":840,"type":"single","q":"润滑油料馏程合格单粘度低，可适当( )，以实现窄馏分。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"增大该侧线馏出量","B":"减少该侧线馏出量","C":"减少汽提塔吹汽","D":"加大上一侧线的馏出量"},"a":"D"},{"id":841,"type":"single","q":"润滑油料馏程过窄，可适当( )，以提高收率。","opts":{"A":"增大该侧线馏出量","B":"减少该侧线馏出量","C":"增大汽提塔吹汽","D":"降低汽提塔吹汽温度"},"a":"A"},{"id":842,"type":"single","q":"润滑油料馏程合格但粘度高，可适当( )，保证该侧线质量合格。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料增大该侧线馏出量","B":"减少该侧线馏出量","C":"降低下一侧线的馏出量","D":"提高汽提塔吹汽"},"a":"C"},{"id":843,"type":"single","q":"润滑油料馏程过宽，可适当( )，以实现窄馏分。","opts":{"A":"提高该侧线馏出量","B":"降低该侧线馏出量","C":"提高汽提塔吹汽量","D":"减少汽提塔吹汽量"},"a":"B"},{"id":844,"type":"single","q":"不能降低润滑料油黏度的措施是( )。","opts":{"A":"增大该侧线馏出量品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"减少该侧线馏出量","C":"加大各中段回流量","D":"降低该侧线馏出温度"},"a":"A"},{"id":845,"type":"single","q":"不能提高润滑料油黏度的措施是( )。","opts":{"A":"增大该侧线馏出量","B":"减少该侧线馏出量","C":"减少各中段回流量","D":"提高该侧线馏出温度"},"a":"B"},{"id":846,"type":"single","q":"润滑油料黏度偏大，则应( )。","opts":{"A":"增大该侧线馏出量","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料减少该侧线馏出量","C":"减少各中段回流量","D":"提高该侧线馏出温度"},"a":"B"},{"id":847,"type":"single","q":"润滑油料黏度偏小，则应( )。","opts":{"A":"增大该侧线馏出量","B":"减少该侧线馏出量","C":"增大各中段回流量","D":"降低该侧线馏出温度"},"a":"A"},{"id":848,"type":"single","q":"若操作上调节较好，( )之间能做到脱空，但常一与常二线之间不太容易实现脱空。","opts":{"A":"常二与常三线","B":"常三与常四线品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"常顶与常一线","D":"常顶与初顶"},"a":"C"},{"id":849,"type":"single","q":"分馏塔相邻两侧线之间如果存在脱空，我们可以采取的措施是（ ）。","opts":{"A":"提高上面侧线的收率","B":"提高下面侧线的收率","C":"提高中段回流流量","D":"提高塔底吹汽量"},"a":"A"},{"id":850,"type":"single","q":"分馏塔相邻两侧线之间重迭越少，说明( )。","opts":{"A":"分馏塔分馏效果越差","B":"分馏塔分馏效果越好","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料分馏塔分馏效率越低","D":"分馏塔操作异常"},"a":"B"},{"id":851,"type":"single","q":"分馏塔相邻两侧线之间重迭越多，说明( )。","opts":{"A":"分馏塔塔板设置过多","B":"分馏塔分馏效果越好","C":"分馏塔分馏效率越高","D":"分馏塔分馏效果越差"},"a":"D"},{"id":852,"type":"single","q":"停车过程中，常压炉出口温度降至( )时熄火。","opts":{"A":"120℃","B":"150℃","C":"260℃","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料320℃"},"a":"C"},{"id":853,"type":"single","q":"减压炉出口温度降至( )℃时，减压炉开始熄火。","opts":{"A":"200℃","B":"280℃","C":"360℃","D":"370℃"},"a":"B"},{"id":854,"type":"single","q":"装置停车降温时，加热炉炉温控制仪表应( )。","opts":{"A":"关调节阀上下游阀","B":"改副线","C":"投用自动","D":"投用手动品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":855,"type":"single","q":"不是常减压停车的主要步骤是( )。","opts":{"A":"降量、降温","B":"停侧线","C":"恒温脱水","D":"循环、退油"},"a":"C"},{"id":856,"type":"single","q":"停车降量时，应先降低( )的量。","opts":{"A":"原油","B":"初底油","C":"常底油","D":"渣油"},"a":"A"},{"id":857,"type":"single","q":"装置停车降量时，非正常步骤的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"减少侧线的抽出量","B":"减少中段回流量","C":"减少火嘴","D":"增加运转机泵"},"a":"D"},{"id":858,"type":"single","q":"装置停车降温时，正确停用加热炉油嘴的操作是( )。","opts":{"A":"对角逐个停油嘴","B":"相邻两个油嘴同时停","C":"同时熄灭多个油嘴","D":"停雾化蒸汽后再停油嘴"},"a":"A"},{"id":859,"type":"single","q":"装置停车降量时，下列操作错误的是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料减少侧线的抽出量","B":"增加侧线的抽出量","C":"减少中段回流量","D":"减少火嘴"},"a":"B"},{"id":860,"type":"single","q":"装置停车降量时，过热蒸汽不足的处理方法是( )。","opts":{"A":"产多少用多少","B":"节约使用","C":"停塔底吹汽","D":"引管网蒸汽"},"a":"D"},{"id":861,"type":"single","q":"装置停车降量时，蒸汽发生器热源切副线后，不应做的是( )。","opts":{"A":"关闭脱氧水入口阀⻔品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"关闭蒸汽出口阀⻔","C":"引管网蒸汽","D":"关闭蒸汽安全阀"},"a":"D"},{"id":862,"type":"single","q":"装置停车降量时，蒸汽发生器所产的蒸汽( )。","opts":{"A":"逐步减少","B":"逐步增多","C":"不变","D":"时大时小"},"a":"A"},{"id":863,"type":"single","q":"装置停车降量时，对蒸汽发生器供软化水量操作正确的是( )。","opts":{"A":"逐步减少","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料逐步增多","C":"不变","D":"停供软化水"},"a":"A"},{"id":864,"type":"single","q":"装置停车降量、降温过程，各中段回流应( )。","opts":{"A":"保持不变","B":"逐渐减少","C":"逐渐增多","D":"立即停止"},"a":"B"},{"id":865,"type":"single","q":"装置停车降量、降温时，下列各回流中，( )是最后停的。","opts":{"A":"常一中回流","B":"常二中回流品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"常顶循环回流","D":"常顶冷回流"},"a":"D"},{"id":866,"type":"single","q":"装置停车降量、降温时，是否停常顶回流主要根据( )。","opts":{"A":"常顶温度","B":"常一温度","C":"常二温度","D":"常顶回流罐液面"},"a":"A"},{"id":867,"type":"single","q":"装置停车降量、降温时，尽可能保持回流的原因是（ ）。","opts":{"A":"保证塔顶压力稳定","B":"保持物料平衡","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料保证产品质量","D":"加快装置整体降温速度"},"a":"D"},{"id":868,"type":"single","q":"装 置停 车 降量 降 温时 ， 侧 线 产 品停 出 后， 该 侧 线冷 却 器的 正 确操 作 是（ ）。","opts":{"A":"热源改副线","B":"关闭冷却水","C":"开大冷却水","D":"不调整"},"a":"B"},{"id":869,"type":"single","q":"装置停车降量降温时，侧线产品量应（ ）。","opts":{"A":"不变，保证产品质量","B":"先降低，产品改不合格罐后，保持一定抽出量直至抽空","C":"快速提高至抽空后停泵品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"立即停止抽出"},"a":"B"},{"id":870,"type":"single","q":"装置停车降量降温时，侧线抽出量应( )。","opts":{"A":"逐渐减少","B":"逐渐增大","C":"不变","D":"立即停止"},"a":"A"},{"id":871,"type":"single","q":"装置停车降温时，侧线产品应( )。","opts":{"A":"压轻","B":"拔重","C":"停止","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料做废油回炼"},"a":"A"},{"id":872,"type":"single","q":"装置停车降量、降温时，为控制平稳初馏塔液面，应首先( )。","opts":{"A":"开大原油泵","B":"关小原油泵","C":"开大各回流泵","D":"关小各回流泵"},"a":"B"},{"id":873,"type":"single","q":"装置停车降量、降温时，为控制平稳三塔液面，应适当( )。","opts":{"A":"关大塔底泵","B":"关小各回流泵","C":"开大各回流泵","D":"关小塔底泵品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":874,"type":"single","q":"装置停车降量、降温时，为控制平稳三塔液面，应适当( )。","opts":{"A":"关小原油泵","B":"关小各回流泵","C":"开大各回流泵","D":"开大原油泵"},"a":"A"},{"id":875,"type":"single","q":"装置停车降量、降温时，为控制平稳初馏塔液面，应适当( )。","opts":{"A":"开大原油泵及初底泵","B":"关小原油泵及初底泵","C":"开大各回流泵","D":"关小各回流泵品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"B"},{"id":876,"type":"single","q":"装置停车，塔顶汽油回流罐蒸罐前应( )。","opts":{"A":"控好液面","B":"关抽出阀","C":"抽尽存油","D":"关入口阀"},"a":"C"},{"id":877,"type":"single","q":"装置停车时，塔顶汽油回流罐退油清洗后应( )。","opts":{"A":"自然通⻛","B":"打开人孔置换","C":"蒸汽吹扫","D":"进行钝化"},"a":"D"},{"id":878,"type":"single","q":"装置停车时，塔顶汽油回流罐进行蒸罐应( )。","opts":{"A":"打开顶放空阀","B":"打开回流泵出口阀","C":"关闭底放空阀","D":"打开玻璃液位计上下引出阀"},"a":"A"},{"id":879,"type":"single","q":"装置停车降量时，塔顶汽油回流罐不应( )。","opts":{"A":"控好油水界面","B":"抽空水位","C":"控好油面","D":"控好压力"},"a":"B"},{"id":880,"type":"single","q":"装置停车时，停常压侧线操作顺序正确的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"先关侧线出装置","B":"先关侧线泵出口","C":"先关塔壁抽出","D":"先关汽提塔抽出"},"a":"C"},{"id":881,"type":"single","q":"装置停车时，关减压侧线的次序( )。","opts":{"A":"自上而下","B":"自下而上","C":"先中间，后两头","D":"先两头，后中间"},"a":"B"},{"id":882,"type":"single","q":"装置停车时，停常压侧线先( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料关侧线泵出口","B":"关塔壁抽出","C":"关侧线出装置","D":"关汽提塔抽出"},"a":"B"},{"id":883,"type":"single","q":"装置停车时，关常压侧线的次序( )。","opts":{"A":"先中间，后两头","B":"先两头，后中间","C":"自上而下","D":"自下而上"},"a":"D"},{"id":884,"type":"single","q":"装置停车时，停中段回流先( )。","opts":{"A":"关回流泵出口品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"关回流控制阀","C":"关回流抽出","D":"关回流返回"},"a":"A"},{"id":885,"type":"single","q":"装置停车时，停中段回流后( )。","opts":{"A":"停侧线抽出","B":"停塔顶回流","C":"停塔底吹汽","D":"停抽空蒸汽"},"a":"B"},{"id":886,"type":"single","q":"装置停车时，停中段回流的次序( )。","opts":{"A":"先中间，后两头","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料先两头，后中间","C":"自下而上","D":"自上而下"},"a":"D"},{"id":887,"type":"single","q":"装置停车时，停中段回流的时机是（ ）。","opts":{"A":"加热炉熄火","B":"原油量下降至 60%负荷以下","C":"集油箱液位为零，机泵出口压力下降","D":"减压塔恢复正压"},"a":"C"},{"id":888,"type":"single","q":"停加热炉燃烧器后，管线吹扫时应（ ）。","opts":{"A":"关闭烟道挡板，降低炉内负压","B":"打开烟道挡板，保持通⻛良好品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"关闭自然通⻛⻔，防止炉膛进入空气","D":"将燃烧器软管断开，防止残余燃料进入炉膛"},"a":"B"},{"id":889,"type":"single","q":"不是主火嘴点火失效或熄灭的原因是（ ）。","opts":{"A":"⻓明灯和主火嘴的相对位置有误；","B":"没有置换出惰性气体；","C":"工艺流程不通或存在堵塞问题，造成燃料、空气、蒸汽没有引到火嘴前；","D":"燃料气压力较高；"},"a":"D"},{"id":890,"type":"single","q":"停加热炉油嘴时应先( )吹扫。","opts":{"A":"关闭燃料总阀，打开氮气阀⻔置换后改用蒸汽","B":"关闭各分支燃烧器燃料阀⻔，再进行蒸汽","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料同时打开油嘴上、下游阀","D":"同时关闭油嘴上、下游阀"},"a":"A"},{"id":891,"type":"single","q":"加热炉燃料油压力过小不会引起( )。","opts":{"A":"个别火嘴熄灭","B":"炉温下降","C":"炉温上升","D":"火焰缩短"},"a":"C"},{"id":892,"type":"single","q":"停车时蒸汽发生器改放空应在( )进行。","opts":{"A":"罐底放空","B":"拆卸安全阀后","C":"罐顶放空品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"消音器"},"a":"C"},{"id":893,"type":"single","q":"装置停车时，过热蒸汽改放空应( )。","opts":{"A":"先关塔底吹汽，再开放空","B":"先开放空，再关塔底吹汽","C":"先停汽包给水","D":"先停用汽包"},"a":"A"},{"id":894,"type":"single","q":"停车时蒸汽发生器改放空应在( )进行。","opts":{"A":"降量后","B":"降温后","C":"停塔底吹汽后","D":"循环后品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":895,"type":"single","q":"装置停车时，过热蒸汽改放空，应防止（ ）。","opts":{"A":"蒸汽发生器内漏，蒸汽带油","B":"汽包液位下降","C":"蒸汽管线压力下降","D":"蒸汽管线温度"},"a":"A"},{"id":896,"type":"single","q":"破一级真空时减顶冷却器不凝气放空阀应先( )。","opts":{"A":"关闭","B":"全开","C":"保持不动","D":"看具体情况决定是否关闭品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":897,"type":"single","q":"装置停车停真空泵时，应先关闭（ ）。","opts":{"A":"工作液阀⻔","B":"无具体要求","C":"出口阀","D":"入口阀"},"a":"D"},{"id":898,"type":"single","q":"破二级真空时减顶冷却器不凝气放空阀应( )。","opts":{"A":"全开","B":"关闭","C":"保持不动","D":"看具体情况决定是否关闭"},"a":"C"},{"id":899,"type":"single","q":"装置停车减顶停抽真空时，下列操作正确的是（ ）。","opts":{"A":"先停一级","B":"先停二级","C":"一、二级一起停","D":"破二级真空时打开减顶冷却器不凝气放空阀"},"a":"A"},{"id":900,"type":"single","q":"装置停车退油时，顶到常压塔内的油( )。","opts":{"A":"吹扫时再处理","B":"蒸塔时处理","C":"开塔底放空排","D":"及时用泵抽掉"},"a":"D"},{"id":901,"type":"single","q":"装置停车时，闭路循环停止后，三塔存油( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"存放塔内","B":"退出装置","C":"在塔底放空","D":"蒸塔时再处理"},"a":"B"},{"id":902,"type":"single","q":"装置停车时，闭路循环结束，停泵顺序为，( )。","opts":{"A":"先初底，然后常底再减底","B":"先减底，然后初底再常底","C":"先常底，然后减底再初底","D":"塔底泵应同时停"},"a":"A"},{"id":903,"type":"single","q":"装置停车退油时，需要处理常压塔内的油，操作正确的是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料吹扫完再处理","B":"开塔底放空排","C":"及时用泵抽掉","D":"待蒸塔时再处理"},"a":"C"},{"id":904,"type":"single","q":"存在以下( )的情况，不能开启容器人孔。","opts":{"A":"容器经检查无安全隐患","B":"容器内残液退净","C":"容器的压力、温度未降到安全标准","D":"容器吹扫干净"},"a":"C"},{"id":905,"type":"single","q":"常减压蒸馏装置检修时，开启塔人孔的顺序是( )。","opts":{"A":"自上而下品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"自下而上","C":"先中间再两端","D":"便于拆卸即可"},"a":"A"},{"id":906,"type":"single","q":"常减压蒸馏装置检修时，按一定顺序开启人孔是为了( )。","opts":{"A":"工作统筹","B":"不遗漏","C":"便于通⻛","D":"便于拆卸"},"a":"C"},{"id":907,"type":"single","q":"容器设置人孔的目的是（ ）。","opts":{"A":"美观大方","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料便于安装、检修内部构件","C":"方便容器泄压","D":"增加紧急泻放口"},"a":"B"},{"id":908,"type":"single","q":"装置停车时，加热炉熄火后改循环，必须关闭( )出装置阀门。","opts":{"A":"汽油","B":"煤油","C":"馏分油","D":"渣油"},"a":"D"},{"id":909,"type":"single","q":"装置停车时，加热炉熄火后改循环，循环油不经过( )。","opts":{"A":"渣油冷却器","B":"原油泵品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"常压炉","D":"减压炉"},"a":"B"},{"id":910,"type":"single","q":"装置停车时，加热炉熄火后，停( )改循环。","opts":{"A":"原油泵","B":"初底泵","C":"常底泵","D":"渣油泵"},"a":"A"},{"id":911,"type":"single","q":"装置停车时，加热炉熄火后改闭路循环，主要目的是（ ）。","opts":{"A":"保证产品质量","B":"保持降温曲线，防止设备泄漏","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料降低劳动强度","D":"保持塔底液位"},"a":"B"},{"id":912,"type":"single","q":"关于浮阀塔板的叙述，正确的是( )。","opts":{"A":"效率较低","B":"压力降大","C":"生产能力大","D":"多用于分离要求高的蒸馏塔"},"a":"C"},{"id":913,"type":"single","q":"关于固舌塔板的叙述，正确的是( )。","opts":{"A":"操作范围较宽","B":"效率高","C":"生产能力小品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"多用于分离要求低的闪蒸塔"},"a":"D"},{"id":914,"type":"single","q":"关于网孔塔板的叙述，正确的是( )。","opts":{"A":"操作范围较宽","B":"生产能力小","C":"其分馏效率较低","D":"多用于燃料油型减压塔"},"a":"C"},{"id":915,"type":"single","q":"关于泡罩塔板的叙述，正确的是（ ）。","opts":{"A":"生产能力大","B":"塔板不易堵塞","C":"其分馏效率高","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料多用于润滑油型减压塔"},"a":"B"},{"id":916,"type":"single","q":"减压塔一般采用沿塔中心线方向( )进料。","opts":{"A":"垂直","B":"平行","C":"切线","D":"成 45°角"},"a":"A"},{"id":917,"type":"single","q":"浮阀塔板的操作范围比较宽，( )，适用于常压分馏塔。","opts":{"A":"体积大","B":"体积小","C":"效率高","D":"效率低品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":918,"type":"single","q":"减压塔的汽化段高度要比一般的板间距( )。","opts":{"A":"大","B":"小","C":"一样","D":"视塔直径大小定"},"a":"A"},{"id":919,"type":"single","q":"蒸馏装置中塔的汽化段一般均需设置( )测量仪表组件。","opts":{"A":"温度","B":"流速","C":"流量","D":"液位"},"a":"A"},{"id":920,"type":"single","q":"泵的比转数能反映流量、扬程、转数的相互关系,大流量小扬程的泵比转数( )。","opts":{"A":"大","B":"小","C":"一样","D":"不能确定"},"a":"A"},{"id":921,"type":"single","q":"离心泵主要靠( )来吸入液体介质的。","opts":{"A":"压力","B":"扬程","C":"压差","D":"大气压"},"a":"C"},{"id":922,"type":"single","q":"以下对于离心泵的描述错误的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"流量与转速成正比","B":"扬程与转速成正比","C":"扬程与叶轮级数有关","D":"扬程与介质比重无关"},"a":"B"},{"id":923,"type":"single","q":"泵的比转数能反映流量、扬程、转数的相互关系,小流量大扬程的泵比转数( )。","opts":{"A":"一样","B":"不能确定","C":"大","D":"小"},"a":"D"},{"id":924,"type":"single","q":"换热器型号 FB-700-120-25-4,其中 B 表示( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料管子规格为φ19×2","B":"管子规格为φ19×2.5","C":"管子规格为φ25×2","D":"管子规格为φ25×2.5"},"a":"D"},{"id":925,"type":"single","q":"换热器型号 FB-700-120-25-4,其中 F 表示( )。","opts":{"A":"U 形管式换热器","B":"固定管板式换热器","C":"浮头式换热器","D":"多管程换热器"},"a":"C"},{"id":926,"type":"single","q":"换热器型号 FB-700-120-25-4,其中 120 表示（ ）。","opts":{"A":"公称压力品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"换热面积","C":"设计温度","D":"壳体直径"},"a":"B"},{"id":927,"type":"single","q":"换热器型号 FB-700-120-25-4,其中 700 表示( )。","opts":{"A":"壳程直径 700mm","B":"壳程半径 700mm","C":"壳体总⻓ 7000mm","D":"筒体⻓度 7000mm"},"a":"A"},{"id":928,"type":"single","q":"换热器型号 FB-700-120-25-4,其中 25 表示（ ）。","opts":{"A":"壳体直径","B":"操作温度","C":"公称压力","D":"管束⻓度"},"a":"C"},{"id":929,"type":"single","q":"固定管板式换热器结构简单，但( )清洗较难，不能进行机械清洗。","opts":{"A":"管程","B":"壳程品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"管程和壳程","D":"管箱"},"a":"B"},{"id":930,"type":"single","q":"下列选项中，属于固定管板式换热器的特点的是( )。","opts":{"A":"结构简单","B":"结构复杂","C":"操作弹性大","D":"壳体直径大"},"a":"A"},{"id":931,"type":"single","q":"浮头式换热器公称直径 DN≥900mm 时一般采用( )管箱。","opts":{"A":"平盖","B":"封头","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料方形","D":"圆形"},"a":"B"},{"id":932,"type":"single","q":"常减压蒸馏装置中浮头式换热器管束的排列方式一般采用( )。","opts":{"A":"正方形直列","B":"正方形错列","C":"正三角形","D":"圆形"},"a":"C"},{"id":933,"type":"single","q":"浮头式换热器公称直径 DN≤400mm 时一般采用( )管箱。","opts":{"A":"平盖","B":"封头","C":"方形品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"圆形"},"a":"A"},{"id":934,"type":"single","q":"浮头式换热器的管束一般采用( )。","opts":{"A":"不锈钢管","B":"钉头管","C":"螺纹管","D":"翅片管"},"a":"C"},{"id":935,"type":"single","q":"换热器壳弓形折流板的切口方位对介质流动有较大影响，一般情况下均采用( )切口。","opts":{"A":"平行","B":"30°角","C":"垂直","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料45°角"},"a":"C"},{"id":936,"type":"single","q":"换热器加装折流板主要是为了使介质( )，以提高传热效果。","opts":{"A":"顺流换热","B":"逆流换热","C":"降低流速","D":"降低流程"},"a":"B"},{"id":937,"type":"single","q":"U 型管式换热器一般有( )块管板。","opts":{"A":"1","B":"2","C":"3","D":"4品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":938,"type":"single","q":"换热器壳程横向折流板的板距缩小，介质( )。","opts":{"A":"流程不变","B":"流程减少","C":"流速降低","D":"流速加大"},"a":"D"},{"id":939,"type":"single","q":"换热器加装防冲板主要是为了( )。","opts":{"A":"保护壳体","B":"保护管束","C":"降低流速","D":"增强换热"},"a":"B"},{"id":940,"type":"single","q":"换热器安装防冲板的作用有( )。","opts":{"A":"降低流速","B":"提高流速","C":"防止流体冲蚀","D":"保护壳体"},"a":"C"},{"id":941,"type":"single","q":"为防止入口液体直接冲刷管束，换热器常在入口处设置( )。","opts":{"A":"防冲板","B":"导流筒","C":"温度度","D":"压力表"},"a":"A"},{"id":942,"type":"single","q":"防冲板外表面到圆筒内壁的距离，应不小于接管外径的（ ）。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"1/2","B":"2/3","C":"1/3","D":"1/4"},"a":"D"},{"id":943,"type":"single","q":"电脱盐罐中电极板的作用是( )。","opts":{"A":"产生均匀磁场","B":"产生均匀电场","C":"脱盐","D":"脱水"},"a":"B"},{"id":944,"type":"single","q":"原油电脱盐的电极结构是多种多样的，( )是国内外最广泛采用的形式。","opts":{"A":"水平式电极","B":"立式悬挂电极","C":"单层","D":"多层鼠笼式电极"},"a":"A"},{"id":945,"type":"single","q":"水平电极板是国内外最广泛采用的形式，一般在电脱盐罐内设置二层或( )层电极板。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料四层","B":"单层","C":"五层","D":"三层"},"a":"D"},{"id":946,"type":"single","q":"正常操作时，通过调节电脱盐罐混合器的( )来改变混合效果。","opts":{"A":"前后压差","B":"前后温差","C":"进口压力","D":"流量"},"a":"A"},{"id":947,"type":"single","q":"电脱盐罐设置混合器主要是使原油与水及( )能充分混合。","opts":{"A":"碱品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"盐","C":"破乳剂","D":"缓蚀剂"},"a":"C"},{"id":948,"type":"single","q":"一般情况下，处理较高密度原油时，要将混合阀的压差( )。","opts":{"A":"不变","B":"无法确定","C":"调小","D":"调大"},"a":"D"},{"id":949,"type":"single","q":"我们一般通过( )来提高电脱盐原油的混合强度。","opts":{"A":"开大混合阀","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料关小混合阀","C":"提高处理量","D":"提高泵出口压力"},"a":"B"},{"id":950,"type":"single","q":"电脱盐罐操作中，易造成电流波动的操作是( )。","opts":{"A":"加大注水量","B":"加大破乳化剂量","C":"减少注水量","D":"停注水"},"a":"A"},{"id":951,"type":"single","q":"下列选项中，不利于电脱盐罐正常操作的有( )。","opts":{"A":"电压高","B":"电阻大品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"电流高","D":"电流低"},"a":"C"},{"id":952,"type":"single","q":"电脱盐罐操作中，不易造成油品乳化的有( )。","opts":{"A":"注剂混合太激烈","B":"注剂浓度过高","C":"掺炼污油","D":"注剂混合不足"},"a":"D"},{"id":953,"type":"single","q":"电脱盐罐操作中，大多数装置将注水点设在( )为好。","opts":{"A":"原油泵入口","B":"换热系统后进电脱盐罐前","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料初馏塔进口处","D":"电脱盐罐之后"},"a":"B"},{"id":954,"type":"single","q":"常减压蒸馏装置常用的软垫片一般由( )为主体配以橡胶等材料制造而成。","opts":{"A":"石棉","B":"石墨","C":"塑料","D":"金属丝"},"a":"A"},{"id":955,"type":"single","q":"常减压蒸馏装置常用的软垫片一般由石棉为主体配以( )等材料制造而成。","opts":{"A":"石墨","B":"塑料","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料橡胶","D":"金属丝"},"a":"C"},{"id":956,"type":"single","q":"常减压蒸馏装置常用的半金属垫有( )。","opts":{"A":"石棉橡胶垫片","B":"缠绕式垫片","C":"四氟乙烯垫片","D":"八角垫"},"a":"B"},{"id":957,"type":"single","q":"适合于高温高压条件下正常使用的垫片有( )。","opts":{"A":"石棉橡胶垫片","B":"石墨垫片","C":"聚四氟乙烯垫片品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"缠绕式垫片"},"a":"D"},{"id":958,"type":"single","q":"对于计量泵，启动时应先将（ ）","opts":{"A":"行程调至零位","B":"行程调至目标位","C":"出口阀关闭","D":"入口阀关闭"},"a":"A"},{"id":959,"type":"single","q":"N 型轴柱塞式计量泵通过转动调节手轮带动 N 形轴上下移动，从而改变( )来实现计量泵流量从零到 100％额定流量的调节。","opts":{"A":"偏心距","B":"行程","C":"柱塞间距","D":"摇杆间距"},"a":"B"},{"id":960,"type":"single","q":"对于计量泵，在其他条件不变，介质的温度降低时，则下列说法正确的是( )。","opts":{"A":"该泵体积流量增大","B":"该泵体积流量减少","C":"该泵体积流量不变","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料该泵体积流量先增大后减少"},"a":"C"},{"id":961,"type":"single","q":"正常操作时，通过调节电脱盐罐混合器的( )来改变混合效果。","opts":{"A":"流量","B":"前后温差","C":"前后压差","D":"进口压力"},"a":"C"},{"id":962,"type":"single","q":"电脱盐混合器一般由静态混合器与( )组成。","opts":{"A":"偏转球形阀","B":"偏心球形阀","C":"单座直通阀","D":"双座直通阀品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":963,"type":"single","q":"下列关于提高电脱盐原油的混合强度的操作，正确的是( )。","opts":{"A":"控制混合器开度是为了促进原油和水分离","B":"混合强度不随加工量变化","C":"混合强度降低可促进原油乳化","D":"混合强度提高可促进原油乳化"},"a":"D"},{"id":964,"type":"single","q":"通过( )混合阀可以提高电脱盐原油的混合强度。","opts":{"A":"开大","B":"关小","C":"先关小后开大","D":"全开"},"a":"B"},{"id":965,"type":"single","q":"启动工频泵前的检查工作应包括（ ）。","opts":{"A":"关闭冷却水","B":"检查润滑油位","C":"打开出口阀","D":"关闭压力表阀"},"a":"B"},{"id":966,"type":"single","q":"调频泵切换到工频泵操作时，正确的是( )。","opts":{"A":"停变频泵时应先按停电机再关泵出口","B":"启动工频泵前应先打开出口阀","C":"先启动工频泵再停下调频泵","D":"先停下调频泵再启动工频泵"},"a":"C"},{"id":967,"type":"single","q":"调频泵切换到工频泵操作中，启动工频泵前应( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"开排污阀","B":"开预热阀","C":"开出口阀","D":"关出口阀"},"a":"D"},{"id":968,"type":"single","q":"工频泵切换到调频泵操作中，启动调频泵前应( )。","opts":{"A":"将⻛开式调节阀的副线阀全开","B":"开排污阀","C":"关闭工频泵出口阀","D":"关小工频泵出口阀"},"a":"A"},{"id":969,"type":"single","q":"工频泵切换到调频泵时，开泵前应将风开式调节阀的副线阀( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料全开","B":"全关","C":"打开 50％","D":"保持原位"},"a":"A"},{"id":970,"type":"single","q":"工频泵切换到调频泵时，因调频泵启动转速较慢，所以开泵前应适当关小( )。","opts":{"A":"工频泵入口阀","B":"工频泵出口阀","C":"调频泵人口阀","D":"调频泵出口阀"},"a":"B"},{"id":971,"type":"single","q":"工频泵切换到调频泵操作中，启动调频泵前应( )。","opts":{"A":"开排污阀品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"关闭压力表阀","C":"开出口阀","D":"关出口阀"},"a":"C"},{"id":972,"type":"single","q":"工频泵切换到调频泵操作时，正确的是( )。","opts":{"A":"停变频泵时应先按停电机再关泵出口","B":"启动工频泵前应先打开出口阀","C":"先停下工频泵再启动调频泵","D":"先启动调频泵再停下工频泵"},"a":"D"},{"id":973,"type":"single","q":"离心泵出口流量最简单的调节方式为( )。","opts":{"A":"调节进口阀⻔","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料调节出口阀⻔","C":"并联机泵","D":"串联机泵"},"a":"B"},{"id":974,"type":"single","q":"停运离心泵的步骤不包括（ ）","opts":{"A":"缓慢关闭出口阀。","B":"切断电源后关入口阀，压力表阀。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"热油泵，待泵体温度降低后停冷却水和封油。","D":"机泵出入口装盲板。"},"a":"D"},{"id":975,"type":"single","q":"下列选项中，会导致离心泵流量降低的有( )。","opts":{"A":"润滑油油位过高","B":"轴承温度高","C":"机泵震动大","D":"切割叶轮"},"a":"D"},{"id":976,"type":"single","q":"下列选项中，会导致离心泵流量降低的有( )。","opts":{"A":"润滑油油位过高","B":"流体粘度增大","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料轴承温度高","D":"机泵震动大"},"a":"B"},{"id":977,"type":"single","q":"导致离心泵流量降低的原因可能是（ ）。","opts":{"A":"机泵抽空","B":"出口压力高","C":"润滑油油位过高","D":"润滑油油位过低"},"a":"A"},{"id":978,"type":"single","q":"下列选项中，不会导致离心泵流量降低的有( )。","opts":{"A":"密封环磨损","B":"叶轮磨损","C":"轴承温度过高品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"叶轮脱落"},"a":"C"},{"id":979,"type":"single","q":"为了往复式压缩机的安全运行，启动前，应重点检查( )。","opts":{"A":"润滑油","B":"预热线","C":"电流","D":"温度"},"a":"A"},{"id":980,"type":"single","q":"为了往复式压缩机的安全运行，待( )后，才可启动。","opts":{"A":"出口放空阀打开","B":"入口阀打开","C":"润滑系统正常","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料回流阀关闭"},"a":"C"},{"id":981,"type":"single","q":"往复式压缩机启动前，必须( )。","opts":{"A":"开入口阀","B":"开出口阀","C":"开放空阀","D":"开回流阀"},"a":"D"},{"id":982,"type":"single","q":"活塞式压缩机常用的排气量调节方法有四种，以下不属于常用方法的是( )。","opts":{"A":"转速调节","B":"出口流量阀调节","C":"吸气阀调节","D":"管路调节品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"B"},{"id":983,"type":"single","q":"型号为 XP-316-A 的可燃气体报警仪表盘上包括( )。","opts":{"A":"电力显示和可燃气体浓度","B":"电力显示、校验浓度和可燃气体浓度","C":"校验浓度和可燃气体浓度","D":"电力显示和校验浓度"},"a":"B"},{"id":984,"type":"single","q":"下列有关 XP-316-A 可燃气体报警仪的叙述正确的是( )。","opts":{"A":"报警仪表盘上显示的是可燃气体的质量百分比浓度","B":"报警仪测出的浓度实际上是所测环境中丁烷的浓度","C":"在电力不足的情况下，报警仪仍然可以使用","D":"在测量过程中，严禁将水或其他化学液体吸入报警仪品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":985,"type":"single","q":"XP-316-A 可燃气体报警仪在使用后( )。","opts":{"A":"可以继续使用","B":"失效","C":"需要对报警仪内的传感器进行再生","D":"报警仪内的传感器无法再生，需要更换后才能使用"},"a":"A"},{"id":986,"type":"single","q":"可燃气体报警仪安装的位置是在( )。","opts":{"A":"装置上⻛向","B":"装置下⻛向","C":"全装置","D":"管架上"},"a":"C"},{"id":987,"type":"single","q":"对于固定式硫化氢报警仪的使用，下列说法中正确的是( )。","opts":{"A":"仪器的报警设定点及零点是固定的，不能经常检查","B":"定期用现场的硫化氢气体来校对传感器","C":"更换传感器时要小心操作，以免破坏了探头的防爆结构","D":"现场的探头可以被任何物体遮盖或遮罩"},"a":"C"},{"id":988,"type":"single","q":"使用新购的便携式硫化氢报警仪前，需要的准备工作( )。","opts":{"A":"无须准备，直接使用","B":"需要对电池进行检查","C":"需要对电池进行检查，正常后要进行开机检查","D":"需要对电池进行检查，正常后要进行开机检查，当仪器进入稳定状态后便可在清洁空气环境完成调零校对，同时必须标定传感器"},"a":"D"},{"id":989,"type":"single","q":"使用便携式硫化氢报警仪时，下列说法错误的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"报警仪不但可以进行定性的监测，还可以进行定量的监测","B":"不能在检测现场换电池","C":"报警仪只能作为定性的监测","D":"不要用高浓度的硫化氢气体来冲击传感器"},"a":"A"},{"id":991,"type":"single","q":"机泵电机跳闸的原因主要是因为（ ）。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料超电流","B":"冷却水温度高","C":"泵体振动大","D":"泵出口压力高"},"a":"A"},{"id":992,"type":"single","q":"下列选项中，容易引起泵跳闸的原因是( )。","opts":{"A":"润滑油不足","B":"冷却水温度高","C":"泵负荷过大","D":"泵体振动大"},"a":"C"},{"id":993,"type":"single","q":"不容易引起泵跳闸的原因有( )。","opts":{"A":"超电流品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"泵体振动大","C":"泵负荷高","D":"电机轴承磨损"},"a":"B"},{"id":994,"type":"single","q":"引起电机跳闸的可能原因是（ ）。","opts":{"A":"机泵抽空","B":"冷却水温度高","C":"轴承振值超标","D":"电网电压过低"},"a":"D"},{"id":995,"type":"single","q":"不容易引起离心泵抽空的有( )。","opts":{"A":"介质温度突然升高","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料轴承磨损","C":"串汽","D":"叶轮堵塞"},"a":"B"},{"id":996,"type":"single","q":"容易引起离心泵抽空的原因有( )。","opts":{"A":"进口液面过低","B":"进口液面过高","C":"泵负荷过大","D":"轴承磨损"},"a":"A"},{"id":997,"type":"single","q":"容易引起离心泵抽空的原因有( )。","opts":{"A":"泵体振动大","B":"泵负荷过大品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"密封磨损","D":"轴承磨损"},"a":"C"},{"id":998,"type":"single","q":"当离心泵不上量时，应（ ）入口阀、（ ）出口阀。","opts":{"A":"关小；开大","B":"关小；关小","C":"开大；开大","D":"开大；关小"},"a":"D"},{"id":999,"type":"single","q":"容易引起离心泵泵体振动过大的原因有( )。","opts":{"A":"叶轮堵塞","B":"串汽","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料出口阀开度小","D":"轴承磨损"},"a":"D"},{"id":1000,"type":"single","q":"容易引起离心泵泵体振动过大的原因有( )。","opts":{"A":"叶轮堵塞","B":"轴承磨损","C":"出口阀开度小","D":"入口阀开度大"},"a":"B"},{"id":1001,"type":"single","q":"不容易引起离心泵泵体振动的原因有( )。","opts":{"A":"泵轴与电机轴不同心","B":"汽蚀","C":"叶轮堵塞品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"串轴"},"a":"C"},{"id":1002,"type":"single","q":"容易引起离心泵泵体振动过大的原因有( )。","opts":{"A":"汽蚀","B":"轴承温度高","C":"串汽","D":"叶轮堵塞"},"a":"A"},{"id":1003,"type":"single","q":"下面各项中，不容易造成离心泵轴承发热的是( )。","opts":{"A":"润滑油变质","B":"泵抽空","C":"润滑油有杂质","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料超负荷运行"},"a":"B"},{"id":1004,"type":"single","q":"下面各项中，容易造成电机轴承发热的是( )。","opts":{"A":"润滑油脂过多","B":"电压过低","C":"泵抽空","D":"超负荷运行"},"a":"D"},{"id":1005,"type":"single","q":"不容易造成离心泵轴承发热的是( )。","opts":{"A":"同心度不正","B":"润滑油有杂质","C":"泵抽空","D":"轴承磨损品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":1006,"type":"single","q":"容易造成离心泵轴承发热的是( )。","opts":{"A":"润滑油有杂质","B":"泵满负荷","C":"泵抽空","D":"泵体介质温度高"},"a":"A"},{"id":1007,"type":"single","q":"容易造成离心泵盘车不动的是( )。","opts":{"A":"机泵预热不均匀","B":"机泵预热量大","C":"润滑油脂过少","D":"润滑油脂过多"},"a":"A"},{"id":1008,"type":"single","q":"容易造成离心泵盘车不动的是( )。","opts":{"A":"轴温过低","B":"油品凝固","C":"润滑油脂过少","D":"润滑油脂过多"},"a":"B"},{"id":1009,"type":"single","q":"下列各项中，容易造成离心泵盘车不动的是( )。","opts":{"A":"润滑油脂过少","B":"润滑油脂过多","C":"轴弯曲","D":"密封磨损"},"a":"C"},{"id":1010,"type":"single","q":"低压电动机的其中一种保护形式是( )。","opts":{"A":"电阻保护","B":"过载保护","C":"断路保护","D":"高温保护"},"a":"B"},{"id":1011,"type":"single","q":"电机短路保护启动的原因不包括（ ）。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"电动机绕组和导线的绝缘损坏","B":"控制电器及线路损坏","C":"误操作碰线","D":"清扫机泵卫生"},"a":"D"},{"id":1012,"type":"single","q":"不属于低压电动机保护形式是( )。","opts":{"A":"电阻保护","B":"过载保护","C":"短路保护","D":"过流保护"},"a":"A"},{"id":1013,"type":"single","q":"低压电动机的其中一种保护形式是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料空载保护","B":"断路保护","C":"短路保护","D":"高温保护"},"a":"C"},{"id":1014,"type":"single","q":"减压炉四路进料控制阀后压力中 D 路最高，四路炉管出口无阀门，以下判断正确的是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料若 D 路出口温度最高，流量最大，可以判定该路炉管结焦最严重","B":"若 D 路出口温度最低，流量最小，可以判定该路炉管结焦最严重","C":"若 D 路出口温度最低，流量最小，可以判定该路炉管结焦最轻","D":"只要流量及出口温度相同，就可以判定四路炉管结焦程度相同"},"a":"B"},{"id":1015,"type":"single","q":"启动风机后，注意观察温度变化，应保证电机轴承温度( )。","opts":{"A":"≯55℃","B":"≯60℃","C":"≯65℃","D":"≯70℃"},"a":"C"},{"id":1016,"type":"single","q":"启动风机前进口蝶阀应处于( )位置。","opts":{"A":"全关","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料全开","C":"50％开度","D":"正常操作开度"},"a":"A"},{"id":1017,"type":"single","q":"启动风机后，注意观察温度变化，应保证风机滚动轴承温度( )。","opts":{"A":"≯50℃","B":"≯60℃","C":"≯70℃","D":"≯80℃"},"a":"D"},{"id":1018,"type":"single","q":"以下关于启动鼓风机前出口蝶阀的操作，错误的是（ ）。","opts":{"A":"蝶阀操作开关灵活","B":"出口阀全关","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料出口阀设定 80%开度","D":"转动手柄润滑良好，螺栓牢固⻬全"},"a":"B"},{"id":1019,"type":"single","q":"离心泵的轴承箱油位应保持在( )位置","opts":{"A":"两条红线之间","B":"低于第一条红线","C":"高于第二条红线","D":"任意位置"},"a":"A"},{"id":1020,"type":"single","q":"为保证轴承润滑，离心泵的轴承箱油位应保持在( )位置。","opts":{"A":">1/2","B":"1/2～2/3","C":">2/3","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料>3/4"},"a":"B"},{"id":1021,"type":"single","q":"下列选项中，不属于润滑油“五定”范围的是( )。","opts":{"A":"定点","B":"定人","C":"定温","D":"定质"},"a":"C"},{"id":1022,"type":"single","q":"机泵轴承润滑油异常的有( )。","opts":{"A":"不变质","B":"油位合适","C":"无杂质","D":"乳白色品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":1023,"type":"single","q":"输送易燃易爆介质的工业管道外部检查时必须每( )检查一次防静电接地电阻。","opts":{"A":"6 个月","B":"1 年","C":"2 年","D":"3 年"},"a":"B"},{"id":1025,"type":"single","q":"输送易燃易爆介质的工业管道外部检查时必须定期检查防静电接地电阻，其中管道对地电阻不得大于( )欧姆。","opts":{"A":"10","B":"20","C":"50","D":"100"},"a":"D"},{"id":1026,"type":"single","q":"一般情况下，工业管道外部检查不包括( )。","opts":{"A":"管件材质鉴定","B":"管道有无裂纹、腐蚀、变形等缺陷","C":"绝热层、防腐层完好情况","D":"法兰有无偏口、紧固件是否⻬全"},"a":"A"},{"id":1027,"type":"single","q":"能够防止加热炉炉管结焦措施有( )品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"减少火咀、高火苗","B":"加强监控","C":"降低炉出口温度","D":"炉管注汽"},"a":"D"},{"id":1028,"type":"single","q":"以下操作容易造成加热炉炉管结焦的是( )。","opts":{"A":"加强检查","B":"延⻓油品在炉管内的停留时间","C":"保持炉膛温度均匀","D":"防止物料偏流"},"a":"B"},{"id":1029,"type":"single","q":"防止加热炉炉管结焦措施有( )","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料采用多火咀、⻬火苗","B":"延⻓油品在炉管内的停留时间","C":"减少火嘴数量","D":"用进料平衡好支路温差"},"a":"A"},{"id":1030,"type":"single","q":"不是防止加热炉炉管结焦措施有( )","opts":{"A":"采用多火咀、⻬火苗","B":"加强监控","C":"降低炉出口温度","D":"炉管注汽"},"a":"C"},{"id":1031,"type":"single","q":"离心泵正常运转时，应控制的轴承温度包括( )。","opts":{"A":"无法确定品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"滑动轴承温度","C":"滚动轴承温度不用控制","D":"滑动轴承温度不用控制"},"a":"B"},{"id":1032,"type":"single","q":"不属于机泵巡检测温的内容是( )。","opts":{"A":"润滑油温","B":"轴承温度","C":"泵出口温度","D":"电机温度"},"a":"C"},{"id":1033,"type":"single","q":"离心泵正常运转时，滑动轴承温度应控制( )。","opts":{"A":"≤65℃","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料≤70℃","C":"≤80℃","D":"≤85℃"},"a":"A"},{"id":1034,"type":"single","q":"离心泵正常运转时，滚动轴承温度应控制( )。","opts":{"A":"≤65℃","B":"≤85℃","C":"≤80℃","D":"≤70℃"},"a":"D"},{"id":1035,"type":"single","q":"会引起电机外壳的温度升高的因素有( )。","opts":{"A":"负载过小","B":"通⻛不良","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料润滑油油位过高","D":"机泵温度过高"},"a":"B"},{"id":1036,"type":"single","q":"离心泵正常运转时，电机外壳的温度应控制( )。","opts":{"A":"≤65℃","B":"≤70℃","C":"≤80℃","D":"≤85℃"},"a":"D"},{"id":1037,"type":"single","q":"电机正常运转时，一般应控制( )。","opts":{"A":"振动值","B":"电压","C":"电机的外壳温度","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料电机的转速"},"a":"C"},{"id":1038,"type":"single","q":"不引电机外壳的温度升高的因素有( )。","opts":{"A":"负载过小","B":"通⻛不良","C":"绕组短路","D":"环境温度过高"},"a":"A"},{"id":1039,"type":"single","q":"重油泵吹扫前应进行( )。","opts":{"A":"打开预热阀","B":"盘⻋","C":"打开封油","D":"自然冷却"},"a":"D"},{"id":1040,"type":"single","q":"输送介质为轻油的离心泵，检修前应进行( )操作。","opts":{"A":"打开出口阀","B":"打开入口阀","C":"切断电源","D":"打开排污阀"},"a":"C"},{"id":1041,"type":"single","q":"为提高吹扫效果，重油泵检修前进行吹扫时应( )。","opts":{"A":"经常盘⻋","B":"开大冷却水","C":"关冷却水","D":"稍开出口阀"},"a":"A"},{"id":1042,"type":"single","q":"输送介质为轻油的离心泵，交付检修可不采用的措施有( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"切断电源","B":"吹扫","C":"泄压","D":"关闭进出口阀"},"a":"B"},{"id":1043,"type":"single","q":"常一线油颜色变坏常二线油颜色没变或变化轻微，可能的原因是（ ）。","opts":{"A":"塔顶换热器内漏","B":"一中换热器内漏","C":"二中换热器内漏","D":"常一冷却器内漏"},"a":"B"},{"id":1044,"type":"single","q":"产品冷却器发生内漏时，可采用的判断方法是（ ）。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料检查塔顶温度是否变化","B":"产品流量是否变化","C":"泵出口与采样口油品颜色是否一致","D":"检查换热器地面是否有油迹"},"a":"C"},{"id":1045,"type":"single","q":"当换热器内漏时，通常采用的判断方法是( )。","opts":{"A":"检查冷流换热后温度是否上升","B":"关闭换热器出入口阀⻔","C":"检查流量是否变化","D":"分析管壳程油品的组成变化"},"a":"D"},{"id":1046,"type":"single","q":"设有塔顶回流和顶循环回流与原油换热的工艺流程装置，如果出现整个塔产品颜色变坏，原因可能是（ ）。","opts":{"A":"塔顶油气与原油换热器内漏品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"加热炉出口温度过高","C":"汽提塔液位装高","D":"空冷停机，冷后温度升高"},"a":"A"},{"id":1047,"type":"single","q":"当处理量不变，油品不变，炉出口温度控制指标不变时，加热炉炉管结焦会造成( )。","opts":{"A":"炉膛氧含量升高","B":"炉膛温度升高","C":"炉膛温度降低","D":"热⻛温度升高"},"a":"B"},{"id":1048,"type":"single","q":"炉管出口热电偶处结焦，会造成( )。","opts":{"A":"炉出口温度变化反应缓慢","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料炉出口温度指示升高","C":"炉出口温度指示不变","D":"炉出口温度指示波动"},"a":"A"},{"id":1049,"type":"single","q":"加热炉炉管结焦时，会出现( )的现象。","opts":{"A":"炉管进口压力降低，炉管颜色不变","B":"炉管进口压力降低，炉管颜色变暗红","C":"炉管进口压力升高，炉管颜色变暗红","D":"炉管进口压力升高，炉管颜色不变"},"a":"C"},{"id":1050,"type":"single","q":"如果油品在炉管内( )太低，则易造成加热炉炉管结焦。","opts":{"A":"温度","B":"压力品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"流速","D":"粘度"},"a":"C"},{"id":1051,"type":"single","q":"当原油混杂，油泥较多时不会出现( )。","opts":{"A":"电脱盐电流不变","B":"电脱盐罐送电不正常","C":"原油脱水效果不好","D":"原油带水进初馏塔"},"a":"A"},{"id":1052,"type":"single","q":"下列选项中，易导致电脱盐罐送电不正常的操作有( )。","opts":{"A":"注碱量不足","B":"油温低","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料界位高","D":"界位低"},"a":"C"},{"id":1053,"type":"single","q":"正常生产中，不会造成击穿电脱盐罐电极棒的原因有( )。","opts":{"A":"电极棒质量差","B":"油水界面低","C":"电脱盐经常跳闸，送电频繁","D":"原油乳化严重"},"a":"B"},{"id":1054,"type":"single","q":"正常生产中，会造成电脱盐罐电极棒击穿的原因有( )。","opts":{"A":"原油进罐温度高","B":"原油含水量过大","C":"原油含盐高品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"原油进罐温度低"},"a":"B"},{"id":1055,"type":"single","q":"初馏塔进料带水不会出现的现象有( )。","opts":{"A":"塔顶分液罐排水增加","B":"在常压炉进料量不变的情况下，塔底液面下降。","C":"严重时可能造成初馏塔冲塔","D":"初馏塔塔进料温度高"},"a":"D"},{"id":1056,"type":"single","q":"初馏塔进料带水会出现( )。","opts":{"A":"初馏塔塔顶压力降低","B":"初馏塔塔顶回流温度降低","C":"初馏塔塔底液面下降","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料初馏塔进料量减少"},"a":"C"},{"id":1057,"type":"single","q":"初馏塔进料带水会出现( )。","opts":{"A":"初馏塔塔顶压力高","B":"初馏塔塔顶温度高","C":"初馏塔塔底液面高","D":"初馏塔塔进料温度高"},"a":"A"},{"id":1058,"type":"single","q":"初馏塔进料带水是由于( )造成。","opts":{"A":"原油混合强度过大","B":"原油罐切水未尽或沉降时间不够","C":"原油进罐温度高","D":"破乳化剂注量过大品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"B"},{"id":1059,"type":"single","q":"正常生产中，当初馏塔塔底液面计失灵时，要防止出现( )。","opts":{"A":"进料温度升高","B":"塔顶温度波动","C":"塔顶压力升高","D":"机泵抽空"},"a":"D"},{"id":1060,"type":"single","q":"正常生产中，当初馏塔塔底液面计失灵时，可根据( )进行判断。","opts":{"A":"初底泵进口压力","B":"初馏塔汽化段压力","C":"塔底温度与汽化段温度差","D":"初底泵出口压力品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":1061,"type":"single","q":"下列各项中，一般用来判断初馏塔塔底液面计是否失灵的是( )。","opts":{"A":"初底泵抽空","B":"塔底温度与汽化段温度差变大","C":"塔底温度与汽化段温度差变小","D":"初馏塔出黑油"},"a":"C"},{"id":1062,"type":"single","q":"初馏塔塔底液面计失灵后可作为操作参考的是( )。","opts":{"A":"初馏塔进料量","B":"初馏塔底温度","C":"初底泵进口压力","D":"初底泵出口压力"},"a":"C"},{"id":1063,"type":"single","q":"初馏塔塔顶油水分离罐满罐，可能出现的现象有( )。","opts":{"A":"加热炉低压瓦斯带油","B":"塔顶污水流量下降","C":"塔顶污水流量增加","D":"初馏塔塔顶温度下降"},"a":"A"},{"id":1064,"type":"single","q":"初馏塔塔顶油水分离罐满罐，不会出现的现象有( )。","opts":{"A":"加热炉低压瓦斯带油","B":"初馏塔塔顶回流不变","C":"初馏塔塔顶油水分离罐满罐、液面计满程或报警","D":"初馏塔塔顶压力升高"},"a":"B"},{"id":1065,"type":"single","q":"初馏塔塔顶油水分离罐满罐，会出现的现象有( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"回流量不变","B":"回流温度上升","C":"出装置流量增加","D":"出装置温度上升"},"a":"C"},{"id":1066,"type":"single","q":"初馏塔塔顶油水分离罐满罐，不会出现的现象有( )。","opts":{"A":"加热炉低压瓦斯带油","B":"初馏塔塔顶压力降低","C":"初馏塔塔顶油水分离罐满罐、液面计满程或报警","D":"初馏塔塔顶压力升高"},"a":"B"},{"id":1067,"type":"single","q":"下列各项中，喷射器最适宜采用的工作介质为( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料压缩⻛","B":"水蒸汽","C":"水","D":"油"},"a":"B"},{"id":1069,"type":"single","q":"蒸汽喷射器喘气不是由( )造成的。","opts":{"A":"真空泵故障","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料蒸汽喷射器后部压力(背压)高","C":"减顶冷凝器冷后温度高","D":"减顶冷凝器冷后温度低"},"a":"D"},{"id":1070,"type":"single","q":"蒸汽喷射器喘气的可能原因( )。","opts":{"A":"并联使用的蒸汽喷射器蒸汽量不同","B":"蒸汽喷射器后部压力(背压)低","C":"减顶温度高","D":"减顶温度低"},"a":"C"},{"id":1071,"type":"single","q":"正常生产中，当原油带水时，会出现的现象有( )。","opts":{"A":"电脱盐罐排水增大","B":"原油进电脱盐温度升高品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"电脱盐电流下降","D":"原油系统压力降减小"},"a":"A"},{"id":1072,"type":"single","q":"正常生产中，当原油带水时，不会出现的现象有( )。","opts":{"A":"电脱盐罐排水增大","B":"初馏塔压力升高","C":"原油换热后温度下降","D":"电脱盐罐压力降减小"},"a":"D"},{"id":1073,"type":"single","q":"正常生产中，当原油带水时，会出现的现象有( )。","opts":{"A":"原油进塔温度上升","B":"初馏塔顶压力高","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料初馏塔底液面上升","D":"电脱盐排水下降"},"a":"B"},{"id":1074,"type":"single","q":"正常生产中，当原油带水时，不会出现的现象有( )。","opts":{"A":"原油进塔温度低","B":"初馏塔顶压力高","C":"初馏塔底液面降低","D":"初馏塔液面升高"},"a":"D"},{"id":1075,"type":"single","q":"正常生产中，原油中断不会造成( )。","opts":{"A":"原油进塔温度降低","B":"原油流量下降或回零","C":"初馏塔液面降低品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"原油泵不上量或抽空"},"a":"A"},{"id":1076,"type":"single","q":"下列各项中，不属于原油中断的现象有( )。","opts":{"A":"原油进装置压力下降","B":"初馏塔底液面下降","C":"电脱盐罐界位下降","D":"电脱盐罐进料量下降"},"a":"C"},{"id":1077,"type":"single","q":"下列各项中，属于原油中断的现象有( )。","opts":{"A":"初馏塔塔底液面不变","B":"初馏塔塔底温度不变","C":"初馏塔底液面下降","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料初馏塔底液面上升"},"a":"C"},{"id":1078,"type":"single","q":"下列各项中，不属于原油中断的现象有( )。","opts":{"A":"原油泵进口压力为零","B":"初馏塔底液面下降","C":"原油泵出口压力下降","D":"原油泵电流上升"},"a":"D"},{"id":1079,"type":"single","q":"正常生产中，净化风中断会出现( )。","opts":{"A":"⻛开阀控制的流量不变","B":"⻛关阀控制的流量为零","C":"⻛开阀控制的流量最大","D":"⻛关阀控制的流量最大品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":1080,"type":"single","q":"正常生产中，净化风中断的现象有( )。","opts":{"A":"加热炉出口温度下降","B":"加热炉出口温度不变","C":"馏出口温度下降","D":"馏出口温度上升"},"a":"A"},{"id":1081,"type":"single","q":"正常生产中，净化风中断会造成( )。","opts":{"A":"加热炉燃料油流量增加","B":"加热炉燃料气流量增加","C":"加热炉炉膛负压增加","D":"加热炉炉膛温度上升品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":1082,"type":"single","q":"正常生产中，净化风中断会造成( )。","opts":{"A":"常压炉进料量减少","B":"常压炉进料量增大","C":"初馏塔进料量减少","D":"减压塔进料量减少"},"a":"B"},{"id":1083,"type":"single","q":"正常生产中，当系统蒸汽压力下降时会出现的现象是( )。","opts":{"A":"加热炉出口温度下降","B":"初顶压力上升","C":"减顶真空度下降","D":"塔底液面下降"},"a":"C"},{"id":1084,"type":"single","q":"正常生产中，当系统蒸汽压力下降时，不会出现的现象是( )。","opts":{"A":"减顶真空度上升","B":"总蒸汽压力指示不变","C":"减一液位上升","D":"减底液位下降"},"a":"C"},{"id":1085,"type":"single","q":"正常生产中，当系统蒸汽压力下降时，不会出现的现象是( )。","opts":{"A":"减顶真空度下降","B":"总蒸汽压力指示下降","C":"加热炉冒黑烟","D":"炉出口温度上升"},"a":"D"},{"id":1086,"type":"single","q":"正常生产中，系统蒸汽压力下降或中断，会出现的现象是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"加热炉冒黑烟","B":"加热炉冒黄烟","C":"加热炉冒白烟","D":"加热炉冒蓝烟"},"a":"A"},{"id":1087,"type":"single","q":"机泵冷却水压力下降会造成( )。","opts":{"A":"机泵轴承温度不变","B":"机泵进、出水温差不变","C":"机泵密封泄漏","D":"机泵串轴"},"a":"C"},{"id":1088,"type":"single","q":"机泵冷却水压力下降会造成( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料机泵轴承温度上升","B":"泵振动大","C":"泵出口压力回零","D":"电机温度上升"},"a":"A"},{"id":1089,"type":"single","q":"机泵冷却水压力下降不会造成( )。","opts":{"A":"机泵轴承温度上升","B":"机泵抽空","C":"机泵进、出水温差变大","D":"机泵密封泄漏"},"a":"B"},{"id":1090,"type":"single","q":"机泵冷却水压力下降不会造成( )。","opts":{"A":"机泵轴承温度上升品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"机泵进、出水温差变大","C":"机泵密封泄漏","D":"机泵串轴"},"a":"D"},{"id":1091,"type":"single","q":"当加热炉炉管破裂时，会出现的现象是( )。","opts":{"A":"加热炉冒白烟","B":"炉膛明亮","C":"烟气温度上升","D":"炉膛负压上升"},"a":"C"},{"id":1092,"type":"single","q":"如果加热炉炉膛发暗，烟囱冒烟，可能的原因不包括（ ）。","opts":{"A":"炉管破裂","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料燃料气大量带油","C":"炉膛氧含量高","D":"蒸汽压力大幅下降，燃料油火嘴失去雾化效果"},"a":"C"},{"id":1093,"type":"single","q":"当加热炉发生炉管严重破裂的紧急情况时，应急措施错误的是（ ）。","opts":{"A":"加热炉立即全部熄火","B":"关闭烟道挡板","C":"停止进料","D":"向炉膛内吹入大量蒸汽"},"a":"B"},{"id":1094,"type":"single","q":"当加热炉炉管破裂时，不会出现的现象是( )。","opts":{"A":"加热炉冒黑烟","B":"炉膛温度不变品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"炉膛温度上升","D":"烟气温度上升"},"a":"B"},{"id":1095,"type":"single","q":"加热炉燃料油带水时，不会出现的现象是( )。","opts":{"A":"炉膛火焰冒火星","B":"燃料油压力波动","C":"炉膛温度升高","D":"火焰易灭火"},"a":"C"},{"id":1096,"type":"single","q":"加热炉燃料油带水时，炉膛温度会出现( )。","opts":{"A":"温度上升","B":"温度下降","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料温度变化不大","D":"温度高低变化较大"},"a":"B"},{"id":1097,"type":"single","q":"加热炉燃料油带水时，火焰会出现的现象是( )。","opts":{"A":"火焰缩火","B":"火焰四散乱飘软而无力","C":"火焰根部呈深黑色","D":"火焰容易熄灭"},"a":"D"},{"id":1098,"type":"single","q":"加热炉燃料油带水时，出口温度会出现( )。","opts":{"A":"温度下降","B":"温度上升","C":"温度变化不大品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"温度高低变化较大"},"a":"A"},{"id":1099,"type":"single","q":"当蒸汽喷射器喘气时，会出现的现象有( )。","opts":{"A":"减压塔真空度上升","B":"蒸汽喷射器抽力上升","C":"蒸汽喷射器声音不均匀有较大噪音","D":"蒸汽喷射器声音均匀"},"a":"C"},{"id":1100,"type":"single","q":"当蒸汽喷射器喘气时，会出现的现象有( )。","opts":{"A":"减压塔真空度下降","B":"减压塔底液位下降","C":"减压塔顶不凝气量减少","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料蒸汽喷射器声音均匀"},"a":"A"},{"id":1101,"type":"single","q":"因喷射器末级冷却器不凝气体排空管线不畅通使喷射器发生喘气现象时，可能会发生（ ）。","opts":{"A":"减二线油闪点提高","B":"减顶真空度上升","C":"减冷温度下降","D":"减二线油收率下降"},"a":"D"},{"id":1102,"type":"single","q":"当蒸汽喷射器发生喘气现象时，原因可能是（ ）。","opts":{"A":"减顶回流量过大","B":"减压炉温度升高","C":"减冷冷后温度升高","D":"减底液位高品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":1103,"type":"single","q":"当加热炉燃料气带油时，会出现的现象有( )。","opts":{"A":"加热炉冒黑烟","B":"燃料气压力上升","C":"炉膛温度降低","D":"火焰发白"},"a":"A"},{"id":1104,"type":"single","q":"造成加热炉燃料气带油的主要原因是( )。","opts":{"A":"塔顶温度高","B":"塔顶温度低","C":"塔顶油气冷后温度低","D":"塔顶油气冷后温度高品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":1105,"type":"single","q":"当加热炉燃料气带油时，会出现的现象有( )。","opts":{"A":"燃料气压力上升","B":"炉膛氧含量降低","C":"炉膛温度降低","D":"火焰发蓝"},"a":"B"},{"id":1106,"type":"single","q":"当加热炉燃料气带油时，会出现的现象有( )。","opts":{"A":"加热炉无烟","B":"火焰发白","C":"炉膛温度升高","D":"炉膛温度降低"},"a":"C"},{"id":1107,"type":"single","q":"正常生产中，循环水压力低时，会出现的现象有( )。","opts":{"A":"减顶真空度下降","B":"初顶压力升高","C":"减顶真空度升高","D":"初顶压力下降"},"a":"A"},{"id":1108,"type":"single","q":"正常生产中，循环水压力低的现象有( )。","opts":{"A":"产品冷后温度下降","B":"循环水量增大","C":"机泵轴承箱温度上升","D":"初常顶压力下降"},"a":"C"},{"id":1109,"type":"single","q":"正常生产中，发生循环水压力下降时，可采取的措施有（ ）。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"降低原油量","B":"增开空冷⻛机","C":"产品改为热出料","D":"提高电脱盐注水量"},"a":"A"},{"id":1110,"type":"single","q":"正常生产中，发生（ ）现象时，可以初步判断为循环水压力下降。","opts":{"A":"换后终温升高","B":"炉出口温度上升","C":"产品冷后温度同时上升","D":"塔顶回流温度上升"},"a":"C"},{"id":1111,"type":"single","q":"常压侧线抽出量过大引起侧线油品颜色变深时应( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料加热炉降温","B":"加大塔底吹汽量","C":"降低侧线抽出量","D":"提高塔顶温度"},"a":"C"},{"id":1112,"type":"single","q":"常压侧线油变黑后，应检查是否由于( )而引起。","opts":{"A":"常压塔底液位过高","B":"汽提塔液位过高","C":"常顶回流罐液位过高","D":"侧线抽出量过小"},"a":"A"},{"id":1113,"type":"single","q":"发现常压侧线油品颜色变深后，应立即( )。","opts":{"A":"停下该侧线品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"联系调度改走轻污线","C":"降低该侧线抽出温度","D":"减少该侧线的抽出量"},"a":"B"},{"id":1114,"type":"single","q":"换热器内漏造成常压侧线颜色变深时，应( )。","opts":{"A":"加大中段回流","B":"停该侧线","C":"加大塔顶回流","D":"停用内漏的换热器"},"a":"D"},{"id":1115,"type":"single","q":"加热炉火嘴漏油后，应避免( )。","opts":{"A":"增加雾化蒸气量","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料增加燃料油阀后压力","C":"增加火嘴⻛量","D":"提高雾化蒸气压力"},"a":"C"},{"id":1116,"type":"single","q":"燃料油粘度大雾化不好造成加热炉火嘴漏油时，应当( )。","opts":{"A":"降低雾化蒸汽用量","B":"提高雾化蒸汽压力","C":"降低燃料油压力","D":"雾化蒸汽加强脱水"},"a":"B"},{"id":1117,"type":"single","q":"因雾化蒸汽带水造成加热炉火嘴漏油时，应当( )。","opts":{"A":"降低雾化蒸汽用量","B":"降低雾化蒸汽压力品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"降低燃料油压力","D":"雾化蒸汽加强脱水"},"a":"D"},{"id":1118,"type":"single","q":"正常生产中，加热炉火嘴漏油的不是因为( )。","opts":{"A":"火嘴垂直安装","B":"燃料油重，粘度大，雾化不好","C":"雾化蒸汽与油的配比不当或蒸汽的压力偏低","D":"燃料油带水"},"a":"A"},{"id":1119,"type":"single","q":"加热炉炉膛各点温度差别较大时，正确的处理是( )。","opts":{"A":"停用燃烧火焰较⻓的火嘴","B":"调整在用火嘴的火焰高度","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料用炉进料量调整支路温度","D":"调整各炉膛的⻛量"},"a":"B"},{"id":1120,"type":"single","q":"加热炉炉膛各点温度差别较大，应( )。","opts":{"A":"停用燃烧火焰较⻓的火嘴","B":"调整在用火嘴的火焰高度","C":"调整加热炉进料分支流量","D":"调整入炉膛分支⻛量"},"a":"B"},{"id":1121,"type":"single","q":"造成加热炉炉膛各点温度差别大的主要原因是( )。","opts":{"A":"在用火嘴分布不均匀","B":"雾化蒸汽带水","C":"雾化蒸汽太大品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"燃料油粘度太大"},"a":"A"},{"id":1122,"type":"single","q":"下列各项中，会造成加热炉炉膛各点温度差别大的原因有( )。","opts":{"A":"相邻火嘴燃烧的燃料不相同","B":"雾化蒸汽带水","C":"雾化蒸汽与油的配比不当","D":"个别火嘴的燃烧强度大"},"a":"D"},{"id":1123,"type":"single","q":"塔底吹汽带水，应检查( )。","opts":{"A":"蒸汽发生器压力过高","B":"蒸汽发生器是否液位过低","C":"蒸汽温度是否过低","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料脱氧水水量不足"},"a":"C"},{"id":1124,"type":"single","q":"塔底吹汽带水，要采取的措施有( )。","opts":{"A":"提高塔底吹汽压力","B":"调整蒸汽发生器液位","C":"提高塔底温度","D":"提高塔进料温度"},"a":"B"},{"id":1125,"type":"single","q":"塔底吹汽带水不能采取的措施有( )。","opts":{"A":"增大塔底吹汽","B":"减少或停塔底吹汽","C":"塔底吹汽加强排凝","D":"提高吹汽的温度品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":1126,"type":"single","q":"塔底吹汽带水，应检查( )。","opts":{"A":"蒸汽压力是否过高","B":"蒸汽发生器是否液位过高","C":"蒸汽温度是否过高","D":"蒸汽发生器热源流量是否波动"},"a":"B"},{"id":1127,"type":"single","q":"正常生产中，当换热器憋压漏油时，正确的是( )。","opts":{"A":"加热炉降温","B":"打开换热器排污阀","C":"切换至备用泵","D":"将该换热器走副线"},"a":"B"},{"id":1128,"type":"single","q":"常二线换热器发生憋压漏油，与以下哪一项无关( )。","opts":{"A":"产品后路流程改动","B":"调节阀故障","C":"机泵抽空","D":"计量表故障"},"a":"C"},{"id":1129,"type":"single","q":"正常生产中，当换热器憋压漏油时应首先( )。","opts":{"A":"开换热器副线阀","B":"关换热器进口阀","C":"开换热器排污阀","D":"关换热器出口阀"},"a":"A"},{"id":1130,"type":"single","q":"正常生产中，当换热器憋压漏油时，处理不正确的是( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"将该换热器走副线","B":"打开换热器排污阀","C":"用消防蒸汽掩护","D":"关闭换热器进出口阀"},"a":"B"},{"id":1131,"type":"single","q":"低压瓦斯带液严重，与以下哪一项无关( )。","opts":{"A":"天气较冷","B":"瓦斯分液罐液位高","C":"瓦斯火嘴伴热蒸汽未投用","D":"塔顶油气冷后温度高"},"a":"C"},{"id":1132,"type":"single","q":"低压瓦斯带液严重，与以下哪一项有关( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料下大雨","B":"瓦斯分液罐压力低","C":"瓦斯火嘴伴热蒸汽量大","D":"塔顶油气冷后温度高"},"a":"D"},{"id":1133,"type":"single","q":"正常生产中，加热炉燃料气带油时，应采取的处理方法有( )。","opts":{"A":"多烧燃料气","B":"对燃料气加强脱液","C":"关小⻛⻔","D":"关小烟道挡板"},"a":"B"},{"id":1134,"type":"single","q":"正常生产中，加热炉燃料气带油时，不应采用的处理方法有( )。","opts":{"A":"关小烟道挡板品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"加强对燃料气脱液","C":"开大⻛⻔","D":"降低燃料气用量"},"a":"A"},{"id":1135,"type":"single","q":"电脱盐罐电击棒击穿，错误做法是( )。","opts":{"A":"电脱盐罐停注水","B":"将变压器停电","C":"切除电脱盐罐","D":"装置紧急停⻋"},"a":"D"},{"id":1136,"type":"single","q":"当电脱盐电流回零，可能的原因是（ ）。","opts":{"A":"变压器电压档位设定过低","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料破乳剂注入量过低","C":"电极棒击穿","D":"电脱盐操作温度过低"},"a":"C"},{"id":1137,"type":"single","q":"电脱盐罐电击棒击穿，应( )。","opts":{"A":"电脱盐罐停注水","B":"装置紧急停⻋","C":"降低原油入电脱盐罐温度","D":"提高破乳剂注入量"},"a":"A"},{"id":1138,"type":"single","q":"电脱盐罐电击棒击穿，以下哪一个处理措施不正确( )。","opts":{"A":"电脱盐罐停注水","B":"加大电脱盐罐注水品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"将变压器停电","D":"切出电脱盐罐"},"a":"B"},{"id":1139,"type":"single","q":"正常生产中，如换热器漏油着小火时，处理不正确的是( )。","opts":{"A":"改通流程降压","B":"用蒸汽灭火","C":"用蒸汽掩护漏点","D":"装置紧急停⻋"},"a":"D"},{"id":1140,"type":"single","q":"正常生产中，如当换热器漏油着大火时，应首先( )。","opts":{"A":"改通流程降压","B":"换热器退料","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料停该流程机泵","D":"换热器改副线"},"a":"C"},{"id":1141,"type":"single","q":"正常生产中，如当换热器漏油着大火时，错误做法( )。","opts":{"A":"封闭周边地漏，防止油火流入下水井","B":"换热器退料","C":"停该流程机泵","D":"换热器改副线"},"a":"C"},{"id":1142,"type":"single","q":"正常生产中，如换热器漏油着小火时应采取的措施是( )。","opts":{"A":"减压塔破真空","B":"用蒸汽灭火和掩护漏点","C":"立即报火警品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"装置紧急停⻋"},"a":"B"},{"id":1143,"type":"single","q":"正常生产中，如常压炉炉管漏点判断准确后，应( )。","opts":{"A":"维持生产","B":"关闭该路进料，争取按正常停工处理","C":"关闭烟道挡板","D":"紧急停⻋"},"a":"B"},{"id":1144,"type":"single","q":"正常生产中，如常压炉炉管漏油严重着大火时，应( )。","opts":{"A":"降量","B":"降温","C":"立即熄火","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料降低进料"},"a":"C"},{"id":1145,"type":"single","q":"正常生产中，如常压炉炉管漏油严重着大火时，应( )。","opts":{"A":"降量","B":"降温","C":"维持生产","D":"紧急停⻋"},"a":"D"},{"id":1146,"type":"single","q":"正常生产中，如常压炉炉管漏油着火不大时，应 ( )。","opts":{"A":"维持生产","B":"降量,降温，切换支路判断漏点","C":"向炉膛开灭火蒸汽","D":"紧急停⻋品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"B"},{"id":1147,"type":"single","q":"正常生产中，如常顶空冷小漏油应( )。","opts":{"A":"提高塔顶温度","B":"降低塔顶温度","C":"停下漏油的空冷器，进行堵漏处理","D":"提高塔顶压力"},"a":"C"},{"id":1148,"type":"single","q":"正常生产中，常顶空冷泄漏原因不会是( )。","opts":{"A":"塔顶介质腐蚀","B":"空冷管束冻凝","C":"塔顶 pH 值⻓时间超标","D":"塔顶压力高品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"D"},{"id":1149,"type":"single","q":"可能导致常顶空冷漏油的措施是（ ）。","opts":{"A":"加强脱盐","B":"加大缓蚀剂注入量","C":"降低塔顶 pH 值至 5.0","D":"其他工艺防腐措施"},"a":"C"},{"id":1150,"type":"single","q":"塔顶空冷器发生泄漏，采取的措施应包括( )。","opts":{"A":"提高回流温度","B":"降低回流温度","C":"提高塔顶温度","D":"降低塔顶温度"},"a":"D"},{"id":1151,"type":"single","q":"机泵抱轴时要采取的措施有( )。","opts":{"A":"紧急停下该泵，启动备泵运行","B":"更换润滑油","C":"降负荷处理","D":"加大冷却水量"},"a":"A"},{"id":1152,"type":"single","q":"机泵出现抱轴前，会出现( )的现象。","opts":{"A":"泵出口压力升高","B":"轴承箱温度升高","C":"机泵出现抽空","D":"对轮杂音增大"},"a":"B"},{"id":1153,"type":"single","q":"为预防机泵抱轴，不能采取的措施有( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"定期更换润滑油","B":"保证冷却水畅通","C":"保证润滑油油位正常","D":"确保密封泄漏速度不超标"},"a":"D"},{"id":1154,"type":"single","q":"为预防机泵抱轴，巡检时要重点检查( )。","opts":{"A":"电机温度","B":"预热线是否正常","C":"润滑油油位和颜色","D":"封油温度"},"a":"C"},{"id":1155,"type":"single","q":"正常生产中，如重油管线泄漏冒烟时，应首先采取的措施是( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料维持生产","B":"停侧线泵，切断油源","C":"报火警","D":"装置停工"},"a":"B"},{"id":1156,"type":"single","q":"正常生产中，如减压系统泄漏时，应采取的措施有( )。","opts":{"A":"破真空","B":"使用消防蒸汽灭火，维持生产","C":"提高中段回流","D":"使用消防蒸汽灭火，灭火后采取堵漏抢修"},"a":"A"},{"id":1157,"type":"single","q":"初顶油出装置管线泄漏，应采取的措施有( )。","opts":{"A":"报火警品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"停工处理","C":"降量降温维持生产，初顶油只维持打回流","D":"装置改循环"},"a":"C"},{"id":1158,"type":"single","q":"加热炉炉管烧焦时，应采用( )。","opts":{"A":"蒸汽烧焦法","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料瓦斯烧焦法","C":"蒸汽-空气烧焦法","D":"空气烧焦法"},"a":"C"},{"id":1159,"type":"single","q":"加热炉炉管进行烧焦时，主要是生成( )。","opts":{"A":"CO","B":"CO2","C":"SO2","D":"SO3"},"a":"B"},{"id":1160,"type":"single","q":"减压炉炉管一般不采用( )方法防止炉管结焦。","opts":{"A":"选择合适的管程数","B":"炉管注水","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料炉管注汽","D":"逐步扩径"},"a":"B"},{"id":1161,"type":"single","q":"加热炉炉管烧焦时，炉膛温度控制在( )。","opts":{"A":"300℃～400℃","B":"400℃～500℃","C":"500℃～600℃","D":"600℃以上"},"a":"C"},{"id":1162,"type":"single","q":"加热炉火嘴点不着，可以采用的方法有( )。","opts":{"A":"提高燃料气压力","B":"开大雾化蒸汽量","C":"开大燃料气阀⻔品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"调小火嘴⻛量"},"a":"D"},{"id":1163,"type":"single","q":"加热炉火嘴点不着，可以采取的方法有( )。","opts":{"A":"开大烟道挡板","B":"关小烟道挡板","C":"开大燃料气阀⻔","D":"开大雾化蒸汽量"},"a":"B"},{"id":1164,"type":"single","q":"加热炉火嘴点不着的主要原因是( )。","opts":{"A":"炉膛负压太小","B":"⻛⻔开得太小","C":"油嘴结焦或堵塞","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料雾化蒸汽太小"},"a":"C"},{"id":1165,"type":"single","q":"加热炉火嘴点不着，不可以采用的方法有( )。","opts":{"A":"调小烟道挡板","B":"调小炉膛负压","C":"开大燃料气阀⻔","D":"开大火嘴⻛量"},"a":"C"},{"id":1166,"type":"single","q":"正常生产中，当风门执行机构出故障造成加热炉冒烟时，正确的处理方法是( )。","opts":{"A":"打开自然通⻛","B":"炉子降温","C":"炉子熄火","D":"关小烟道挡板品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":1167,"type":"single","q":"正常生产中，加热炉冒黑烟时，应( )。","opts":{"A":"开大⻛⻔","B":"提高燃料流量","C":"关小⻛⻔","D":"关小烟道挡板"},"a":"A"},{"id":1168,"type":"single","q":"正常生产中，加热炉冒黑烟时，应( )","opts":{"A":"提高燃料量","B":"降低燃料量","C":"炉膛给消防蒸气","D":"停⻛机"},"a":"B"},{"id":1169,"type":"single","q":"正常生产中，加热炉冒黑烟时，应( )。","opts":{"A":"关小⻛⻔","B":"提高燃料流量","C":"关小烟道挡板","D":"关大烟道挡板"},"a":"D"},{"id":1170,"type":"single","q":"正常生产中，加热炉燃烧不正常时，可采取的处理方法有( )。","opts":{"A":"降低负荷","B":"关小烟道挡板","C":"关小雾化蒸汽","D":"停下加热炉吹灰"},"a":"A"},{"id":1171,"type":"single","q":"下列各项中，会造成加热炉燃烧不正常的有( )。","opts":{"A":"烟道挡板开度过大","B":"雾化蒸汽压力升高","C":"雾化蒸汽压力突降","D":"加热炉负荷过大"},"a":"C"},{"id":1172,"type":"single","q":"下列各项中，不会影响加热炉燃烧的有( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料燃料突增","B":"雾化蒸汽压力升高","C":"雾化蒸汽压力突降","D":"仪表失灵"},"a":"B"},{"id":1173,"type":"single","q":"当装置长时间停电时，最主要的操作是( )。","opts":{"A":"确保加热炉不超温","B":"控好塔底液面","C":"关泵出口阀","D":"减压破真空"},"a":"A"},{"id":1174,"type":"single","q":"当装置停电时，应立即( )。","opts":{"A":"切断加热炉燃料品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"切断加热炉进料","C":"减压塔恢复正压","D":"关小侧线冷却器冷却水"},"a":"A"},{"id":1175,"type":"single","q":"当装置瞬间停电时，来电后应首先启动( )。","opts":{"A":"原油泵","B":"塔底泵","C":"侧线泵","D":"回流泵"},"a":"B"},{"id":1176,"type":"single","q":"当全装置停电时，错误的做法( )。","opts":{"A":"切断加热炉燃料","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料切断加热炉进料","C":"减压塔恢复正压","D":"关小侧线冷却器冷却水"},"a":"B"},{"id":1177,"type":"single","q":"为防止管线设备冻凝，可采取的措施有( )。","opts":{"A":"备用泵定期盘⻋","B":"重油管线定期排水","C":"开大备用泵的冷却水","D":"停用管线要⻓期给汽暖线"},"a":"A"},{"id":1178,"type":"single","q":"为防止管线设备冻凝，以下所采取的措施哪一项是错误的( )。","opts":{"A":"备用泵定期盘⻋","B":"重油管线投用伴热品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"开大备用泵的冷却水","D":"停用管线要吹扫干净"},"a":"C"},{"id":1179,"type":"single","q":"为防止管线设备冻凝，不可采取的措施有( )。","opts":{"A":"备用泵按规定盘⻋","B":"重油管线停用伴热系统","C":"停用的设备把积水排放干净","D":"停用管线要吹扫干净"},"a":"B"},{"id":1180,"type":"single","q":"在冬天对冻凝的铸铁阀门，可采取的处理方法有( )。","opts":{"A":"大量蒸汽加热","B":"温水解冻","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料拆下处理","D":"用力扳动阀⻔"},"a":"B"},{"id":1181,"type":"single","q":"正常生产中，当汽油线憋压时，可采取的处理方法有( )。","opts":{"A":"尽快改通流程降压处理","B":"投用伴热系统","C":"打开低点放空泄压","D":"用消防蒸汽掩护"},"a":"A"},{"id":1182,"type":"single","q":"正常生产中，当汽油线憋压小漏时，不可采取的处理方法有( )。","opts":{"A":"尽快改通流程降压","B":"迅速处理地面汽油","C":"用蒸汽掩护漏点品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","D":"打开低点放空泄压"},"a":"D"},{"id":1183,"type":"single","q":"为防止停用的汽油管线憋压，可采取的处理方法有( )。","opts":{"A":"关闭两端阀⻔","B":"打开放空阀","C":"如有可能稍开一端的阀⻔","D":"充入氮气保护"},"a":"C"},{"id":1184,"type":"single","q":"常减压蒸馏中，( )的法兰适宜选用 35#螺栓。","opts":{"A":"净洗油管线","B":"汽油管线","C":"减四泵出口管线","D":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料减底泵出口管线"},"a":"B"},{"id":1185,"type":"single","q":"正常生产中，如减压抽真空泵严重泄漏，要采取的措施有( )。","opts":{"A":"停下漏故障抽真空泵，进行维修处理","B":"装置紧急停⻋","C":"装置降量","D":"切换至备用泵"},"a":"D"},{"id":1186,"type":"single","q":"正常生产中，如减压抽真空泵发生泄漏，主要现象有( )。","opts":{"A":"出口压力上升","B":"真空泵电流下降","C":"减压塔真空度波动趋于下降","D":"工作液液面上升品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"C"},{"id":1187,"type":"single","q":"减压抽真空泵入口法兰发生泄漏，应采取的措施包括( )。","opts":{"A":"全关减顶油气进口阀","B":"稍开不凝气排火炬阀","C":"设备泄漏严重时减压塔内给汽恢复正压","D":"切换至蒸汽抽空器"},"a":"D"},{"id":1188,"type":"single","q":"减压抽真空泵发生严重泄漏，应( )。","opts":{"A":"切换至蒸汽抽空器","B":"打开不凝气排大气阀","C":"减压塔内给汽恢复正压","D":"全关减顶油气进口阀品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料"},"a":"A"},{"id":1189,"type":"single","q":"机泵发生半抽空，此时可以( )处理。","opts":{"A":"多加润滑油","B":"多开停几次","C":"停泵，用水浇淋冷却","D":"缓慢关小出口阀"},"a":"D"},{"id":1190,"type":"single","q":"当离心泵不上量时，应（ ）入口阀、（ ）出口阀。","opts":{"A":"开大；开大","B":"开大；关小","C":"关小；开大","D":"关小；关小"},"a":"B"},{"id":1191,"type":"single","q":"当机泵因封油引起抽空时，应( )。","opts":{"A":"停封油","B":"关小封油量","C":"开大封油量","D":"保证封油质量，适时、适量给封油"},"a":"D"},{"id":1192,"type":"single","q":"输送物料温度过高,有可能使泵发生( )现象。","opts":{"A":"泵轴发热","B":"泵抽空","C":"泵体振动","D":"电机电流过大"},"a":"B"},{"id":1193,"type":"single","q":"发生小范围的装置沟、井闪爆，应( )。品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","opts":{"A":"装置紧急停工处理","B":"迅速组织灭火","C":"往沟、井排水","D":"用沙子盖住沙井盖"},"a":"B"},{"id":1194,"type":"single","q":"装置沟、井爆炸事故时，错误的处理原则有( )。","opts":{"A":"对于大面积爆炸破坏的按停⻋处理","B":"小范围爆炸事故的如个别边沟、井盖修复后维持生产","C":"报火警处理","D":"用蒸汽掩护"},"a":"C"},{"id":1195,"type":"single","q":"预防装置沟、井闪爆事故要采取的措施有( )。","opts":{"A":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料地下水井的管线不需要水封","B":"铺设电缆要符合《临时用电管理制度》","C":"用火时必须按制度对沟、井封盖","D":"停⻋后下水道、水井直接封闭即可"},"a":"C"},{"id":1196,"type":"single","q":"装置沟、井等容易有油气积聚的地方，应安装有( )。","opts":{"A":"硫化氢检测报警仪表","B":"可燃气检测报警仪表","C":"温度检测报警仪表","D":"压力检测报警仪表"},"a":"B"},{"id":1197,"type":"single","q":"机泵烧电机时，错误的做法有( )。","opts":{"A":"停下该泵，启动备泵品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","B":"停泵，断电","C":"关闭机泵出口阀，降低负荷","D":"用干粉灭火器灭火"},"a":"D"},{"id":1198,"type":"single","q":"为预防机泵烧电机，应采取的措施有( )。","opts":{"A":"机泵冷却水保证畅通","B":"定期更换电机润滑脂","C":"保证机泵润滑油油位正常","D":"保持机泵封油压力正常"},"a":"B"},{"id":1199,"type":"single","q":"机泵烧电机时，应采取的措施有( )。","opts":{"A":"按停机泵，交出检修","B":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料按停机泵，联系电工断电","C":"按停机泵，关闭机泵进出口阀⻔","D":"按停机泵，用消防蒸汽掩护"},"a":"B"},{"id":1200,"type":"single","q":"机泵烧电机时，应采取的措施有( )。","opts":{"A":"停下该泵，启动备泵","B":"停下该泵，迅速更换电机","C":"装置停⻋检修","D":"用消防蒸汽灭火"},"a":"A"},{"id":1201,"type":"single","q":"正常生产中，如高温机泵泄漏时，首先采取的措施是( )。","opts":{"A":"关闭进出口阀","B":"紧急停下该泵品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料","C":"装置降量","D":"启动备用泵维持生产"},"a":"B"},{"id":1202,"type":"single","q":"正常生产中，如高温机泵泄漏着火时，错误的方法有( )。","opts":{"A":"装置紧急停工","B":"紧急停下该泵，如现场无法停下，通知电工在变电所停电","C":"关闭进出口阀，如无法关闭，必须关闭就近的相关阀⻔","D":"启动备用泵维持生产"},"a":"A"},{"id":1203,"type":"single","q":"不是高温机泵泄漏的原因有( )。","opts":{"A":"机泵密封面变形泄漏","B":"法兰垫片受力不均导致泄漏","C":"品公司料品公司内部资产品公司内部资料品公司内部资料，严禁司内部资料品公司内部资料，严禁外料品公司内部资料介质组成变化，在泵腔内气化","D":"机泵负荷较高"},"a":"D"},{"id":1204,"type":"single","q":"高温机泵泄漏着火，人不能靠近时，首先应采取的措施是( )。","opts":{"A":"在安全的地方组织灭火","B":"用消防蒸气在远处扑救","C":"通知电工拉闸将机泵停电","D":"启动备用泵维持生产"},"a":"C"}];
+const QMAP = {};
+QS.forEach(q => QMAP[q.id] = q);
+
+// ===== STATE =====
+let mode = 'practice'; // practice | wrong-review | exam
+let practiceQs = [];   // filtered question list for current session
+let practiceIdx = 0;
+let answered = {};     // {qId: userAnswer} for current session
+let judged = {};       // {qId: true/false}
+let cdquiz_wrongSet = {};     // persistent wrong answer ids
+let examQs = [];
+let examIdx = 0;
+let examAnswers = {};
+let examTimer = null;
+let examTimeLeft = 0;
+let wrongReviewQs = [];
+let wrongReviewIdx = 0;
+let studyQs = [];      // study mode question list
+let studyIdx = 0;
+
+// ===== INIT =====
+function init() {
+  const saved = localStorage.getItem('cdquiz_wrongSet');
+  if (saved) cdquiz_wrongSet = JSON.parse(saved);
+  updateWrongBadge();
+  practiceQs = QS.slice();
+  renderPractice();
+  // Check saved progress
+  const prog = loadProgress();
+  if (prog) {
+    const hint = document.createElement('div');
+    hint.style.cssText = 'background:var(--primary-light);border:1px solid var(--primary);border-radius:var(--radius);padding:12px 16px;margin:12px 0;font-size:13px;display:flex;justify-content:space-between;align-items:center';
+    const modeNames = {practice:'刷题',study:'看题'};
+    hint.innerHTML = '<span>上次进度：' + (modeNames[prog.mode]||'刷题') + ' 第' + (prog.idx+1) + '题</span><button class="btn-go" onclick="resumeProgress()">继续</button>';
+    const hero = document.querySelector('.home-hero');
+    if (hero) hero.after(hint);
+  }
+}
+
+// ===== NAVIGATION =====
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tabbar .tab').forEach(t => t.classList.remove('active'));
+  const tabEl = document.querySelector('.tab[data-tab="'+tab+'"]');
+  if (tabEl) tabEl.classList.add('active');
+
+  if (tab === 'home') {
+    document.getElementById('page-home').classList.add('active');
+  } else if (tab === 'practice') {
+    mode = 'practice';
+    document.getElementById('page-practice').classList.add('active');
+    document.getElementById('practice-filter').style.display = 'block';
+    renderPractice();
+  } else if (tab === 'wrong') {
+    document.getElementById('page-wrong').classList.add('active');
+    renderWrongBook();
+  } else if (tab === 'exam') {
+    document.getElementById('page-exam').classList.add('active');
+    updateExamInfo();
+  }
+}
+
+// ===== PRACTICE =====
+function startPractice(type) {
+  practiceQs = type === 'all' ? QS.slice() : QS.filter(q => q.type === type);
+  practiceIdx = 0;
+  answered = {};
+  judged = {};
+  mode = 'practice';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-practice').classList.add('active');
+  document.getElementById('practice-filter').style.display = 'none';
+  document.querySelectorAll('.tabbar .tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.tab[data-tab="practice"]').classList.add('active');
+  renderPractice();
+}
+
+function showFilter() {
+  practiceQs = QS.slice();
+  practiceIdx = 0;
+  answered = {};
+  judged = {};
+  mode = 'practice';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-practice').classList.add('active');
+  document.getElementById('practice-filter').style.display = 'block';
+  document.querySelectorAll('.tabbar .tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.tab[data-tab="practice"]').classList.add('active');
+  renderPractice();
+}
+
+function setType(el) {
+  document.querySelectorAll('.filter-row:first-child .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function applyFilter() {
+  const type = document.querySelector('.filter-row:first-child .chip.active').dataset.type;
+  const from = parseInt(document.getElementById('range-from').value) || 1;
+  const to = parseInt(document.getElementById('range-to').value) || 9999;
+  practiceQs = QS.filter(q => {
+    if (type !== 'all' && q.type !== type) return false;
+    if (q.id < from || q.id > to) return false;
+    return true;
+  });
+  practiceIdx = 0;
+  answered = {};
+  judged = {};
+  renderPractice();
+}
+
+function renderPractice() {
+  if (practiceQs.length === 0) {
+    document.getElementById('q-area').innerHTML = '<div class="wrong-empty"><div class="icon">🔍</div><p>没有匹配的题目</p></div>';
+    return;
+  }
+  const q = practiceQs[practiceIdx];
+  document.getElementById('q-current').textContent = practiceIdx + 1;
+  document.getElementById('q-total').textContent = practiceQs.length;
+  document.getElementById('q-bar').style.width = ((practiceIdx + 1) / practiceQs.length * 100) + '%';
+  document.getElementById('q-area').innerHTML = renderQuestion(q, 'practice');
+}
+
+function prevQ() {
+  if (practiceIdx > 0) { practiceIdx--; renderPractice(); saveProgress('practice', practiceIdx); }
+}
+function nextQ() {
+  if (practiceIdx < practiceQs.length - 1) { practiceIdx++; renderPractice(); saveProgress('practice', practiceIdx); }
+}
+
+// ===== STUDY MODE =====
+function showStudyFilter() {
+  mode = 'study';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-study').classList.add('active');
+  document.getElementById('study-filter').style.display = 'block';
+  document.getElementById('study-progress').style.display = 'none';
+  document.getElementById('study-q-area').innerHTML = '';
+  document.querySelector('#page-study .nav-btns').style.display = 'none';
+  // Reset chips to "全部"
+  document.querySelectorAll('[data-study-type]').forEach(c => c.classList.remove('active'));
+  document.querySelector('[data-study-type="all"]').classList.add('active');
+  document.getElementById('study-from').value = '';
+  document.getElementById('study-to').value = '';
+  document.querySelectorAll('.tabbar .tab').forEach(t => t.classList.remove('active'));
+}
+
+function setStudyType(el) {
+  document.querySelectorAll('[data-study-type]').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function applyStudyFilter() {
+  const type = document.querySelector('[data-study-type].active').dataset.studyType;
+  const from = parseInt(document.getElementById('study-from').value) || 1;
+  const to = parseInt(document.getElementById('study-to').value) || 9999;
+  studyQs = QS.filter(q => {
+    if (type !== 'all' && q.type !== type) return false;
+    if (q.id < from || q.id > to) return false;
+    return true;
+  });
+  studyIdx = 0;
+  if (studyQs.length === 0) {
+    document.getElementById('study-progress').style.display = 'none';
+    document.querySelector('#page-study .nav-btns').style.display = 'none';
+    document.getElementById('study-q-area').innerHTML = '<div class="wrong-empty"><div class="icon">🔍</div><p>没有匹配的题目</p></div>';
+    return;
+  }
+  document.getElementById('study-progress').style.display = 'flex';
+  document.querySelector('#page-study .nav-btns').style.display = 'flex';
+  renderStudy();
+  saveProgress('study', studyIdx);
+}
+
+function renderStudy() {
+  if (studyQs.length === 0) {
+    document.getElementById('study-q-area').innerHTML = '<div class="wrong-empty"><div class="icon">🔍</div><p>没有匹配的题目</p></div>';
+    return;
+  }
+  const q = studyQs[studyIdx];
+  document.getElementById('study-current').textContent = studyIdx + 1;
+  document.getElementById('study-total').textContent = studyQs.length;
+  document.getElementById('study-bar').style.width = ((studyIdx + 1) / studyQs.length * 100) + '%';
+  document.getElementById('study-q-area').innerHTML = renderStudyQuestion(q);
+}
+
+function renderStudyQuestion(q) {
+  const tagMap = { tf: '判断题', single: '单选题', multi: '多选题' };
+  let html = '<div class="q-card fade-in">';
+  html += '<span class="q-tag ' + q.type + '">' + tagMap[q.type] + ' #' + q.id + '</span>';
+  html += '<div class="q-text">' + formatQText(q.q) + '</div>';
+
+  if (q.type === 'tf') {
+    html += '<div class="tf-opts">';
+    ['√', '×'].forEach(v => {
+      let cls = v === q.a ? ' correct' : '';
+      html += '<div class="tf-opt' + cls + '" style="cursor:default">' + v + '</div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div class="opts">';
+    const keys = Object.keys(q.opts).sort();
+    const correctAns = q.a.split('').sort();
+    keys.forEach(k => {
+      let cls = correctAns.includes(k) ? ' correct' : '';
+      html += '<div class="opt' + cls + '" style="cursor:default">';
+      html += '<span class="opt-key">' + k + '</span><span class="opt-text">' + q.opts[k] + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  html += '<div class="feedback show correct">✅ 正确答案：<strong>' + q.a + '</strong></div>';
+  html += '</div>';
+  return html;
+}
+
+function studyPrev() {
+  if (studyIdx > 0) { studyIdx--; renderStudy(); saveProgress('study', studyIdx); }
+}
+function studyNext() {
+  if (studyIdx < studyQs.length - 1) { studyIdx++; renderStudy(); saveProgress('study', studyIdx); }
+}
+
+// ===== PROGRESS PERSISTENCE =====
+function saveProgress(md, idx) {
+  localStorage.setItem('cdquiz_progress', JSON.stringify({ mode: md, idx: idx, time: Date.now() }));
+}
+function loadProgress() {
+  try {
+    const p = JSON.parse(localStorage.getItem('cdquiz_progress'));
+    if (p && Date.now() - p.time < 30*24*3600*1000) return p; // valid for 30 days
+  } catch(e) {}
+  return null;
+}
+function resumeProgress() {
+  const prog = loadProgress();
+  if (!prog) { alert('暂无保存的进度'); return; }
+  if (prog.mode === 'study') {
+    studyQs = QS.slice();
+    studyIdx = Math.min(prog.idx, studyQs.length - 1);
+    mode = 'study';
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-study').classList.add('active');
+    document.getElementById('study-filter').style.display = 'block';
+    document.getElementById('study-progress').style.display = 'flex';
+    document.querySelector('#page-study .nav-btns').style.display = 'flex';
+    document.querySelectorAll('.tabbar .tab').forEach(t => t.classList.remove('active'));
+    renderStudy();
+  } else {
+    practiceQs = QS.slice();
+    practiceIdx = Math.min(prog.idx, practiceQs.length - 1);
+    answered = {};
+    judged = {};
+    mode = 'practice';
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-practice').classList.add('active');
+    document.getElementById('practice-filter').style.display = 'none';
+    document.querySelectorAll('.tabbar .tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.tab[data-tab="practice"]').classList.add('active');
+    renderPractice();
+  }
+}
+
+// ===== RENDER QUESTION =====
+function renderQuestion(q, ctx) {
+  const tagMap = { tf: '判断题', single: '单选题', multi: '多选题' };
+  const userAns = ctx === 'practice' ? answered[q.id] : (ctx === 'wrong-review' ? answered[q.id] : examAnswers[q.id]);
+  const isJudged = ctx === 'exam' ? false : !!judged[q.id];
+
+  let html = '<div class="q-card fade-in">';
+  html += '<span class="q-tag ' + q.type + '">' + tagMap[q.type] + ' #' + q.id + '</span>';
+  html += '<div class="q-text">' + formatQText(q.q) + '</div>';
+
+  if (q.type === 'tf') {
+    html += '<div class="tf-opts">';
+    ['√', '×'].forEach(v => {
+      let cls = '';
+      if (userAns === v) cls += ' selected';
+      if (isJudged) {
+        if (v === q.a) cls += ' correct';
+        else if (userAns === v && v !== q.a) cls += ' wrong';
+      }
+      html += '<div class="tf-opt' + cls + '" onclick="selectTF(\''+q.id+'\',\''+v+'\',\''+ctx+'\')">' + v + '</div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div class="opts">';
+    const keys = Object.keys(q.opts).sort();
+    keys.forEach(k => {
+      let cls = '';
+      if (userAns && userAns.includes(k)) cls += ' selected';
+      if (isJudged) {
+        const correctAns = q.a.split('').sort();
+        if (correctAns.includes(k) && userAns && userAns.includes(k)) cls = ' correct';
+        else if (correctAns.includes(k) && (!userAns || !userAns.includes(k))) cls = ' missed';
+        else if (!correctAns.includes(k) && userAns && userAns.includes(k)) cls = ' wrong';
+      }
+      html += '<div class="opt' + cls + '" onclick="selectOpt(\''+q.id+'\',\''+k+'\',\''+q.type+'\',\''+ctx+'\')">';
+      html += '<span class="opt-key">' + k + '</span><span class="opt-text">' + q.opts[k] + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  // Feedback
+  if (isJudged) {
+    const isCorrect = userAns === q.a || (Array.isArray(userAns) && userAns.sort().join('') === q.a.split('').sort().join(''));
+    html += '<div class="feedback show ' + (isCorrect ? 'correct' : 'wrong') + '">';
+    html += isCorrect ? '✅ 回答正确！' : '❌ 回答错误！正确答案：<strong>' + q.a + '</strong>';
+    html += '</div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+function formatQText(text) {
+  // Highlight blanks
+  return text.replace(/\(\s*\)/g, '<em>( )</em>');
+}
+
+// ===== ANSWER SELECTION =====
+function selectTF(qid, val, ctx) {
+  qid = parseInt(qid);
+  if (ctx === 'exam') {
+    examAnswers[qid] = val;
+    renderExamQuestion();
+    return;
+  }
+  answered[qid] = val;
+  judgeAnswer(qid, ctx);
+}
+
+function selectOpt(qid, key, type, ctx) {
+  qid = parseInt(qid);
+  if (ctx === 'exam') {
+    if (!examAnswers[qid]) examAnswers[qid] = '';
+    let cur = examAnswers[qid];
+    if (type === 'multi') {
+      if (cur.includes(key)) cur = cur.replace(key, '');
+      else cur += key;
+    } else {
+      cur = key;
+    }
+    examAnswers[qid] = cur;
+    renderExamQuestion();
+    return;
+  }
+  if (judged[qid]) return; // can't change after judged
+  if (!answered[qid]) answered[qid] = '';
+  if (type === 'multi') {
+    let cur = answered[qid];
+    if (cur.includes(key)) cur = cur.replace(key, '');
+    else cur += key;
+    answered[qid] = cur;
+  } else {
+    answered[qid] = key;
+    // Auto-judge single choice after selection
+    judgeAnswer(qid, ctx);
+    return;
+  }
+  // For multi, re-render to show selection
+  if (ctx === 'practice') renderPractice();
+  else if (ctx === 'wrong-review') renderWrongReview();
+}
+
+function judgeAnswer(qid, ctx) {
+  const q = QMAP[qid];
+  const userAns = answered[qid];
+  let isCorrect = false;
+  if (q.type === 'multi') {
+    // Multi choice: need to explicitly judge
+    if (!userAns || userAns.length === 0) return;
+    isCorrect = userAns.split('').sort().join('') === q.a.split('').sort().join('');
+  } else {
+    isCorrect = userAns === q.a;
+  }
+  judged[qid] = true;
+
+  if (!isCorrect) {
+    cdquiz_wrongSet[qid] = true;
+    saveWrong();
+  } else {
+    // If answered correctly, optionally remove from wrong set
+    if (cdquiz_wrongSet[qid]) {
+      delete cdquiz_wrongSet[qid];
+      saveWrong();
+    }
+  }
+
+  if (ctx === 'practice') renderPractice();
+  else if (ctx === 'wrong-review') renderWrongReview();
+}
+
+// Multi-choice judge button (rendered in question)
+// For multi-choice, we add a "确定" button
+// Actually let's handle it differently: for multi in practice, show a confirm button
+
+// ===== WRONG BOOK =====
+function saveWrong() {
+  localStorage.setItem('cdquiz_wrongSet', JSON.stringify(cdquiz_wrongSet));
+  updateWrongBadge();
+}
+
+function updateWrongBadge() {
+  const cnt = Object.keys(cdquiz_wrongSet).length;
+  const badge = document.getElementById('wrong-badge');
+  if (cnt > 0) { badge.style.display = 'inline-block'; badge.textContent = cnt; }
+  else badge.style.display = 'none';
+}
+
+function renderWrongBook() {
+  const ids = Object.keys(cdquiz_wrongSet).map(Number).sort((a,b) => a - b);
+  document.getElementById('wrong-count').textContent = '共' + ids.length + '题';
+  if (ids.length === 0) {
+    document.getElementById('wrong-list').innerHTML = '<div class="wrong-empty"><div class="icon">🎉</div><p>暂无错题，继续保持！</p></div>';
+    return;
+  }
+  let html = '<div class="review-list">';
+  ids.forEach(id => {
+    const q = QMAP[id];
+    if (!q) return;
+    const tagMap = { tf: '判断', single: '单选', multi: '多选' };
+    html += '<div class="review-item" onclick="startWrongReview()">';
+    html += '<span class="ri-q">#' + id + ' ' + q.q.substring(0, 50) + (q.q.length > 50 ? '...' : '') + '</span>';
+    html += '<span class="ri-tag ng">' + tagMap[q.type] + '</span>';
+    html += '</div>';
+  });
+  html += '</div>';
+  document.getElementById('wrong-list').innerHTML = html;
+}
+
+function startWrongReview() {
+  const ids = Object.keys(cdquiz_wrongSet).map(Number).sort((a,b) => a - b);
+  wrongReviewQs = ids.map(id => QMAP[id]).filter(Boolean);
+  wrongReviewIdx = 0;
+  answered = {};
+  judged = {};
+  mode = 'wrong-review';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-wrong-review').classList.add('active');
+  renderWrongReview();
+}
+
+function renderWrongReview() {
+  if (wrongReviewQs.length === 0) return;
+  const q = wrongReviewQs[wrongReviewIdx];
+  document.getElementById('wr-current').textContent = wrongReviewIdx + 1;
+  document.getElementById('wr-total').textContent = wrongReviewQs.length;
+  document.getElementById('wr-bar').style.width = ((wrongReviewIdx + 1) / wrongReviewQs.length * 100) + '%';
+  document.getElementById('wr-q-area').innerHTML = renderQuestion(q, 'wrong-review');
+}
+
+function wrongPrev() {
+  if (wrongReviewIdx > 0) { wrongReviewIdx--; renderWrongReview(); }
+}
+function wrongNext() {
+  if (wrongReviewIdx < wrongReviewQs.length - 1) { wrongReviewIdx++; renderWrongReview(); }
+}
+
+function clearWrong() {
+  if (confirm('确定清空所有错题记录？')) {
+    cdquiz_wrongSet = {};
+    saveWrong();
+    renderWrongBook();
+  }
+}
+
+// ===== EXAM =====
+function showExamSetup() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-exam').classList.add('active');
+  document.querySelectorAll('.tabbar .tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.tab[data-tab="exam"]').classList.add('active');
+  updateExamInfo();
+}
+
+function updateExamInfo() {
+  const type = document.getElementById('exam-type').value;
+  const count = parseInt(document.getElementById('exam-count').value);
+  const total = type === 'all' ? QS.length : QS.filter(q => q.type === type).length;
+  const actual = Math.min(count, total);
+  const time = parseInt(document.getElementById('exam-time').value);
+  const perQ = (time / actual).toFixed(1);
+  document.getElementById('exam-est').textContent = actual + '题，约' + perQ + '分钟/题';
+}
+
+function startExam() {
+  const type = document.getElementById('exam-type').value;
+  const count = parseInt(document.getElementById('exam-count').value);
+  const time = parseInt(document.getElementById('exam-time').value);
+
+  let pool = type === 'all' ? QS.slice() : QS.filter(q => q.type === type);
+  // Shuffle
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  examQs = pool.slice(0, Math.min(count, pool.length));
+  examIdx = 0;
+  examAnswers = {};
+  examTimeLeft = time * 60;
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-exam-run').classList.add('active');
+  document.querySelector('.tabbar').style.display = 'none';
+
+  renderExamQuestion();
+  startTimer();
+}
+
+function startTimer() {
+  if (examTimer) clearInterval(examTimer);
+  updateTimerDisplay();
+  examTimer = setInterval(() => {
+    examTimeLeft--;
+    updateTimerDisplay();
+    if (examTimeLeft <= 0) {
+      clearInterval(examTimer);
+      finishExam();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(examTimeLeft / 60);
+  const s = examTimeLeft % 60;
+  const el = document.getElementById('exam-timer');
+  el.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  el.className = 'exam-timer' + (examTimeLeft < 300 ? ' warn' : '');
+  document.getElementById('exam-qcount').textContent = (examIdx + 1) + '/' + examQs.length;
+}
+
+function renderExamQuestion() {
+  if (examQs.length === 0) return;
+  const q = examQs[examIdx];
+  document.getElementById('exam-qcount').textContent = (examIdx + 1) + '/' + examQs.length;
+  const userAns = examAnswers[q.id] || '';
+  const tagMap = { tf: '判断题', single: '单选题', multi: '多选题' };
+
+  let html = '<div class="q-card fade-in">';
+  html += '<span class="q-tag ' + q.type + '">' + tagMap[q.type] + ' #' + q.id + '</span>';
+  html += '<div class="q-text">' + formatQText(q.q) + '</div>';
+
+  if (q.type === 'tf') {
+    html += '<div class="tf-opts">';
+    ['√', '×'].forEach(v => {
+      let cls = userAns === v ? ' selected' : '';
+      html += '<div class="tf-opt' + cls + '" onclick="selectTF(\''+q.id+'\',\''+v+'\',\'exam\')">' + v + '</div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div class="opts">';
+    const keys = Object.keys(q.opts).sort();
+    keys.forEach(k => {
+      let cls = (userAns && userAns.includes(k)) ? ' selected' : '';
+      html += '<div class="opt' + cls + '" onclick="selectOpt(\''+q.id+'\',\''+k+'\',\''+q.type+'\',\'exam\')">';
+      html += '<span class="opt-key">' + k + '</span><span class="opt-text">' + q.opts[k] + '</span></div>';
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+
+  // Question navigator dots
+  html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:12px;justify-content:center">';
+  examQs.forEach((eq, i) => {
+    let bg = '#e2e8f0';
+    if (examAnswers[eq.id]) bg = i === examIdx ? 'var(--primary)' : '#93c5fd';
+    else if (i === examIdx) bg = 'var(--primary)';
+    html += '<div onclick="examGoTo('+i+')" style="width:28px;height:28px;border-radius:6px;background:'+bg+';display:flex;align-items:center;justify-content:center;font-size:10px;color:'+(i===examIdx?'#fff':'#64748b')+';cursor:pointer">'+(i+1)+'</div>';
+  });
+  html += '</div>';
+
+  document.getElementById('exam-q-area').innerHTML = html;
+}
+
+function examPrev() { if (examIdx > 0) { examIdx--; renderExamQuestion(); } }
+function examNext() { if (examIdx < examQs.length - 1) { examIdx++; renderExamQuestion(); } }
+function examGoTo(i) { examIdx = i; renderExamQuestion(); }
+
+function finishExam() {
+  if (examTimer) clearInterval(examTimer);
+  if (!confirm('确定交卷？')) {
+    startTimer();
+    return;
+  }
+
+  let correct = 0, wrong = 0, unanswered = 0;
+  examQs.forEach(q => {
+    const ua = examAnswers[q.id];
+    if (!ua || ua.length === 0) { unanswered++; return; }
+    const isCorrect = ua === q.a || (ua.split('').sort().join('') === q.a.split('').sort().join(''));
+    if (isCorrect) correct++;
+    else { wrong++; cdquiz_wrongSet[q.id] = true; }
+  });
+  saveWrong();
+
+  const score = Math.round(correct / examQs.length * 100);
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-result').classList.add('active');
+
+  const scoreEl = document.getElementById('result-score');
+  scoreEl.textContent = score;
+  scoreEl.className = 'result-score ' + (score >= 60 ? 'high' : 'low');
+  document.getElementById('result-correct').textContent = correct;
+  document.getElementById('result-wrong').textContent = wrong;
+  document.getElementById('result-unanswered').textContent = unanswered;
+
+  // Review list
+  const tagMap = { tf: '判断', single: '单选', multi: '多选' };
+  let html = '';
+  examQs.forEach((q, i) => {
+    const ua = examAnswers[q.id];
+    let isCorrect = false;
+    if (ua && ua.length > 0) {
+      isCorrect = ua === q.a || ua.split('').sort().join('') === q.a.split('').sort().join('');
+    }
+    const unanswered = !ua || ua.length === 0;
+    html += '<div class="review-item" onclick="examReviewQ('+i+')">';
+    html += '<span class="ri-q">#' + q.id + ' ' + q.q.substring(0, 40) + '...</span>';
+    html += '<span class="ri-tag ' + (unanswered ? '' : (isCorrect ? 'ok' : 'ng')) + '">' + (unanswered ? '未答' : (isCorrect ? '正确' : '错误')) + '</span>';
+    html += '</div>';
+  });
+  document.getElementById('review-list').innerHTML = html;
+}
+
+function examReviewQ(idx) {
+  const q = examQs[idx];
+  const ua = examAnswers[q.id] || '';
+  const tagMap = { tf: '判断题', single: '单选题', multi: '多选题' };
+  const isCorrect = ua && (ua === q.a || ua.split('').sort().join('') === q.a.split('').sort().join(''));
+  const unanswered = !ua || ua.length === 0;
+
+  let html = '<h4>' + tagMap[q.type] + ' #' + q.id + '</h4>';
+  html += '<div class="modal-q">' + formatQText(q.q) + '</div>';
+  if (q.opts) {
+    Object.keys(q.opts).sort().forEach(k => {
+      let style = '';
+      const correctAns = q.a.split('').sort();
+      if (correctAns.includes(k)) style = 'color:var(--success);font-weight:600';
+      html += '<div class="modal-opt" style="' + style + '">' + k + '、' + q.opts[k] + '</div>';
+    });
+  } else if (q.type === 'tf') {
+    html += '<div class="modal-opt">√ 正确 &nbsp;&nbsp; × 错误</div>';
+  }
+  html += '<div class="modal-ans ' + (unanswered ? '' : (isCorrect ? 'correct' : 'wrong')) + '">';
+  html += unanswered ? '未作答' : (isCorrect ? '✅ 回答正确' : '❌ 你的答案：' + ua + ' 正确答案：' + q.a);
+  html += '</div>';
+  html += '<button class="modal-close" onclick="closeModal()">关闭</button>';
+
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+function backHome() {
+  document.querySelector('.tabbar').style.display = 'flex';
+  switchTab('home');
+}
+
+// ===== MULTI-CHOICE JUDGE ON LEAVE =====
+// For multi-choice in practice mode, auto-judge when navigating away
+const origPrevQ = prevQ;
+const origNextQ = nextQ;
+prevQ = function() {
+  autoJudgeMulti();
+  origPrevQ();
+};
+nextQ = function() {
+  autoJudgeMulti();
+  origNextQ();
+};
+
+function autoJudgeMulti() {
+  if (mode === 'practice' && practiceQs.length > 0) {
+    const q = practiceQs[practiceIdx];
+    if (q.type === 'multi' && answered[q.id] && !judged[q.id]) {
+      judgeAnswer(q.id, 'practice');
+    }
+  }
+  if (mode === 'wrong-review' && wrongReviewQs.length > 0) {
+    const q = wrongReviewQs[wrongReviewIdx];
+    if (q.type === 'multi' && answered[q.id] && !judged[q.id]) {
+      judgeAnswer(q.id, 'wrong-review');
+    }
+  }
+}
+
+// For multi-choice in practice/wrong-review, add a confirm button
+const origRenderQuestion = renderQuestion;
+renderQuestion = function(q, ctx) {
+  let html = origRenderQuestion(q, ctx);
+  if (q.type === 'multi' && ctx !== 'exam') {
+    const userAns = answered[q.id];
+    if (userAns && userAns.length > 0 && !judged[q.id]) {
+      const btn = '<div style="margin-top:12px;text-align:center"><button class="btn-go" style="padding:10px 32px;font-size:14px" onclick="judgeAnswer('+q.id+',\''+ctx+'\')">确定</button></div>';
+      const lastIdx = html.lastIndexOf('</div>');
+      html = html.substring(0, lastIdx) + btn + html.substring(lastIdx);
+    }
+  }
+  return html;
+};
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', e => {
+  if (mode === 'practice') {
+    if (e.key === 'ArrowLeft') prevQ();
+    else if (e.key === 'ArrowRight') nextQ();
+  } else if (mode === 'study') {
+    if (e.key === 'ArrowLeft') studyPrev();
+    else if (e.key === 'ArrowRight') studyNext();
+  }
+});
+
+// ===== TOUCH SWIPE =====
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const diff = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(diff) > 60) {
+    if (mode === 'practice') { diff > 0 ? prevQ() : nextQ(); }
+    else if (mode === 'study') { diff > 0 ? studyPrev() : studyNext(); }
+    else if (mode === 'wrong-review') { diff > 0 ? wrongPrev() : wrongNext(); }
+  }
+});
+
+// Init
+init();
+</script>
+</body>
+</html>
